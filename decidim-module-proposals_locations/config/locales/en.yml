@@ -1,0 +1,15 @@
+en:
+  activemodel:
+    proposal:
+      has_location: Has location
+  decidim:
+    components:
+      proposals:
+        settings:
+          global:
+            default_latitude: Default latitude
+            default_longitude: Default longitude
+    locations:
+      locations:
+        address: Address
+

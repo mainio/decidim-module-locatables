@@ -1,0 +1,11 @@
+---
+en:
+  decidim:
+    components:
+      accountability:
+        settings:
+          global:
+            default_latitude: Default latitude
+            default_longitude: Default longitude
+      accountability_locations:
+        name: AccountabilityLocations

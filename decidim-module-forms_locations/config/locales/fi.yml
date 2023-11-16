@@ -1,0 +1,19 @@
+---
+fi:
+  decidim:
+    forms:
+      question_types:
+        map_locations:
+          Kartta
+      admin:
+        questionnaires:
+          question:
+            map_config: Kartan asetukset
+            map_config_help: Karttamerkkien sallittu määrä
+            multiple: Useita
+            single: Yksittäinen
+  activemodel:
+    attributes:
+      questionnaire_question:
+        default_latitude: Oletus leveysaste
+        default_longitude: Oletus pituusaste

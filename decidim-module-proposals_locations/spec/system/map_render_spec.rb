@@ -1,0 +1,42 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+
+describe "map render", type: :system do
+  let(:user) { create(:user, :confirmed) }
+  let(:organization) { user.organization }
+  let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, :with_creation_enabled, :published, organization: organization) }
+
+  before do
+    switch_to_host(organization.host)
+    login_as user, scope: :user
+
+    visit decidim.root_path
+    click_link "Processes"
+    find(".card__link").click
+    click_link "Proposals"
+    click_link "New proposal"
+    fill_in "Title", with: "Example proposal for test"
+    fill_in "Body", with: "Example body text for test"
+    click_button "Continue"
+  end
+
+  context "when creating a proposal, geocoding enabled" do
+    it "allows adding locations with a map" do
+      expect(page).to have_selector("#model_has_location")
+      expect(page).to have_selector("#map", visible: :hidden)
+      find("#model_has_location").click
+      expect(page).to have_selector("#mapp")
+    end
+  end
+
+  context "when creating a proposal, geocoding disabled" do
+    let!(:proposal_component) { create(:proposal_component, :with_creation_enabled, :published, organization: organization) }
+
+    it "doesn't allow adding locations" do
+      expect(page).not_to have_selector("#model_has_location")
+      expect(page).not_to have_selector("#map", visible: :hidden)
+      expect(page).not_to have_selector("#map")
+    end
+  end
+end

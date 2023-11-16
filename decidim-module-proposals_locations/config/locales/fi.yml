@@ -1,0 +1,14 @@
+en:
+  activemodel:
+    proposal:
+      has_location: Etsi osoite
+  decidim:
+    components:
+      proposals:
+        settings:
+          global:
+            default_latitude: Oletus leveysaste
+            default_longitude: Oletus pituusaste
+    locations:
+      locations:
+        address: Osoite

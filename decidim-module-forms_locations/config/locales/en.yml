@@ -1,0 +1,19 @@
+---
+en:
+  decidim:
+    forms:
+      question_types:
+        map_locations:
+          Map
+      admin:
+        questionnaires:
+          question:
+            map_config: Map configuration
+            map_config_help: Amount of pins allowed
+            multiple: Multiple
+            single: Single
+  activemodel:
+    attributes:
+      questionnaire_question:
+        default_latitude: Default latitude
+        default_longitude: Default longitude

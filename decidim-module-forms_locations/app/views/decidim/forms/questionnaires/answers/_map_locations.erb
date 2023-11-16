@@ -1,0 +1,8 @@
+<%= cell(
+  "decidim/locations/locations",
+  @answer,
+  form: answer_form,
+  coords: [answer.question.default_latitude, answer.question.default_longitude],
+  map_configuration: answer.question.map_configuration
+)
+%>

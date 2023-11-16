@@ -1,0 +1,12 @@
+sv:
+  activemodel:
+    attributes:
+      locations:
+        locations: Plats
+  decidim:
+    locations:
+      form:
+        add_location: Lägg till plats
+        location: Plats
+        remove: Ta bort
+        unexisting_locations: 'Ogiltiga platser har angetts för detta rekord: %{ids}'

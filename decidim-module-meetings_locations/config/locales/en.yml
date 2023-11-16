@@ -1,0 +1,12 @@
+---
+en:
+  decidim:
+    components:
+      meetings:
+        settings:
+          global:
+            default_latitude: Default latitude
+            default_longitude: Default longitude
+      meetings_locations:
+        name: MeetingsLocations
+  addresses: Addresses
