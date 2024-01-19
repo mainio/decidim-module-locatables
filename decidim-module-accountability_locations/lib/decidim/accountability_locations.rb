@@ -3,7 +3,6 @@
 require "decidim/accountability_locations/admin"
 require "decidim/accountability_locations/engine"
 require "decidim/accountability_locations/admin_engine"
-require "decidim/accountability_locations/component"
 
 module Decidim
   # This namespace holds the logic of the `AccountabilityLocations` component. This component
