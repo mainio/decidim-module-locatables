@@ -7,8 +7,15 @@ class TransferProposalsLocations < ActiveRecord::Migration[6.1]
         address: location["address"],
         latitude: location["latitude"],
         longitude: location["longitude"],
-        shape: "Marker",
-        geojson: "{\"lat\":#{location["latitude"]},\"lng\":#{location["longitude"]}}",
+        shape: "Point",
+        geojson: "{
+          \"type\": \"Feature\",
+          \"geometry\": {
+            \"type\": \"Point\",
+            \"coordinates\":
+              [#{location["latitude"]}, #{location["longitude"]}]
+          }
+        }",
         decidim_locations_locatable_type: "Decidim::Proposals::Proposal",
         decidim_locations_locatable_id: location["id"]
       )
