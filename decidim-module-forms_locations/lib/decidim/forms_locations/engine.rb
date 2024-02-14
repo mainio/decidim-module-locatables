@@ -15,6 +15,25 @@ module Decidim
         # root to: "forms_locations#index"
       end
 
+      initializer "decidim_forms_locations.add_export", after: "decidim_locations.settings_manifest_customization" do
+        config.to_prepare do
+          manifest = Decidim.find_component_manifest("surveys")
+          manifest.exports :locations do |exports|
+            exports.collection do |component_instance|
+              Decidim::Surveys::Survey
+                .where(component: component_instance.id)
+                .first.questionnaire
+                .answers
+                .flat_map(&:locations)
+            end
+
+            exports.include_in_open_data = true
+
+            exports.serializer Decidim::Locations::LocationSerializer
+          end
+        end
+      end
+
       if Rails.env.test?
         # We need a local tiles route for the map tests not to show any HTTP 500
         # errors.

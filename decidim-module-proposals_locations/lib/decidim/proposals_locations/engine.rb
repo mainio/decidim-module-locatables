@@ -13,12 +13,24 @@ module Decidim
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
 
-      initializer "decidim_proposals_locations.add_global_component_settings", after: "decidim_locations.settings_manifest_customization" do
+      initializer "decidim_proposals_locations.add_global_component_settings_and_export", after: "decidim_locations.settings_manifest_customization" do
         config.to_prepare do
           manifest = Decidim.find_component_manifest("proposals")
           manifest.settings(:global) do |settings|
             settings.attribute :default_latitude, type: :float, default: 0
             settings.attribute :default_longitude, type: :float, default: 0
+          end
+
+          manifest.exports :locations do |exports|
+            exports.collection do |component_instance|
+              Decidim::Proposals::Proposal
+                .where(component: component_instance.id)
+                .flat_map(&:locations)
+            end
+
+            exports.include_in_open_data = true
+
+            exports.serializer Decidim::Locations::LocationSerializer
           end
         end
       end

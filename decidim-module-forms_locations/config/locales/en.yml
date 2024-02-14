@@ -1,6 +1,10 @@
 ---
 en:
   decidim:
+    surveys:
+      admin:
+        exports:
+          locations: Locations
     forms:
       question_types:
         map_locations:

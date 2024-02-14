@@ -1,18 +1,14 @@
+---
 fi:
-  activemodel:
-    proposal:
-      has_location: Etsi osoite
   decidim:
-    proposals:
+    meetings:
       admin:
         exports:
           locations: Paikkatiedot
     components:
-      proposals:
+      meetings:
         settings:
           global:
             default_latitude: Oletus leveysaste
             default_longitude: Oletus pituusaste
-    locations:
-      locations:
-        address: Osoite
+  addresses: Osoitteet

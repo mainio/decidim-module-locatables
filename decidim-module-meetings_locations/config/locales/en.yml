@@ -1,6 +1,10 @@
 ---
 en:
   decidim:
+    meetings:
+      admin:
+        exports:
+          locations: Locations
     components:
       meetings:
         settings:

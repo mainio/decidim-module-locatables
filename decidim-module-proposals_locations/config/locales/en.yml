@@ -3,6 +3,10 @@ en:
     proposal:
       has_location: Has location
   decidim:
+    proposals:
+      admin:
+        exports:
+          locations: Locations
     components:
       proposals:
         settings:

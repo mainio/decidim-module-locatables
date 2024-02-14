@@ -1,6 +1,10 @@
 ---
 fi:
   decidim:
+    surveys:
+      admin:
+        exports:
+          locations: Paikkatiedot
     forms:
       question_types:
         map_locations:
