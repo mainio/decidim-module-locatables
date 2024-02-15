@@ -19,6 +19,8 @@
     <% if component_settings.collaborative_drafts_enabled? %>
       <%= link_to t(".collaborative_drafts_list"), collaborative_drafts_path, class: "title-action__action button small hollow ml-s" %>
     <% end %>
+
+    <%= link_to t(".component_geojson"), geojson_path, class: "title-action__action button small hollow ml-s" %>
   </div>
 </div>
 <div class="row">

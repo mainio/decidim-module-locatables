@@ -4,6 +4,9 @@ en:
       has_location: Has location
   decidim:
     proposals:
+      proposals:
+        index:
+          component_geojson: GeoJSON
       admin:
         exports:
           locations: Locations
