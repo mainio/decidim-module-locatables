@@ -2,24 +2,37 @@
 
 Enables location adding with markers for forms.
 
-## Usage
-
-FormsLocations will be available as a Component for a Participatory
-Space.
-
 ## Installation
 
-Add this line to your application's Gemfile:
+Add these lines to your application's Gemfile:
 
 ```ruby
-gem "decidim-forms_locations"
+gem "decidim-locations", github: "mainio/decidim-module-locations"
+```
+
+```ruby
+gem "decidim-forms_locations", github: "mainio/decidim-module-locatables"
 ```
 
 And then execute:
 
 ```bash
-bundle
+$ bundle
 ```
+
+After that move to [Locations'](https://github.com/mainio/decidim-module-locations) gitHub-page and follow the installation
+guide.
+
+## Usage
+
+This module is used for marking locations on forms, e.g. surveys that ask to pin point locations.
+
+### Implementation example
+
+For an example about how this functionality is implemented, check proposals-locations'
+README -file -- Section Usage/Implementation example.
+
+[Example](https://github.com/mainio/decidim-module-locatables/blob/main/decidim-module-proposals_locations/README.md)
 
 ## Contributing
 

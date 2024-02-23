@@ -6,29 +6,97 @@ A [Decidim](https://github.com/decidim/decidim) module that enables adding multi
 You can either add markers by clicking the desired spot in the map or type an address that will use geocoding to offer you
 a list of autocompletion choices which add the markers based on the address' coordinates.
 
+This module uses [Locations](https://github.com/mainio/decidim-module-locations) module to work.
+
+
+
 ## Installation
 
-Add this line to your application's Gemfile:
+Add these lines to your application's Gemfile:
 
 ```ruby
-gem "decidim-proposals_locations"
+gem "decidim-locations", github: "mainio/decidim-module-locations"
 ```
-This module uses [Locations](https://github.com/mainio/decidim-module-locations) module to work, also add this line to
-your application's Gemfile:
 
 ```ruby
-gem "decidim-locations"
+gem "decidim-proposals_locations", github: "mainio/decidim-module-locatables"
 ```
 
-Execute:
+And then execute:
+
 ```bash
 $ bundle
 ```
 
-
 After that move to [Locations'](https://github.com/mainio/decidim-module-locations) gitHub-page and follow the installation
 guide.
 
+## Usage
+
+This module is meant to help visualize the proposed locations, instead of only having a marker.
+E.g. if the user proposes more trashcans on a specific road, the user can draw a line on the road which will
+easily showcase the desired area. Same goes for the polygon where you can draw an area where you want to propose
+anything. Adding marker also enables users to put the marker off-road.
+
+### Implementation example
+
+In order to apply what is explained above for the proposals component, you can
+do the following:
+
+#### 1. Add an initializer to apply the customizations to the classes
+
+In your Decidim application, create a new initializer file, e.g.
+`config/initializers/decidim_locations.rb`. Add the following contents to that
+file:
+
+```ruby
+Rails.application.config.to_prepare do
+  Decidim::Proposals::Proposal.include Decidim::Locations::Locatable
+  Decidim::Proposals::ProposalForm.include Decidim::Locations::LocatableForm
+  Decidim::Proposals::ProposalType.implements Decidim::Locations::LocationsInterface
+end
+```
+
+Now you have just applied most of the described changes except the user
+interface part to the proposals component.
+
+#### 2. Customize the views
+
+The next thing is to add the locations fields to your user interface. For the
+proposals component this can be done by editing
+`app/views/decidim/proposals/proposals/_edit_form_fields.html.erb`. In order to
+customize any views in Decidim, please refer to the official documentation about
+[customizing views](https://docs.decidim.org/en/develop/customize/views.html).
+
+In that view, in the appropriate place where you would normally display the
+address field, add the following code:
+
+```erb
+<%== cell("decidim/locations/form", form, label: t(".locations_label")) %>
+```
+
+#### 3. Customize the form
+
+After the user interface field is added, you still need to take it into account
+when you are updating the proposal records. This happens by customizing
+`app/commands/decidim/proposals/update_proposal.rb` as described
+earlier in this documentation. To learn more about customizing any logic in
+Decidim, please refer to the
+[official documentation](https://docs.decidim.org/en/develop/customize/logic).
+
+The change you need to do in the command class is the following within the
+`call` method:
+
+```ruby
+def call
+  # ... normal stuff from the proposals module ...
+  # ADD THIS LINE:
+  update_locations(proposal, form)
+
+  # ... the rest from the proposals module ...
+  broadcast(:ok, proposal)
+end
+```
 
 ## Contributing
 

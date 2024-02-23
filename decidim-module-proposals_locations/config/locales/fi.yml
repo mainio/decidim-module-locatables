@@ -4,9 +4,6 @@ fi:
       has_location: Etsi osoite
   decidim:
     proposals:
-      proposals:
-        index:
-          component_geojson: GeoJSON
       admin:
         exports:
           locations: Paikkatiedot

@@ -13,12 +13,6 @@ module Decidim
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
 
-      initializer "decidim_proposals_locations.mount_routes", before: :add_routing_paths do
-        Decidim::Proposals::Engine.routes.prepend do
-          get "/geojson", to: "proposals#geojson"
-        end
-      end
-
       initializer "decidim_proposals_locations.add_global_component_settings_and_export", after: "decidim_locations.settings_manifest_customization" do
         config.to_prepare do
           manifest = Decidim.find_component_manifest("proposals")
@@ -108,9 +102,6 @@ module Decidim
 
       initializer "decidim_proposal_locations.add_customizations", after: "decidim.action_controller" do
         config.to_prepare do
-          # Controller
-          Decidim::Proposals::ProposalsController.include(Decidim::ProposalsLocations::ProposalsControllerExtensions)
-
           # Command
           Decidim::Proposals::UpdateProposal.include(Decidim::ProposalsLocations::UpdateProposalExtensions)
           Decidim::Proposals::Admin::UpdateProposal.include(Decidim::ProposalsLocations::Admin::UpdateProposalExtensions)

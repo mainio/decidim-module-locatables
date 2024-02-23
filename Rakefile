@@ -10,10 +10,10 @@ end
 
 def install_modules(path)
   Dir.chdir(path) do
+    system("bundle exec rake decidim_locations:install:migrations")
+    system("bundle exec rake decidim_forms_locations:install:migrations")
     system("bundle exec rake decidim_proposals_locations:install:migrations")
     system("bundle exec rake decidim_meetings_locations:install:migrations")
-    system("bundle exec rake decidim_forms_locations:install:migrations")
-    system("bundle exec rake decidim_locations:install:migrations")
     system("bundle exec rake db:migrate")
   end
 end

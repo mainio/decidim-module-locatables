@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
-  s.add_dependency "decidim-core", Decidim::Locatables.version
   s.add_dependency "decidim-accountability_locations", Decidim::Locatables.version
+  s.add_dependency "decidim-core", Decidim::Locatables.version
   s.add_dependency "decidim-forms_locations", Decidim::Locatables.version
   s.add_dependency "decidim-meetings_locations", Decidim::Locatables.version
   s.add_dependency "decidim-proposals_locations", Decidim::Locatables.version

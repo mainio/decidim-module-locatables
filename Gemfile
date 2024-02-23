@@ -21,7 +21,6 @@ gem "puma", ">= 5.0.0"
 gem "uglifier", "~> 4.1"
 
 group :development, :test do
-  gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
   gem "rubocop-faker"
   gem "rubocop-performance", "~> 1.15.0" # ?
@@ -31,7 +30,4 @@ group :development do
   gem "faker", "~> 2.14"
   gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.1"
-  gem "spring", "~> 4.0"
-  gem "spring-watcher-listen", "~> 2.1"
-  gem "web-console", "~> 4.2"
 end
