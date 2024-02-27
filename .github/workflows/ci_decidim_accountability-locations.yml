@@ -1,5 +1,5 @@
 # Replace the {MODULE_NAME} below with the actual name of the module.
-name: "[CI] AccountabilityLocations"
+name: "[CI] MeetingsLocations"
 on:
   push:
     branches:
