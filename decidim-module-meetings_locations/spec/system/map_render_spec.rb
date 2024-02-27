@@ -19,9 +19,9 @@ describe "map render", type: :system do
       find(".card__link").click
       click_link "Meetings"
       click_link "New meeting"
-      expect(page).to have_selector("#map", visible: :hidden)
+      expect(page).to have_selector("[data-decidim-map]", visible: :hidden)
       find("#meeting_type_of_meeting").find("option[value='in_person']").click
-      expect(page).to have_selector("#map")
+      expect(page).to have_selector("[data-decidim-map]")
     end
   end
 end

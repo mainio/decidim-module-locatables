@@ -44,7 +44,14 @@ module Decidim
       let(:locations) do
         [
           {
-            address: "Example street", latitude: 12, longitude: 4
+            address: "Example street",
+            latitude: 12,
+            longitude: 4,
+            shape: "Point",
+            geojson:
+            '{"type":"Feature",
+            "geometry":{"type":"Point",
+            "coordinates":[12, 4]}}'
           }
         ]
       end
@@ -83,12 +90,22 @@ module Decidim
             {
               address: "Example street",
               latitude: 12,
-              longitude: 4
+              longitude: 4,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[12, 4]}}'
             },
             {
               address: "Test street 2",
               latitude: 12.293847,
-              longitude: 33.281234
+              longitude: 33.281234,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[12.293847, 33.281234]}}'
             }
           ]
         end

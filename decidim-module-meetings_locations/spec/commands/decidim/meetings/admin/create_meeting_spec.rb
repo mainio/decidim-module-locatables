@@ -33,7 +33,12 @@ module Decidim
             {
               address: address,
               latitude: latitude,
-              longitude: longitude
+              longitude: longitude,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[46.611057, 0.335462]}}'
             }
           ]
         end
@@ -59,7 +64,7 @@ module Decidim
 
             expect(
               Decidim::Meetings::Meeting.first.locations.order(:id).map do |loc|
-                loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
+                loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
               end
             ).to eq(locations)
           end
@@ -81,12 +86,22 @@ module Decidim
               {
                 address: address,
                 latitude: latitude,
-                longitude: longitude
+                longitude: longitude,
+                shape: "Point",
+                geojson:
+                '{"type":"Feature",
+                "geometry":{"type":"Point",
+                "coordinates":[46.611057, 0.335462]}}'
               },
               {
                 address: "Test street 2",
                 latitude: 12.293847,
-                longitude: 33.281234
+                longitude: 33.281234,
+                shape: "Point",
+                geojson:
+                '{"type":"Feature",
+                "geometry":{"type":"Point",
+                "coordinates":[12.293847, 33.281234]}}'
               }
             ]
           end
@@ -96,7 +111,7 @@ module Decidim
 
             expect(
               Decidim::Meetings::Meeting.first.locations.order(:id).map do |loc|
-                loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
+                loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
               end
             ).to eq(locations)
           end

@@ -5,7 +5,9 @@ require "spec_helper"
 describe "admin map render", type: :system do
   let(:user) { create(:user, :admin, :confirmed) }
   let(:organization) { user.organization }
-  let!(:accountability_component) { create(:accountability_component, organization: organization) }
+  let!(:participatory_space) { create :participatory_process, :published, organization: organization }
+
+  let!(:accountability_component) { create(:accountability_component, organization: organization, participatory_space: participatory_space) }
 
   before do
     switch_to_host(organization.host)
@@ -21,10 +23,10 @@ describe "admin map render", type: :system do
       find(".action-icon--new").click
       click_link "Accountability"
       click_link "New Result"
-      expect(page).to have_selector("#model_has_location")
-      expect(page).to have_selector("#map", visible: :hidden)
-      find("#model_has_location").click
-      expect(page).to have_selector("#map")
+      expect(page).to have_selector("#result_has_location")
+      find("#result_has_location").click
+      scroll_to("[data-decidim-map]")
+      expect(page).to have_selector("[data-decidim-map]")
     end
   end
 end

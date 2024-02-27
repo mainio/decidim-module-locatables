@@ -22,10 +22,10 @@ describe "admin map render", type: :system do
 
   context "when creating a proposal, geocoding enabled" do
     it "allows adding locations with a map" do
-      expect(page).to have_selector("#model_has_location")
-      expect(page).to have_selector("#map", visible: :hidden)
-      find("#model_has_location").click
-      expect(page).to have_selector("#map")
+      expect(page).to have_selector("#proposal_has_location")
+      expect(page).to have_selector("[data-decidim-map]", visible: :hidden)
+      find("#proposal_has_location").click
+      expect(page).to have_selector("[data-decidim-map]")
     end
   end
 
@@ -33,9 +33,9 @@ describe "admin map render", type: :system do
     let!(:proposal_component) { create(:proposal_component, :with_creation_enabled, :published, organization: organization) }
 
     it "doesn't allow adding locations" do
-      expect(page).not_to have_selector("#model_has_location")
-      expect(page).not_to have_selector("#map", visible: :hidden)
-      expect(page).not_to have_selector("#map")
+      expect(page).not_to have_selector("#proposal_has_location")
+      expect(page).not_to have_selector("[data-decidim-map]", visible: :hidden)
+      expect(page).not_to have_selector("[data-decidim-map]")
     end
   end
 end

@@ -20,3 +20,5 @@ RSpec.configure do |config|
     )
   end
 end
+
+require "#{Dir.pwd}/lib/decidim/meetings_locations/test/rspec_support/capybara.rb"

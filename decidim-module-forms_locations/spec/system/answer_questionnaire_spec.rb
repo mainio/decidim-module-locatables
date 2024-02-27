@@ -54,6 +54,20 @@ describe "Answer survey", type: :system do
     JS
   end
 
+  def add_marker(latitude: 11.521, longitude: 5.521)
+    find('div[title="Draw Marker"] a').click
+    marker_add = <<~JS
+      var map = $(".picker-wrapper [data-decidim-map]").data("map");
+      var loc = L.latLng(#{latitude}, #{longitude});
+      map.fire("click", { latlng: loc });
+      map.panTo(loc);
+    JS
+    sleep 1
+    page.execute_script(marker_add)
+    find("div.leaflet-pm-actions-container a.leaflet-pm-action.action-cancel").click
+    sleep 1
+  end
+
   before do
     utility = Decidim::Map.autocomplete(organization: organization)
     allow(Decidim::Map).to receive(:autocomplete).with(organization: organization).and_return(utility)
@@ -81,8 +95,8 @@ describe "Answer survey", type: :system do
     context "when configurated for multiple locations" do
       it "allows submitting form with single location" do
         Decidim::Forms::Question.last.update(map_configuration: "multiple")
-        find("[data-decidim-map]").click
-        expect(page).to have_css(".leaflet-marker-draggable", count: 1)
+        add_marker
+        expect(page).to have_css(".leaflet-marker-icon", count: 1)
         check "questionnaire_tos_agreement"
         click_button "Submit"
         expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
@@ -94,9 +108,9 @@ describe "Answer survey", type: :system do
 
       it "allows submitting form with multiple locations when map is configured for multiple locations" do
         Decidim::Forms::Question.last.update(map_configuration: "multiple")
-        find("[data-decidim-map]").click
-        find("[data-decidim-map]").click(x: 10, y: 10)
-        expect(page).to have_css(".leaflet-marker-draggable", count: 2)
+        add_marker
+        add_marker(latitude: 11.621, longitude: 5.621)
+        expect(page).to have_css(".leaflet-marker-icon", count: 2)
         check "questionnaire_tos_agreement"
         click_button "Submit"
         expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
@@ -110,8 +124,8 @@ describe "Answer survey", type: :system do
     context "when configurated for single location" do
       it "allows submitting form with single location" do
         Decidim::Forms::Question.last.update(map_configuration: "single")
-        find("[data-decidim-map]").click
-        expect(page).to have_css(".leaflet-marker-draggable", count: 1)
+        add_marker
+        expect(page).to have_css(".leaflet-marker-icon", count: 1)
         check "questionnaire_tos_agreement"
         click_button "Submit"
         expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
@@ -126,10 +140,9 @@ describe "Answer survey", type: :system do
         visit main_component_path(component)
         page.execute_script(revgeo)
 
-        find("[data-decidim-map]").click
-        expect(page).to have_css(".leaflet-marker-draggable", count: 1)
-        find("[data-decidim-map]").click(x: 20, y: 40)
-        expect(page).to have_css(".leaflet-marker-draggable", count: 1)
+        add_marker
+        add_marker(latitude: 11.621, longitude: 5.621)
+        expect(page).to have_css(".leaflet-marker-icon", count: 1)
         check "questionnaire_tos_agreement"
         click_button "Submit"
         expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")

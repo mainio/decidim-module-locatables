@@ -22,7 +22,12 @@ module Decidim
             "x1ynlf9" => {
               "address" => "Sabha-Waddan, Sabha, Sabha, Libya",
               "latitude" => "27.12270204225946",
-              "longitude" => "15.644531250000002"
+              "longitude" => "15.644531250000002",
+              "shape" => "Point",
+              "geojson" =>
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[27.12270204225946, 15.644531250000002]}}'
             }
           },
           "address" => "",

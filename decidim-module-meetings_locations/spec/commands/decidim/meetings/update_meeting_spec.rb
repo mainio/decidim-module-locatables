@@ -34,7 +34,12 @@ module Decidim
           {
             address: address,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            shape: "Point",
+            geojson:
+            '{"type":"Feature",
+            "geometry":{"type":"Point",
+            "coordinates":[46.611057, 0.335462]}}'
           }
         ]
       end
@@ -59,8 +64,10 @@ module Decidim
           command.call
 
           expect(
-            meeting.locations.first.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
-          ).to eq(locations.first)
+            meeting.locations.first.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
+          ).to eq(
+            locations.first
+          )
         end
 
         it "gives no errors" do
@@ -80,12 +87,22 @@ module Decidim
             {
               address: address,
               latitude: latitude,
-              longitude: longitude
+              longitude: longitude,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[46.611057, 0.335462]}}'
             },
             {
               address: "Test street 2",
               latitude: 12.293847,
-              longitude: 33.281234
+              longitude: 33.281234,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[12.293847, 33.281234]}}'
             }
           ]
         end
@@ -95,9 +112,11 @@ module Decidim
 
           expect(
             meeting.locations.order(:id).map do |loc|
-              loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
+              loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
             end
-          ).to eq(locations)
+          ).to eq(
+            locations
+          )
         end
 
         it "gives no errors" do
@@ -118,7 +137,12 @@ module Decidim
             locatable: meeting,
             address: "Update",
             latitude: 1.111222,
-            longitude: 1.111222
+            longitude: 1.111222,
+            shape: "Point",
+            geojson:
+            '{"type":"Feature",
+            "geometry":{"type":"Point",
+            "coordinates":[1.111222, 1.111222]}}'
           )
         end
 
@@ -128,7 +152,12 @@ module Decidim
             locatable: meeting,
             address: "Delete",
             latitude: 1.121212,
-            longitude: 2.2121221
+            longitude: 2.2121221,
+            shape: "Point",
+            geojson:
+            '{"type":"Feature",
+            "geometry":{"type":"Point",
+            "coordinates":[1.121212, 2.2121221]}}'
           )
         end
 
@@ -137,7 +166,12 @@ module Decidim
             {
               address: "Update",
               latitude: 1.111222,
-              longitude: 1.111222
+              longitude: 1.111222,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[1.111222, 1.111222]}}'
             }
           ]
         end
@@ -146,15 +180,9 @@ module Decidim
           command.call
 
           expect(meeting.locations.order(:id).map do |loc|
-            loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
+            loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
           end).to eq(
-            [
-              {
-                address: "Update",
-                latitude: 1.111222,
-                longitude: 1.111222
-              }
-            ]
+            locations
           )
         end
       end
@@ -166,7 +194,12 @@ module Decidim
             locatable: meeting,
             address: "Update",
             latitude: 1.111222,
-            longitude: 1.111222
+            longitude: 1.111222,
+            shape: "Point",
+            geojson:
+            '{"type":"Feature",
+            "geometry":{"type":"Point",
+            "coordinates":[1.111222, 1.111222]}}'
           )
         end
 
@@ -176,7 +209,12 @@ module Decidim
             locatable: meeting,
             address: "Delete",
             latitude: 1.121212,
-            longitude: 2.2121221
+            longitude: 2.2121221,
+            shape: "Point",
+            geojson:
+            '{"type":"Feature",
+            "geometry":{"type":"Point",
+            "coordinates":[1.121212, 2.2121221]}}'
           )
         end
 
@@ -185,12 +223,22 @@ module Decidim
             {
               address: "Updated",
               latitude: 2.222222,
-              longitude: 2.222222
+              longitude: 2.222222,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[2.222222, 2.222222]}}'
             },
             {
               address: "Delete",
               latitude: 1.121212,
-              longitude: 2.2121221
+              longitude: 2.2121221,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[1.121212, 2.2121221]}}'
             }
           ]
         end
@@ -199,20 +247,9 @@ module Decidim
           command.call
 
           expect(meeting.locations.order(:id).map do |loc|
-            loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
+            loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
           end).to eq(
-            [
-              {
-                address: "Updated",
-                latitude: 2.222222,
-                longitude: 2.222222
-              },
-              {
-                address: "Delete",
-                latitude: 1.121212,
-                longitude: 2.2121221
-              }
-            ]
+            locations
           )
         end
 
@@ -223,7 +260,12 @@ module Decidim
               locatable: meeting,
               address: "Update",
               latitude: 1.111222,
-              longitude: 1.111222
+              longitude: 1.111222,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[1.111222, 1.111222]}}'
             )
           end
 
@@ -233,7 +275,12 @@ module Decidim
               locatable: meeting,
               address: "Delete",
               latitude: 1.121212,
-              longitude: 2.2121221
+              longitude: 2.2121221,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[1.121212, 2.2121221]}}'
             )
           end
 
@@ -242,17 +289,32 @@ module Decidim
               {
                 address: "Update",
                 latitude: 1.123456,
-                longitude: 2.234567
+                longitude: 2.234567,
+                shape: "Point",
+                geojson:
+                '{"type":"Feature",
+                "geometry":{"type":"Point",
+                "coordinates":[1.123456, 2.234567]}}'
               },
               {
                 address: "Delete",
                 latitude: 1.121212,
-                longitude: 2.2121221
+                longitude: 2.2121221,
+                shape: "Point",
+                geojson:
+                '{"type":"Feature",
+                "geometry":{"type":"Point",
+                "coordinates":[1.121212, 2.2121221]}}'
               },
               {
                 address: "Third",
                 latitude: 3.222222,
-                longitude: 4.121212
+                longitude: 4.121212,
+                shape: "Point",
+                geojson:
+                '{"type":"Feature",
+                "geometry":{"type":"Point",
+                "coordinates":[3.222222, 4.121212]}}'
               }
             ]
           end
@@ -261,25 +323,9 @@ module Decidim
             command.call
 
             expect(meeting.locations.order(:id).map do |loc|
-              loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
+              loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude, :shape, :geojson)
             end).to eq(
-              [
-                {
-                  address: "Update",
-                  latitude: 1.123456,
-                  longitude: 2.234567
-                },
-                {
-                  address: "Delete",
-                  latitude: 1.121212,
-                  longitude: 2.2121221
-                },
-                {
-                  address: "Third",
-                  latitude: 3.222222,
-                  longitude: 4.121212
-                }
-              ]
+              locations
             )
           end
         end
@@ -291,7 +337,12 @@ module Decidim
               locatable: meeting,
               address: "Update",
               latitude: 1.111222,
-              longitude: 1.111222
+              longitude: 1.111222,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[1.111222, 1.111222]}}'
             )
           end
 
@@ -301,7 +352,12 @@ module Decidim
               locatable: meeting,
               address: "Delete",
               latitude: 1.121212,
-              longitude: 2.2121221
+              longitude: 2.2121221,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[1.121212, 2.2121221]}}'
             )
           end
 
@@ -311,7 +367,12 @@ module Decidim
               locatable: meeting,
               address: "Third",
               latitude: 3.222222,
-              longitude: 4.121212
+              longitude: 4.121212,
+              shape: "Point",
+              geojson:
+              '{"type":"Feature",
+              "geometry":{"type":"Point",
+              "coordinates":[3.222222, 4.121212]}}'
             )
           end
 
@@ -325,7 +386,7 @@ module Decidim
             expect(meeting.locations.order(:id).map do |loc|
               loc.attributes.transform_keys(&:to_sym).slice(:address, :latitude, :longitude)
             end).to eq(
-              []
+              locations
             )
           end
         end
