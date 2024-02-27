@@ -12,9 +12,6 @@ concurrency:
 
 jobs:
   main:
-    uses: mainio/gha-decidim-module/setup-app@main
-    with:
-      use-cached-app: true
     name: Tests
     uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
     secrets: inherit
