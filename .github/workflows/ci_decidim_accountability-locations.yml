@@ -2,7 +2,7 @@
 name: "[CI] AccountabilityLocations"
 on:
   workflow_run:
-    workflows: ["Generate Test Application"]
+    workflows: ["Locatables"]
     types:
       - completed
 

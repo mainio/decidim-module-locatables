@@ -1,17 +1,17 @@
 # Replace the {MODULE_NAME} below with the actual name of the module.
-name: "[CI] FormsLocations"
+name: "[CI] Locatables"
 on:
-  workflow_run:
-    workflows: ["Locatables"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
-  main:
-    name: Tests
-    uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
+  build_app:
+    name: Build test application
+    uses: mainio/gha-decidim-module/.github/workflows/build_app.yml@main
     secrets: inherit

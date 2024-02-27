@@ -2,7 +2,7 @@
 name: "[CI] ProposalsLocations"
 on:
   workflow_run:
-    workflows: ["Generate Test Application"]
+    workflows: ["Locatables"]
     types:
       - completed
 
