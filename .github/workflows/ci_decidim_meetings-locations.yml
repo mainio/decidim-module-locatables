@@ -2,7 +2,7 @@
 name: "[CI] MeetingsLocations"
 on:
   workflow_run:
-    workflows: ["Locatables"]
+    workflows: ["[CI] Locatables"]
     types:
       - completed
 
