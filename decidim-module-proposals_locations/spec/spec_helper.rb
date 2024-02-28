@@ -4,7 +4,11 @@ require "decidim/dev"
 
 ENV["ENGINE_ROOT"] = File.dirname(__dir__)
 
-Decidim::Dev.dummy_app_path = File.expand_path(File.join("..", "spec", "decidim_dummy_app"))
+Decidim::Dev.dummy_app_path = if ENV["GITHUB_ACTIONS"]
+                                File.expand_path(File.join("..", "spec", "decidim_dummy_app"))
+                              else
+                                File.expand_path(File.join("spec", "decidim_dummy_app"))
+                              end
 
 require "decidim/dev/test/base_spec_helper"
 
