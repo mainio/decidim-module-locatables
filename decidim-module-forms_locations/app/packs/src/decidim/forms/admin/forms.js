@@ -38,13 +38,11 @@ export default function createEditableForm() {
 
   const displayConditionQuestionSelector = "select[name$=\\[decidim_condition_question_id\\]]";
   const displayConditionAnswerOptionSelector = "select[name$=\\[decidim_answer_option_id\\]]";
-  const displayConditionLocationOptionSelector = "select[name$=\\[decidim_location_option_id\\]]";
   const displayConditionTypeSelector = "select[name$=\\[condition_type\\]]";
   const deletedInputSelector = "input[name$=\\[deleted\\]]";
 
   const displayConditionValueWrapperSelector = ".questionnaire-question-display-condition-value";
   const displayconditionAnswerOptionWrapperSelector = ".questionnaire-question-display-condition-answer-option";
-  const displayconditionLocationOptionWrapperSelector = ".questionnaire-question-display-condition-location-option";
 
   const addDisplayConditionButtonSelector = ".add-display-condition";
 
@@ -80,8 +78,9 @@ export default function createEditableForm() {
     }
   });
 
-  const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple", "select_locations"];
+  const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple"];
   const MATRIX_VALUES = ["matrix_single", "matrix_multiple"];
+  const SELECT_LOCATION = ["select_locations"]
 
   const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
     return new AutoSelectOptionsByTotalItemsComponent({
@@ -238,6 +237,10 @@ export default function createEditableForm() {
     return MATRIX_VALUES.indexOf(value) >= 0;
   }
 
+  const isSelectLocation = (value) => {
+    return SELECT_LOCATION.includes(value);
+  }
+
   const getSelectedQuestionType = (select) => {
     const selectedOption = select.options[select.selectedIndex];
     return $(selectedOption).data("type");
@@ -286,7 +289,6 @@ export default function createEditableForm() {
     const value = $field.find(displayConditionTypeSelector).val();
     const $valueWrapper = $field.find(displayConditionValueWrapperSelector);
     const $answerOptionWrapper = $field.find(displayconditionAnswerOptionWrapperSelector);
-    const $locationOptionWrapper = $field.find(displayconditionLocationOptionWrapperSelector);
 
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
@@ -301,18 +303,9 @@ export default function createEditableForm() {
     }
 
     if (isMultiple && (value === "not_equal" || value === "equal")) {
-      if (selectedQuestionType === "select_locations") {
-        $locationOptionWrapper.show();
-      } else {
-        $answerOptionWrapper.show();
-      }
-    }
-    else {
-      if (selectedQuestionType === "select_locations") {
-        $locationOptionWrapper.hide();
-      } else {
-        $answerOptionWrapper.hide();
-      }
+      $answerOptionWrapper.show();
+    } else {
+      $answerOptionWrapper.hide();
     }
   };
 
@@ -362,16 +355,6 @@ export default function createEditableForm() {
       wrapperSelector: fieldSelector,
       dependentFieldsSelector: answerOptionsWrapperSelector,
       dependentInputSelector: `${answerOptionFieldSelector} input`,
-      enablingCondition: ($field) => {
-        return isMultipleChoiceOption($field.val());
-      }
-    });
-
-    createFieldDependentInputs({
-      controllerField: $fieldQuestionTypeSelect,
-      wrapperSelector: fieldSelector,
-      dependentFieldsSelector: locationOptionsWrapperSelector,
-      dependentInputSelector: `${locationOptionFieldSelector} input`,
       enablingCondition: ($field) => {
         return isMultipleChoiceOption($field.val());
       }
@@ -449,14 +432,17 @@ export default function createEditableForm() {
     const onQuestionTypeChange = () => {
       if (isMultipleChoiceOption($fieldQuestionTypeSelect.val())) {
         const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(answerOptionFieldSelector).length;
-        const mOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(locationOptionFieldSelector).length;
 
         if (nOptions === 0) {
           dynamicFieldsAnswerOptions._addField();
           dynamicFieldsAnswerOptions._addField();
         }
+      }
 
-        if (mOptions === 0) {
+      if (isSelectLocation($fieldQuestionTypeSelect.val())) {
+        const nLocations = $fieldQuestionTypeSelect.parents(fieldSelector).find(locationOptionFieldSelector).length;
+
+        if (nLocations === 0) {
           dynamicFieldsLocationOptions._addField();
           dynamicFieldsLocationOptions._addField();
         }
