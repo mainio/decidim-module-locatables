@@ -165,6 +165,20 @@
       %>
     </div>
 
+    <div class="questionnaire-question-location-options" data-template="<%= location_option_template_selector %>">
+      <div class="questionnaire-question-location-options-list">
+        <% question.location_options.each do |location_option| %>
+          <%= fields_for "questionnaire[questions][#{question.to_param}][location_options][]", location_option do |location_option_form| %>
+            <%= render "decidim/forms/admin/questionnaires/location_option", form: location_option_form, question: question, editable: editable %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% if editable %>
+        <button class="button add-location-option"><%= t(".add_location_option") %></button>
+      <% end %>
+    </div>
+
     <div class="row column questionnaire-question-max-choices">
       <%=
         form.select(

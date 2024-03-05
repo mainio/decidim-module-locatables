@@ -18,7 +18,8 @@ module Decidim
               max_characters: form_question.max_characters,
               map_configuration: form_question.map_configuration,
               default_latitude: form_question.default_latitude,
-              default_longitude: form_question.default_longitude
+              default_longitude: form_question.default_longitude,
+              location_options: form_question.location_options
             }
 
             update_nested_model(form_question, question_attributes, @questionnaire.questions) do |question|
@@ -31,6 +32,14 @@ module Decidim
                 update_nested_model(form_answer_option, answer_option_attributes, question.answer_options)
               end
 
+              form_question.location_options.each do |form_location_option|
+                location_option_attributes = {
+                  body: form_answer_option.body
+                }
+
+                update_nested_model(form_location_option, location_option_attributes, question.location_options)
+              end
+
               form_question.display_conditions.each do |form_display_condition|
                 type = form_display_condition.condition_type
 
@@ -39,6 +48,7 @@ module Decidim
                   condition_type: form_display_condition.condition_type,
                   condition_value: type == "match" ? form_display_condition.condition_value : nil,
                   answer_option: %w(equal not_equal).include?(type) ? form_display_condition.answer_option : nil,
+                  location_option: %w(equal not_equal).include(type) ? form_display_condition.location_option : nil,
                   mandatory: form_display_condition.mandatory
                 }
 

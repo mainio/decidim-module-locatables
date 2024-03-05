@@ -1,0 +1,33 @@
+<% location_option = form.object %>
+
+<div class="card questionnaire-question-location-option">
+  <div class="card-divider">
+    <h2 class="card-title">
+    <span><%= t(".location_option") %></span>
+    <% if editable %>
+      <button class="button small alert hollow remove-location-option button--title">
+        <%= t(".remove") %>
+      </button>
+    <% end %>
+    </h2>
+  </div>
+
+  <div class="card-section">
+    <div class="row column">
+      <%=
+        form.text_field(
+          :body,
+          tabs_id: tabs_id_for_question_location_option(question, location_option),
+          label: t(".statement"),
+          disabled: !editable
+        )
+      %>
+    </div>
+  </div>
+
+  <% if location_option.persisted? %>
+    <%= form.hidden_field :id, disabled: !editable %>
+  <% end %>
+
+  <%= form.hidden_field :deleted, disabled: !editable %>
+</div>

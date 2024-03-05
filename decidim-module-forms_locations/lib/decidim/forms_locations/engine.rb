@@ -9,12 +9,6 @@ module Decidim
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::FormsLocations
 
-      routes do
-        # Add engine routes here
-        # resources :forms_locations
-        # root to: "forms_locations#index"
-      end
-
       initializer "decidim_forms_locations.add_export", after: "decidim_locations.settings_manifest_customization" do
         config.to_prepare do
           manifest = Decidim.find_component_manifest("surveys")
@@ -111,12 +105,25 @@ module Decidim
           #       defined.
           Decidim::Forms::Answer.include(Decidim::Locations::Locatable)
           Decidim::Forms::Question.include(Decidim::FormsLocations::QuestionExtensions)
+          Decidim::Forms::AnswerChoice.include(Decidim::FormsLocations::AnswerChoiceExtensions)
+          Decidim::Forms::DisplayCondition.include(Decidim::FormsLocations::DisplayConditionExtensions)
 
           # Form
+
           Decidim::Forms::QuestionnaireForm.include(Decidim::Locations::LocatableForm)
           Decidim::Forms::AnswerForm.include(Decidim::Locations::LocatableForm)
           Decidim::Forms::AnswerForm.include(Decidim::FormsLocations::AnswerFormExtensions)
           Decidim::Forms::Admin::QuestionForm.include(Decidim::FormsLocations::Admin::QuestionFormExtensions)
+          Decidim::Forms::AnswerChoiceForm.include(Decidim::FormsLocations::AnswerChoiceFormExtensions)
+          Decidim::Forms::Admin::DisplayConditionForm.include(Decidim::FormsLocations::Admin::DisplayConditionFormExtensions)
+
+          # Helpers
+
+          Decidim::Forms::Admin::ApplicationHelper.include(Decidim::FormsLocations::Admin::ApplicationHelperExtensions)
+
+          # Controllers
+
+          Decidim::Forms::Admin::Concerns::HasQuestionnaire.include(Decidim::FormsLocations::Admin::HasQuestionnaireExtensions)
 
           # Commands
           Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)

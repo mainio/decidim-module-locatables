@@ -1,0 +1,7 @@
+<% question = form.object %>
+
+<script type="text/template" class="decidim-location-option-template decidim-template" id="<%= template_id %>">
+  <%= fields_for "questionnaire[questions][#{question.to_param}][location_options][]", blank_location_option do |location_option_form| %>
+    <%= render "decidim/forms/admin/questionnaires/location_option", form: location_option_form, question: question, editable: editable %>
+  <% end %>
+</script>

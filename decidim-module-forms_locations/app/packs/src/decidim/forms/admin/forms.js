@@ -28,6 +28,9 @@ export default function createEditableForm() {
   const locationCountWrapperSelector = ".questionnaire-question-location-count";
   const defaultLatitudeWrapperSelector = ".questionnaire-question-default-latitude";
   const defaultLongitudeWrapperSelector = ".questionnaire-question-default-longitude";
+  const locationOptionFieldSelector = ".questionnaire-question-location-option";
+  const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
+  const locationOptionRemoveFieldButtonSelector = ".remove-location-option";
 
   const displayConditionFieldSelector = ".questionnaire-question-display-condition";
   const displayConditionsWrapperSelector = ".questionnaire-question-display-conditions";
@@ -35,11 +38,13 @@ export default function createEditableForm() {
 
   const displayConditionQuestionSelector = "select[name$=\\[decidim_condition_question_id\\]]";
   const displayConditionAnswerOptionSelector = "select[name$=\\[decidim_answer_option_id\\]]";
+  const displayConditionLocationOptionSelector = "select[name$=\\[decidim_location_option_id\\]]";
   const displayConditionTypeSelector = "select[name$=\\[condition_type\\]]";
   const deletedInputSelector = "input[name$=\\[deleted\\]]";
 
   const displayConditionValueWrapperSelector = ".questionnaire-question-display-condition-value";
   const displayconditionAnswerOptionWrapperSelector = ".questionnaire-question-display-condition-answer-option";
+  const displayconditionLocationOptionWrapperSelector = ".questionnaire-question-display-condition-location-option";
 
   const addDisplayConditionButtonSelector = ".add-display-condition";
 
@@ -75,7 +80,7 @@ export default function createEditableForm() {
     }
   });
 
-  const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple"];
+  const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple", "select_locations"];
   const MATRIX_VALUES = ["matrix_single", "matrix_multiple"];
 
   const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
@@ -92,6 +97,23 @@ export default function createEditableForm() {
       listSelector: `#${fieldId} ${answerOptionsWrapperSelector} .questionnaire-question-answer-option:not(.hidden)`,
       minItems: 2,
       hideOnMinItemsOrLessSelector: answerOptionRemoveFieldButtonSelector
+    })
+  };
+
+  const createAutoMaxChoicesByNumberOfLocationOptions = (fieldId) => {
+    return new AutoSelectOptionsByTotalItemsComponent({
+      wrapperSelector: fieldSelector,
+      selectSelector: `${maxChoicesWrapperSelector} select`,
+      listSelector: `#${fieldId} ${locationOptionsWrapperSelector} .questionnaire-question-location-option:not(.hidden)`
+    })
+  };
+
+  const createAutoButtonsByMinItemsForLocationOptions = (fieldId) => {
+    return new AutoButtonsByMinItemsComponent({
+      wrapperSelector: fieldSelector,
+      listSelector: `#${fieldId} ${locationOptionsWrapperSelector} .questionnaire-question-location-option:not(.hidden)`,
+      minItems: 2,
+      hideOnMinItemsOrLessSelector: locationOptionRemoveFieldButtonSelector
     })
   };
 
@@ -183,6 +205,31 @@ export default function createEditableForm() {
 
   const dynamicFieldsForMatrixRows = {};
 
+  const createDynamicFieldsForLocationOptions = (fieldId) => {
+    const autoButtons = createAutoButtonsByMinItemsForLocationOptions(fieldId);
+    const autoSelectOptions = createAutoMaxChoicesByNumberOfLocationOptions(fieldId);
+
+    return createDynamicFields({
+      placeholderId: "questionnaire-question-location-option-id",
+      wrapperSelector: `#${fieldId} ${locationOptionsWrapperSelector}`,
+      containerSelector: ".questionnaire-question-location-options-list",
+      fieldSelector: locationOptionFieldSelector,
+      addFieldButtonSelector: ".add-location-option",
+      fieldTemplateSelector: ".decidim-location-option-template",
+      removeFieldButtonSelector: locationOptionRemoveFieldButtonSelector,
+      onAddField: () => {
+        autoButtons.run();
+        autoSelectOptions.run();
+      },
+      onRemoveField: () => {
+        autoButtons.run();
+        autoSelectOptions.run();
+      }
+    });
+  };
+
+  const dynamicFieldsForLocationOptions = {};
+
   const isMultipleChoiceOption = (value) => {
     return MULTIPLE_CHOICE_VALUES.indexOf(value) >= 0;
   }
@@ -239,6 +286,7 @@ export default function createEditableForm() {
     const value = $field.find(displayConditionTypeSelector).val();
     const $valueWrapper = $field.find(displayConditionValueWrapperSelector);
     const $answerOptionWrapper = $field.find(displayconditionAnswerOptionWrapperSelector);
+    const $locationOptionWrapper = $field.find(displayconditionLocationOptionWrapperSelector);
 
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
@@ -253,10 +301,18 @@ export default function createEditableForm() {
     }
 
     if (isMultiple && (value === "not_equal" || value === "equal")) {
-      $answerOptionWrapper.show();
+      if (selectedQuestionType === "select_locations") {
+        $locationOptionWrapper.show();
+      } else {
+        $answerOptionWrapper.show();
+      }
     }
     else {
-      $answerOptionWrapper.hide();
+      if (selectedQuestionType === "select_locations") {
+        $locationOptionWrapper.hide();
+      } else {
+        $answerOptionWrapper.hide();
+      }
     }
   };
 
@@ -314,6 +370,16 @@ export default function createEditableForm() {
     createFieldDependentInputs({
       controllerField: $fieldQuestionTypeSelect,
       wrapperSelector: fieldSelector,
+      dependentFieldsSelector: locationOptionsWrapperSelector,
+      dependentInputSelector: `${locationOptionFieldSelector} input`,
+      enablingCondition: ($field) => {
+        return isMultipleChoiceOption($field.val());
+      }
+    });
+
+    createFieldDependentInputs({
+      controllerField: $fieldQuestionTypeSelect,
+      wrapperSelector: fieldSelector,
       dependentFieldsSelector: locationCountWrapperSelector,
       dependentInputSelector: "select",
       enablingCondition: ($field) => {
@@ -344,6 +410,16 @@ export default function createEditableForm() {
     createFieldDependentInputs({
       controllerField: $fieldQuestionTypeSelect,
       wrapperSelector: fieldSelector,
+      dependentFieldsSelector: locationOptionsWrapperSelector,
+      dependentInputSelector: "input",
+      enablingCondition: ($field) => {
+        return $field.val() === "select_locations";
+      }
+    });
+
+    createFieldDependentInputs({
+      controllerField: $fieldQuestionTypeSelect,
+      wrapperSelector: fieldSelector,
       dependentFieldsSelector: maxChoicesWrapperSelector,
       dependentInputSelector: "select",
       enablingCondition: ($field) => {
@@ -362,19 +438,27 @@ export default function createEditableForm() {
     });
 
     dynamicFieldsForAnswerOptions[fieldId] = createDynamicFieldsForAnswerOptions(fieldId);
+    dynamicFieldsForLocationOptions[fieldId] = createDynamicFieldsForLocationOptions(fieldId);
     dynamicFieldsForMatrixRows[fieldId] = createDynamicFieldsForMatrixRows(fieldId);
     dynamicFieldsForDisplayConditions[fieldId] = createDynamicFieldsForDisplayConditions(fieldId);
 
     const dynamicFieldsAnswerOptions = dynamicFieldsForAnswerOptions[fieldId];
+    const dynamicFieldsLocationOptions = dynamicFieldsForLocationOptions[fieldId];
     const dynamicFieldsMatrixRows = dynamicFieldsForMatrixRows[fieldId];
 
     const onQuestionTypeChange = () => {
       if (isMultipleChoiceOption($fieldQuestionTypeSelect.val())) {
         const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(answerOptionFieldSelector).length;
+        const mOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(locationOptionFieldSelector).length;
 
         if (nOptions === 0) {
           dynamicFieldsAnswerOptions._addField();
           dynamicFieldsAnswerOptions._addField();
+        }
+
+        if (mOptions === 0) {
+          dynamicFieldsLocationOptions._addField();
+          dynamicFieldsLocationOptions._addField();
         }
       }
 
@@ -436,6 +520,10 @@ export default function createEditableForm() {
       $field.find(answerOptionRemoveFieldButtonSelector).each((idx, el) => {
         dynamicFieldsForAnswerOptions[$field.attr("id")]._removeField(el);
       });
+
+      $field.find(locationOptionRemoveFieldButtonSelector).each((idx, el) => {
+        dynamicFieldsForLocationOptions[$field.attr("id")]._removeField(el);
+      })
 
       $field.find(matrixRowRemoveFieldButtonSelector).each((idx, el) => {
         dynamicFieldsForMatrixRows[$field.attr("id")]._removeField(el);

@@ -7,8 +7,8 @@ en:
           locations: Locations
     forms:
       question_types:
-        map_locations:
-          Map
+        map_locations: Map
+        select_locations: Select locations
       admin:
         questionnaires:
           question:
@@ -16,6 +16,13 @@ en:
             map_config_help: Amount of pins allowed
             multiple: Multiple
             single: Single
+            location: Location
+            location_options_help: Insert Geojson to add option, or define location
+            add_location_option: Add location option
+          location_option:
+            location_option: Location option
+            remove: Remove
+            statement: Statement
   activemodel:
     attributes:
       questionnaire_question:
