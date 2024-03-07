@@ -27,7 +27,7 @@ module Decidim
             !deleted && %w(equal not_equal).include?(condition_type)
           end
 
-          def valid_locaton_option?
+          def valid_location_option?
             return unless location_option_mandatory?
             return if location_option.blank?
 

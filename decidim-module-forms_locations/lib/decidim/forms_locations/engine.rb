@@ -107,6 +107,7 @@ module Decidim
           Decidim::Forms::Question.include(Decidim::FormsLocations::QuestionExtensions)
           Decidim::Forms::AnswerChoice.include(Decidim::FormsLocations::AnswerChoiceExtensions)
           Decidim::Forms::DisplayCondition.include(Decidim::FormsLocations::DisplayConditionExtensions)
+          Decidim::Forms::LocationOption.include(Decidim::Locations::Locatable)
 
           # Form
 
@@ -116,6 +117,7 @@ module Decidim
           Decidim::Forms::Admin::QuestionForm.include(Decidim::FormsLocations::Admin::QuestionFormExtensions)
           Decidim::Forms::AnswerChoiceForm.include(Decidim::FormsLocations::AnswerChoiceFormExtensions)
           Decidim::Forms::Admin::DisplayConditionForm.include(Decidim::FormsLocations::Admin::DisplayConditionFormExtensions)
+          Decidim::FormsLocations::Admin::LocationOptionForm.include(Decidim::Locations::LocatableForm)
 
           # Helpers
 

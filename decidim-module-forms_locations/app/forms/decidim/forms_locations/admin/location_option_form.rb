@@ -5,11 +5,13 @@ module Decidim
     module Admin
       # This class holds a Form to update answer options
       class LocationOptionForm < Decidim::Form
+        include TranslatableAttributes
+
         attribute :deleted, Boolean, default: false
 
-        attribute :body, JSON
+        translatable_attribute :body, String
 
-        validates :body, presence: true, unless: :deleted
+        validates :body, translatable_presence: true, unless: :deleted
 
         def to_param
           return id if id.present?
