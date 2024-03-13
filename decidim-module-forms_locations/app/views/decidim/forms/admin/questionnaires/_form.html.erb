@@ -121,6 +121,17 @@
   <% end %>
 </div>
 
+<div id="location-option-selector" data-reveal class="reveal">
+  <%= cell(
+    "decidim/locations/locations",
+    questionnaire,
+    form: form,
+    coords: [0, 0],
+    map_configuration: "single",
+    select_location: true
+  ) %>
+</div>
+
 <%= javascript_pack_tag "decidim_forms_admin", defer: false %>
 
 <% if questionnaire.questions_editable? %>

@@ -48,7 +48,7 @@ module Decidim
                   condition_type: form_display_condition.condition_type,
                   condition_value: type == "match" ? form_display_condition.condition_value : nil,
                   answer_option: %w(equal not_equal).include?(type) ? form_display_condition.answer_option : nil,
-                  location_option: %w(equal not_equal).include(type) ? form_display_condition.location_option : nil,
+                  location_option: %w(equal not_equal).include?(type) ? form_display_condition.location_option : nil,
                   mandatory: form_display_condition.mandatory
                 }
 

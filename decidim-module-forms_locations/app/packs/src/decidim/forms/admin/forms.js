@@ -203,10 +203,12 @@ export default function createEditableForm() {
   };
 
   const dynamicFieldsForMatrixRows = {};
+  const modalEl = document.querySelector("#location-option-selector");
 
   const createDynamicFieldsForLocationOptions = (fieldId) => {
     const autoButtons = createAutoButtonsByMinItemsForLocationOptions(fieldId);
     const autoSelectOptions = createAutoMaxChoicesByNumberOfLocationOptions(fieldId);
+    const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
     return createDynamicFields({
       placeholderId: "questionnaire-question-location-option-id",
@@ -216,7 +218,23 @@ export default function createEditableForm() {
       addFieldButtonSelector: ".add-location-option",
       fieldTemplateSelector: ".decidim-location-option-template",
       removeFieldButtonSelector: locationOptionRemoveFieldButtonSelector,
-      onAddField: () => {
+      onAddField: (jquery) => {
+        const element = jquery[0];
+        const button = element.querySelector(".location-option-define");
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
+          mapCtrl.clearShapes();
+          if (textAreaVal) {
+            mapCtrl.addLocation(textAreaVal);
+          }
+
+          document.querySelector(".location-option-define").classList.remove("location-selector");
+          $(modalEl).foundation("open");
+          button.classList.add("location-selector");
+          mapCtrl.map.invalidateSize()
+        })
+
         autoButtons.run();
         autoSelectOptions.run();
       },

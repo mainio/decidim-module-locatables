@@ -15,32 +15,18 @@
   <div class="card-section">
     <div class="row column">
       <%=
-        form.translated(
-          :text_field,
-          :body,
+        form.text_area(
+          :geojson,
           tabs_id: tabs_id_for_question_location_option(question, location_option),
           label: t(".location_geojson"),
           disabled: !editable
         )
       %>
+      <p class="help-text"><%= t(".location_geojson_help") %></p>
+      <% if editable %>
+        <%= form.button t("decidim.forms.admin.questionnaires.location_option.define"), class: "button small button--title location-option-define" %>
+      <% end %>
     </div>
-    <p class="help-text"><%= t(".location_geojson_help") %></p>
-    <% if editable %>
-      <button class="button small button--title">
-        <%= t(".define") %>
-      </button>
-
-      <div>
-        <%= cell(
-          "decidim/locations/locations",
-          @location_option,
-          form: form,
-          coords: [12.0, 14.0],
-          checkbox: false
-        )
-        %>
-      </div>
-    <% end %>
   </div>
 
   <% if location_option.persisted? %>
