@@ -18,8 +18,7 @@ module Decidim
               max_characters: form_question.max_characters,
               map_configuration: form_question.map_configuration,
               default_latitude: form_question.default_latitude,
-              default_longitude: form_question.default_longitude,
-              location_options: form_question.location_options
+              default_longitude: form_question.default_longitude
             }
 
             update_nested_model(form_question, question_attributes, @questionnaire.questions) do |question|
@@ -34,7 +33,7 @@ module Decidim
 
               form_question.location_options.each do |form_location_option|
                 location_option_attributes = {
-                  body: form_answer_option.body
+                  geojson: form_location_option.geojson
                 }
 
                 update_nested_model(form_location_option, location_option_attributes, question.location_options)

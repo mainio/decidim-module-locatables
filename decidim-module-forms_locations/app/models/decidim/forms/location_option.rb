@@ -7,9 +7,9 @@ module Decidim
 
       has_many :display_conditions,
                class_name: "DisplayCondition",
-               foreign_key: "decidim_answer_option_id",
+               foreign_key: "decidim_location_option_id",
                dependent: :nullify,
-               inverse_of: :answer_option
+               inverse_of: :location_option
     end
   end
 end
