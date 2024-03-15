@@ -559,7 +559,6 @@ export default function createEditableForm() {
   });
 
   $(displayConditionFieldSelector).each((idx, el) => {
-    console.log(el)
     const $field = $(el);
     initializeDisplayConditionField($field)
   });

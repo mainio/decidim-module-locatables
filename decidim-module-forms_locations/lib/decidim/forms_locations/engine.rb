@@ -127,6 +127,7 @@ module Decidim
           # Controllers
 
           Decidim::Forms::Admin::Concerns::HasQuestionnaire.include(Decidim::FormsLocations::Admin::HasQuestionnaireExtensions)
+          Decidim::Surveys::SurveysController.include(Decidim::FormsLocations::SurveysControllerExtensions)
 
           # Commands
           Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
