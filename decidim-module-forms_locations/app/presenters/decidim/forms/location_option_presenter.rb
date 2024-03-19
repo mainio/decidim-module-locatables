@@ -7,7 +7,7 @@ module Decidim
     #
     class LocationOptionPresenter < SimpleDelegator
       def as_json(*_args)
-        { id: id, geojson: geojson }
+        { id: id, location: location, geojson: geojson }
       end
     end
   end

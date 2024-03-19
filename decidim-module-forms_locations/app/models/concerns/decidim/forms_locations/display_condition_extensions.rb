@@ -6,7 +6,7 @@ module Decidim
       extend ActiveSupport::Concern
 
       included do
-        belongs_to :location_option, class_name: "LocationOption", foreign_key: "decidim_answer_option_id", optional: true
+        belongs_to :location_option, class_name: "LocationOption", foreign_key: "decidim_location_option_id", optional: true
       end
     end
   end

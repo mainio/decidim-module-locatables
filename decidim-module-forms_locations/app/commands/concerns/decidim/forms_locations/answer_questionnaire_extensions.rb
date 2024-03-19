@@ -21,12 +21,15 @@ module Decidim
                 session_token: form.context.session_token,
                 ip_hash: form.context.ip_hash
               )
+              raise answer.inspect
 
               form_answer.selected_choices.each do |choice|
                 answer.choices.build(
                   body: choice.body,
                   custom_body: choice.custom_body,
+                  geojson: choice.geojson,
                   decidim_answer_option_id: choice.answer_option_id,
+                  decidim_location_option_id: choice.location_option_id,
                   decidim_question_matrix_row_id: choice.matrix_row_id,
                   position: choice.position
                 )

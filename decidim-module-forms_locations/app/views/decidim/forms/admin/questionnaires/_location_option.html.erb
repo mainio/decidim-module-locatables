@@ -15,6 +15,15 @@
   <div class="card-section">
     <div class="row column">
       <%=
+        form.text_field(
+          :location,
+          tabs_id: tabs_id_for_question_location_option(question, location_option),
+          label: t(".location_label"),
+          disabled: !editable
+        )
+      %>
+
+      <%=
         form.text_area(
           :geojson,
           tabs_id: tabs_id_for_question_location_option(question, location_option),
