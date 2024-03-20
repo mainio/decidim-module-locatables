@@ -20,10 +20,10 @@ en:
           location_option:
             location_option: Location option
             remove: Remove
-            location_geojson: Location GeoJSON
-            location_geojson_help: Insert GeoJSON to add option.
+            statement: Statement
+            geojson: Geojson
+            geojson_help: Insert GeoJSON to add option.
             define: Define
-            location_label: Location
   activemodel:
     attributes:
       questionnaire_question:

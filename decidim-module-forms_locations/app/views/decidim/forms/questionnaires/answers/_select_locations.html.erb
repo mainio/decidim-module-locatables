@@ -11,11 +11,13 @@
 
     <div class="collection-input">
       <%= label_tag do %>
-        <%= check_box_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][geojson]",
-          location_option.geojson,
+        <%= check_box_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][body]",
+          location_option.body,
           choice.present?, disabled: disabled,
           style: "display: none;" %>
 
+        <%= hidden_field_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][title]",
+          location_option.title %>
         <%= hidden_field_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][location_option_id]",
           location_option.id, disabled: true %>
       <% end %>

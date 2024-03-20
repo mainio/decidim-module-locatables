@@ -6,11 +6,11 @@ module Decidim
       # This class holds a Form to update answer options
       class LocationOptionForm < Decidim::Form
         attribute :deleted, Boolean, default: false
-        attribute :location, String
-        attribute :geojson, JSON
+        attribute :title, String
+        attribute :body, JSON
 
-        validates :location, presence: true, unless: :deleted
-        validates :geojson, presence: true, unless: :deleted
+        validates :title, presence: true, unless: :deleted
+        validates :body, presence: true, unless: :deleted
 
         def to_param
           return id if id.present?

@@ -14,10 +14,6 @@ module Decidim
 
         delegate :mandatory_body?, :mandatory_choices?, :mandatory_location?, :matrix?, to: :question
 
-        def selected_choices
-          choices.select { |choice| choice.body || choice.geojson }
-        end
-
         private
 
         def mandatory_location?

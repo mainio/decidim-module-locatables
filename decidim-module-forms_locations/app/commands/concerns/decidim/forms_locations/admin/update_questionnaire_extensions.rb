@@ -33,8 +33,8 @@ module Decidim
 
               form_question.location_options.each do |form_location_option|
                 location_option_attributes = {
-                  location: form_location_option.location,
-                  geojson: form_location_option.geojson
+                  title: form_location_option.title,
+                  body: form_location_option.body
                 }
 
                 update_nested_model(form_location_option, location_option_attributes, question.location_options)

@@ -15,18 +15,18 @@ module Decidim
           end
         end
 
-        attribute :geojson, JSON
+        attribute :title, String
         attribute :location_option_id, Integer
 
         validates :location_option_id, presence: true, if: :location_option?
         validates :answer_option_id, presence: true, if: :answer_option?
 
         def location_option?
-          geojson.present?
+          title.present?
         end
 
         def answer_option?
-          body.present?
+          title.nil?
         end
       end
     end

@@ -16,22 +16,22 @@
     <div class="row column">
       <%=
         form.text_field(
-          :location,
+          :title,
           tabs_id: tabs_id_for_question_location_option(question, location_option),
-          label: t(".location_label"),
+          label: t(".statement"),
           disabled: !editable
         )
       %>
 
       <%=
         form.text_area(
-          :geojson,
+          :body,
           tabs_id: tabs_id_for_question_location_option(question, location_option),
-          label: t(".location_geojson"),
+          label: t(".geojson"),
           disabled: !editable
         )
       %>
-      <p class="help-text"><%= t(".location_geojson_help") %></p>
+      <p class="help-text"><%= t(".geojson_help") %></p>
       <% if editable %>
         <%= form.button t("decidim.forms.admin.questionnaires.location_option.define"), class: "button small button--title location-option-define" %>
       <% end %>

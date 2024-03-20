@@ -6,12 +6,15 @@ module Decidim
       extend ActiveSupport::Concern
 
       included do
-        attribute :geojson, :jsonb
-        attribute :decidim_location_option_id, :integer
-
         belongs_to :location_option,
                    class_name: "LocationOption",
-                   foreign_key: "decidim_location_option_id"
+                   foreign_key: "decidim_location_option_id",
+                   optional: true
+
+        belongs_to :answer_option,
+                   class_name: "AnswerOption",
+                   foreign_key: "decidim_answer_option_id",
+                   optional: true
       end
     end
   end
