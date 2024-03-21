@@ -16,13 +16,12 @@ en:
             map_config_help: Amount of pins allowed
             multiple: Multiple
             single: Single
-            add_location_option: Add location option
           location_option:
-            location_option: Location option
+            answer_option: Answer option
             remove: Remove
             statement: Statement
             geojson: Geojson
-            geojson_help: Insert GeoJSON to add option.
+            geojson_help: Insert GeoJSON to add option or press "Define" to define GeoJSON.
             define: Define
   activemodel:
     attributes:

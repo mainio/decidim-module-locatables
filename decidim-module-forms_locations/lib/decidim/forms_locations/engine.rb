@@ -106,8 +106,6 @@ module Decidim
           Decidim::Forms::Answer.include(Decidim::Locations::Locatable)
           Decidim::Forms::Questionnaire.include(Decidim::Locations::Locatable)
           Decidim::Forms::Question.include(Decidim::FormsLocations::QuestionExtensions)
-          Decidim::Forms::AnswerChoice.include(Decidim::FormsLocations::AnswerChoiceExtensions)
-          Decidim::Forms::DisplayCondition.include(Decidim::FormsLocations::DisplayConditionExtensions)
 
           # Form
 
@@ -117,17 +115,7 @@ module Decidim
           Decidim::Forms::AnswerForm.include(Decidim::Locations::LocatableForm)
           Decidim::Forms::AnswerForm.include(Decidim::FormsLocations::AnswerFormExtensions)
           Decidim::Forms::Admin::QuestionForm.include(Decidim::FormsLocations::Admin::QuestionFormExtensions)
-          Decidim::Forms::AnswerChoiceForm.include(Decidim::FormsLocations::AnswerChoiceFormExtensions)
-          Decidim::Forms::Admin::DisplayConditionForm.include(Decidim::FormsLocations::Admin::DisplayConditionFormExtensions)
-
-          # Helpers
-
-          Decidim::Forms::Admin::ApplicationHelper.include(Decidim::FormsLocations::Admin::ApplicationHelperExtensions)
-
-          # Controllers
-
-          Decidim::Forms::Admin::Concerns::HasQuestionnaire.include(Decidim::FormsLocations::Admin::HasQuestionnaireExtensions)
-          Decidim::Surveys::SurveysController.include(Decidim::FormsLocations::SurveysControllerExtensions)
+          Decidim::Forms::Admin::AnswerOptionForm.include(Decidim::FormsLocations::Admin::AnswerOptionFormExtensions)
 
           # Commands
           Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)

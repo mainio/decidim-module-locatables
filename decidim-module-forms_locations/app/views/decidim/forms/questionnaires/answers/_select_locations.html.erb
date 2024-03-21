@@ -1,25 +1,25 @@
 <%= cell(
   "decidim/locations/map",
-  answer.question.location_options,
+  answer.question.answer_options,
   select_location: true
 )
 %>
 
-<div class="location-options-collection">
-  <% answer.question.location_options.each_with_index do |location_option, idx| %>
-    <% choice = answer.selected_choices.find { |choice| choice.answer_option_id == location_option.id } %>
+<div class="answer-options-collection">
+  <% answer.question.answer_options.each_with_index do |answer_option, idx| %>
+    <% choice = answer.selected_choices.find { |choice| choice.answer_option_id == answer_option.id } %>
 
     <div class="collection-input">
       <%= label_tag do %>
         <%= check_box_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][body]",
-          location_option.body,
+          answer_option.body,
           choice.present?, disabled: disabled,
           style: "display: none;" %>
 
-        <%= hidden_field_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][title]",
-          location_option.title %>
-        <%= hidden_field_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][location_option_id]",
-          location_option.id, disabled: true %>
+        <%= hidden_field_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][geojson]",
+          answer_option.geojson, disabled: true %>
+        <%= hidden_field_tag "questionnaire[responses][#{answer_idx}][choices][#{idx}][answer_option_id]",
+          answer_option.id, disabled: true %>
       <% end %>
     </div>
   <% end %>

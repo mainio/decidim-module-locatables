@@ -130,6 +130,20 @@
       <% end %>
     </div>
 
+    <div class="questionnaire-question-location-options" data-template="<%= location_option_template_selector %>">
+      <div class="questionnaire-question-location-options-list">
+        <% question.answer_options.each do |answer_option| %>
+          <%= fields_for "questionnaire[questions][#{question.to_param}][answer_options][]", answer_option do |answer_option_form| %>
+            <%= render "decidim/forms/admin/questionnaires/location_option", form: answer_option_form, question: question, editable: editable %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <% if editable %>
+        <button class="button add-location-option"><%= t(".add_answer_option") %></button>
+      <% end %>
+    </div>
+
     <div class="row column questionnaire-question-location-count">
       <%=
         form.select(
@@ -163,20 +177,6 @@
           label: t("activemodel.attributes.questionnaire_question.default_longitude")
         )
       %>
-    </div>
-
-    <div class="questionnaire-question-location-options" data-template="<%= location_option_template_selector %>">
-      <div class="questionnaire-question-location-options-list">
-        <% question.location_options.each do |location_option| %>
-          <%= fields_for "questionnaire[questions][#{question.to_param}][location_options][]", location_option do |location_option_form| %>
-            <%= render "decidim/forms/admin/questionnaires/location_option", form: location_option_form, question: question, editable: editable %>
-          <% end %>
-        <% end %>
-      </div>
-
-      <% if editable %>
-        <button class="button add-location-option"><%= t(".add_location_option") %></button>
-      <% end %>
     </div>
 
     <div class="row column questionnaire-question-max-choices">

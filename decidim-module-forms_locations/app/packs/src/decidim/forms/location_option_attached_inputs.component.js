@@ -14,8 +14,9 @@ class LocationOptionAttachedInputsComponent {
     this.controllerSelector.each((idx, el) => {
       const $field = $(el);
       const enabled = $field.is(":checked");
-
-      $field.parents("div.collection-input").find(this.dependentInputSelector).prop("disabled", !enabled);
+      $field.parents("div.collection-input").find(this.dependentInputSelector).each((idx, element) => {
+        $(element).prop("disabled", !enabled)
+      });
     });
   }
 

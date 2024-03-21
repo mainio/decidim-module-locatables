@@ -15,7 +15,7 @@ $(() => {
     });
   });
 
-  $(".location-options-collection").each((idx, el) => {
+  $(".answer-options-collection").each((idx, el) => {
     createLocationOptionAttachedInputs({
       wrapperField: $(el),
       controllerFieldSelector: "input[type=checkbox]",

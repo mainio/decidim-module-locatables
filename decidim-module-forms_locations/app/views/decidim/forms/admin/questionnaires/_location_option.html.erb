@@ -1,9 +1,9 @@
-<% location_option = form.object %>
+<% answer_option = form.object %>
 
 <div class="card questionnaire-question-location-option">
   <div class="card-divider">
     <h2 class="card-title">
-    <span><%= t(".location_option") %></span>
+    <span><%= t(".answer_option") %></span>
     <% if editable %>
       <button class="button small alert hollow remove-location-option button--title">
         <%= t(".remove") %>
@@ -15,30 +15,34 @@
   <div class="card-section">
     <div class="row column">
       <%=
-        form.text_field(
-          :title,
-          tabs_id: tabs_id_for_question_location_option(question, location_option),
+        form.translated(
+          :text_field,
+          :body,
+          tabs_id: tabs_id_for_question_answer_option(question, answer_option),
           label: t(".statement"),
           disabled: !editable
         )
       %>
+    </div>
 
+
+    <div class="row column">
       <%=
         form.text_area(
-          :body,
-          tabs_id: tabs_id_for_question_location_option(question, location_option),
+          :geojson,
+          tabs_id: tabs_id_for_question_answer_option(question, answer_option),
           label: t(".geojson"),
           disabled: !editable
         )
       %>
       <p class="help-text"><%= t(".geojson_help") %></p>
       <% if editable %>
-        <%= form.button t("decidim.forms.admin.questionnaires.location_option.define"), class: "button small button--title location-option-define" %>
+        <%= form.button t(".define"), type: "button", class: "button small button--title location-option-define" %>
       <% end %>
     </div>
   </div>
 
-  <% if location_option.persisted? %>
+  <% if answer_option.persisted? %>
     <%= form.hidden_field :id, disabled: !editable %>
   <% end %>
 

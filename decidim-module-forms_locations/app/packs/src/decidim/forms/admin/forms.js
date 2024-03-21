@@ -205,7 +205,7 @@ export default function createEditableForm() {
   };
 
   const dynamicFieldsForMatrixRows = {};
-  const modalEl = document.querySelector("#location-option-selector");
+  const modalEl = document.querySelector("#answer-option-map-selector");
 
   const createDynamicFieldsForLocationOptions = (fieldId) => {
     const autoButtons = createAutoButtonsByMinItemsForLocationOptions(fieldId);
@@ -213,7 +213,7 @@ export default function createEditableForm() {
     const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
     return createDynamicFields({
-      placeholderId: "questionnaire-question-location-option-id",
+      placeholderId: "questionnaire-question-answer-option-id",
       wrapperSelector: `#${fieldId} ${locationOptionsWrapperSelector}`,
       containerSelector: ".questionnaire-question-location-options-list",
       fieldSelector: locationOptionFieldSelector,
@@ -224,14 +224,15 @@ export default function createEditableForm() {
         const element = jquery[0];
         const button = element.querySelector(".location-option-define");
         button.addEventListener("click", (event) => {
-          event.preventDefault();
           const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
           mapCtrl.clearShapes();
           if (textAreaVal) {
             mapCtrl.addLocation(textAreaVal);
           }
-
-          document.querySelector(".location-option-define").classList.remove("location-selector");
+          const selectedButton = document.querySelector(".location-option-define.location-selector");
+          if (selectedButton){
+            selectedButton.classList.remove("location-selector");
+          }
           $(modalEl).foundation("open");
           button.classList.add("location-selector");
           mapCtrl.map.invalidateSize()
@@ -246,6 +247,29 @@ export default function createEditableForm() {
       }
     });
   };
+
+  const addSelectLocationButtonListeners = () => {
+    const element = document.querySelectorAll(".location-option-define");
+
+    element.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
+
+        const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
+        mapCtrl.clearShapes();
+        if (textAreaVal) {
+          mapCtrl.addLocation(textAreaVal);
+        }
+        const selectedButton = document.querySelector(".location-option-define.location-selector");
+        if (selectedButton){
+          selectedButton.classList.remove("location-selector");
+        }
+        $(modalEl).foundation("open");
+        button.classList.add("location-selector");
+        mapCtrl.map.invalidateSize()
+      })
+    })
+  }
 
   const dynamicFieldsForLocationOptions = {};
 
@@ -550,6 +574,7 @@ export default function createEditableForm() {
   });
 
   createSortableList();
+  addSelectLocationButtonListeners();
 
   $(fieldSelector).each((idx, el) => {
     const $target = $(el);

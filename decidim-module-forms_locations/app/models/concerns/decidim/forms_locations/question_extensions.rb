@@ -22,23 +22,9 @@ module Decidim
           _validate_callbacks.delete(callback) if callback.raw_filter.respond_to?(:attributes) && callback.raw_filter.attributes == [:question_type]
         end
 
-        has_many :location_options,
-                 class_name: "LocationOption",
-                 foreign_key: "decidim_question_id",
-                 dependent: :destroy,
-                 inverse_of: :question
-
         validates :question_type, inclusion: { in: const_get(:TYPES) }
 
         scope :with_choices, -> { where.not(question_type: %w(short_answer long_answer map_locations)) }
-
-        def number_of_options
-          if question_type == "select_locations"
-            location_options.size
-          else
-            answer_options.size
-          end
-        end
 
         def mandatory_body?
           mandatory? && !multiple_choice? && !has_attachments? && !map_locations? && !select_locations?
