@@ -21,9 +21,12 @@ class LocationOptionAttachedInputsComponent {
   }
 
   _bindEvent() {
-    this.controllerSelector.on("change", () => {
-      this._run();
-    });
+    this.controllerSelector.each((idx, el) => {
+      const $field = $(el)
+      $field.on("change", () => {
+        this._run();
+      });
+    })
   }
 }
 

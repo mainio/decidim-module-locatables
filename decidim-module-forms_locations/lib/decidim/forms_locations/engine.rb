@@ -116,6 +116,7 @@ module Decidim
           Decidim::Forms::AnswerForm.include(Decidim::FormsLocations::AnswerFormExtensions)
           Decidim::Forms::Admin::QuestionForm.include(Decidim::FormsLocations::Admin::QuestionFormExtensions)
           Decidim::Forms::Admin::AnswerOptionForm.include(Decidim::FormsLocations::Admin::AnswerOptionFormExtensions)
+          Decidim::Forms::AnswerChoiceForm.include(Decidim::FormsLocations::AnswerChoiceFormExtensions)
 
           # Commands
           Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
