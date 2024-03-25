@@ -117,8 +117,6 @@ export default function createEditableForm() {
   };
 
   const createAutoSelectOptionsFromUrl = ($field) => {
-    console.log($field.find(displayConditionQuestionSelector))
-    console.log($field.find(displayConditionAnswerOptionSelector))
     return new AutoSelectOptionsFromUrl({
       source: $field.find(displayConditionQuestionSelector),
       select: $field.find(displayConditionAnswerOptionSelector),
