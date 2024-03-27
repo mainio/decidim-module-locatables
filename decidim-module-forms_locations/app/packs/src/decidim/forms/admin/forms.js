@@ -223,7 +223,6 @@ export default function createEditableForm() {
         const button = element.querySelector(".location-option-define");
         button.addEventListener("click", (event) => {
           const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-          mapCtrl.clearShapes();
           if (textAreaVal) {
             mapCtrl.addLocation(textAreaVal);
           }

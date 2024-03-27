@@ -31,7 +31,7 @@ module Decidim
         end
 
         def mandatory_location?
-          mandatory? && (map_locations? || select_locations?)
+          mandatory? && map_locations?
         end
 
         def map_locations?
