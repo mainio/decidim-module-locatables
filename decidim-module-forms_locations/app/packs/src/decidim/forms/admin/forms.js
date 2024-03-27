@@ -223,9 +223,6 @@ export default function createEditableForm() {
         const button = element.querySelector(".location-option-define");
         button.addEventListener("click", (event) => {
           const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-          if (textAreaVal) {
-            mapCtrl.addLocation(textAreaVal);
-          }
           const selectedButton = document.querySelector(".location-option-define.location-selector");
           if (selectedButton){
             selectedButton.classList.remove("location-selector");
@@ -233,6 +230,9 @@ export default function createEditableForm() {
           $(modalEl).foundation("open");
           button.classList.add("location-selector");
           mapCtrl.map.invalidateSize()
+          if (textAreaVal) {
+            mapCtrl.addLocation(textAreaVal);
+          }
         })
 
         autoButtons.run();
@@ -246,17 +246,13 @@ export default function createEditableForm() {
   };
 
   const addSelectLocationButtonListeners = () => {
-    const element = document.querySelectorAll(".location-option-define");
+    const buttons = document.querySelectorAll(".location-option-define");
 
-    element.forEach((button) => {
+    buttons.forEach((button) => {
       button.addEventListener("click", (event) => {
         const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
         const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-        mapCtrl.clearShapes();
-        if (textAreaVal) {
-          mapCtrl.addLocation(textAreaVal);
-        }
         const selectedButton = document.querySelector(".location-option-define.location-selector");
         if (selectedButton){
           selectedButton.classList.remove("location-selector");
@@ -264,6 +260,9 @@ export default function createEditableForm() {
         $(modalEl).foundation("open");
         button.classList.add("location-selector");
         mapCtrl.map.invalidateSize()
+        if (textAreaVal) {
+          mapCtrl.addLocation(textAreaVal);
+        }
       })
     })
   }
