@@ -9,7 +9,7 @@ module Decidim
         described_class.from_params(params)
       end
 
-      let!(:question) { create :questionnaire_question, question_type: "map_locations", mandatory: true, questionnaire: questionnaire }
+      let!(:question) { create :questionnaire_question, question_type: question_type, mandatory: mandatory, questionnaire: questionnaire }
 
       let!(:questionable) { create(:dummy_resource) }
       let!(:questionnaire) { create(:questionnaire, questionnaire_for: questionable) }
@@ -35,21 +35,105 @@ module Decidim
         }
       end
 
-      context "when everything is OK" do
-        it { is_expected.to be_valid }
+      context "when map_locations question type" do
+        let(:question_type) { "map_locations" }
+
+        context "when mandatory question" do
+          let(:mandatory) { true }
+
+          context "when everything is OK" do
+            it { is_expected.to be_valid }
+          end
+
+          context "when parameters are missing" do
+            let!(:params) do
+              {
+                "latitude" => "",
+                "longitude" => "",
+                "address" => "",
+                "question_id" => question.id
+              }
+            end
+
+            it { is_expected.not_to be_valid }
+          end
+        end
+
+        context "when question not mandatory" do
+          let(:mandatory) { false }
+
+          context "when everything is OK" do
+            it { is_expected.to be_valid }
+          end
+
+          context "when parameters are missing" do
+            let!(:params) do
+              {
+                "latitude" => "",
+                "longitude" => "",
+                "address" => "",
+                "question_id" => question.id
+              }
+            end
+
+            it { is_expected.to be_valid }
+          end
+        end
       end
 
-      context "when parameters are missing in mandatory question" do
+      context "when select_locations question type" do
+        let(:question_type) { "select_locations" }
         let!(:params) do
           {
-            "latitude" => "",
-            "longitude" => "",
-            "address" => "",
+            "choices" => {
+              "0" => {
+                "body" => "123",
+                "geojson" =>
+                  '{"type":"Feature",
+                  "geometry":{"type":"Point",
+                  "coordinates":[27.12270204225946, 15.644531250000002]}}',
+                "answer_option_id" => "123"
+              }
+            },
             "question_id" => question.id
           }
         end
 
-        it { is_expected.not_to be_valid }
+        context "when mandatory question" do
+          let(:mandatory) { true }
+
+          context "when everything is OK" do
+            it { is_expected.to be_valid }
+          end
+
+          context "when parameters are missing" do
+            let!(:params) do
+              {
+                "question_id" => question.id
+              }
+            end
+
+            it { is_expected.not_to be_valid }
+          end
+        end
+
+        context "when question not mandatory" do
+          let(:mandatory) { false }
+
+          context "when everything is OK" do
+            it { is_expected.to be_valid }
+          end
+
+          context "when parameters are missing" do
+            let!(:params) do
+              {
+                "question_id" => question.id
+              }
+            end
+
+            it { is_expected.to be_valid }
+          end
+        end
       end
     end
   end

@@ -7,8 +7,8 @@ fi:
           locations: Paikkatiedot
     forms:
       question_types:
-        map_locations:
-          Kartta
+        map_locations: Kartta
+        select_locations: Valitse paikat
       admin:
         questionnaires:
           question:
@@ -16,6 +16,14 @@ fi:
             map_config_help: Karttamerkkien sallittu määrä
             multiple: Useita
             single: Yksittäinen
+          location_option:
+            answer_option: Vastausvaihtoehto
+            remove: Poista
+            statement: Selite
+            geojson: Geojson
+            geojson_help: Lisää GeoJSON lisätäksesi vaihtoehto tai paina
+                          "Määritä" painiketta määrittääksesi GeoJSON.
+            define: Määritä
   activemodel:
     attributes:
       questionnaire_question:

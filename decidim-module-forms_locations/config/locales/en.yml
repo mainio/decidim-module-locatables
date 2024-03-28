@@ -21,7 +21,8 @@ en:
             remove: Remove
             statement: Statement
             geojson: Geojson
-            geojson_help: Insert GeoJSON to add option or press "Define" to define GeoJSON.
+            geojson_help: Insert GeoJSON to add option or press "Define" to
+                          define GeoJSON.
             define: Define
   activemodel:
     attributes:
