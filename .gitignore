@@ -16,6 +16,11 @@ spec/decidim_dummy_app
 # default development application
 development_app
 
+# env vars
+.env
+.rbenv-vars
+
+# node
 node_modules
 
 # Asset compilation
