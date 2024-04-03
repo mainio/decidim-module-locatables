@@ -194,12 +194,73 @@ describe "Answer survey", type: :system do
       Rails.application.reload_routes!
     end
 
-    context "when mandatory question" do
-      it "must have a pick" do
+    context "when markers are close" do
+      it "generates a marker cluster" do
         expect(page).to have_css("[data-decidim-map]")
         expect(page).to have_css(".leaflet-marker-icon")
+        expect(page).to have_css(".marker-cluster")
+      end
 
-        expect(page).to have_content("ASDDASASDASDASD")
+      context "when marker clicked" do
+        it "shows markers separately" do
+          expect(page).to have_css("[data-decidim-map]")
+          expect(page).to have_css(".leaflet-marker-icon")
+          find(".marker-cluster").click
+          expect(page).to have_css(".leaflet-marker-pane > img", count: 2)
+        end
+      end
+    end
+
+    context "when marker is clicked" do
+      it "changes color to green if selected" do
+        expect(page).to have_css("[data-decidim-map]")
+        find(".marker-cluster").click
+        find(".leaflet-tooltip", match: :first).click
+        expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
+      end
+
+      it "changes the color back to blue if unselected" do
+        expect(page).to have_css("[data-decidim-map]")
+        find(".marker-cluster").click
+        find(".leaflet-tooltip", match: :first).click
+        expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
+        find(".leaflet-tooltip", match: :first).click
+        expect(page).not_to have_css('img[style*="hue-rotate(275deg)"]')
+      end
+    end
+
+    context "when mandatory question" do
+      it "submits form when option picked" do
+        expect(page).to have_css("[data-decidim-map]")
+        find(".marker-cluster").click
+        find(".leaflet-tooltip", match: :first).click
+        expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
+        find("#questionnaire_tos_agreement").click
+        click_button "Submit"
+        click_link "OK"
+        expect(page).to have_content("Already answered")
+        expect(page).to have_content("You have already answered this form.")
+      end
+
+      it "gives an error if no option picked" do
+        expect(page).to have_css("[data-decidim-map]")
+        find("#questionnaire_tos_agreement").click
+        click_button "Submit"
+        click_link "OK"
+        expect(page).to have_content("There was a problem answering the survey.")
+      end
+    end
+
+    context "when question is not mandatory" do
+      let(:mandatory) { false }
+
+      it "submits the form with no picks" do
+        expect(page).to have_css("[data-decidim-map]")
+        find("#questionnaire_tos_agreement").click
+        click_button "Submit"
+        click_link "OK"
+        expect(page).to have_content("Already answered")
+        expect(page).to have_content("You have already answered this form.")
       end
     end
   end

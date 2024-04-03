@@ -1,11 +1,15 @@
 {
+  "name": "decidim-locatables",
+  "version": "0.1.0",
+  "description": "Locations functionalities for Decidim components",
+  "main": "index.js",
+  "author": "Joonas Aapro <joonas.aapro@mainiotech.fi>",
+  "license": "AGPL-3.0",
   "scripts": {
     "lint": "eslint -c .eslintrc.json --no-error-on-unmatched-pattern --ext .js,.jsx decidim-*/app/packs",
     "stylelint": "stylelint decidim-*/app/packs/**/*.scss"
   },
-  "dependencies": {
-    "@decidim/webpacker": "^0.27.2"
-  },
+
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
     "@babel/preset-env": "^7.21.5",
@@ -21,5 +25,8 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-standard": "^3.1.0"
+  },
+  "dependencies": {
+    "@decidim/webpacker": "^0.27.2"
   }
 }
