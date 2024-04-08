@@ -8,8 +8,6 @@ module Decidim
 
         included do
           attribute :geojson, JSON
-
-          validates :geojson, presence: true, unless: :deleted
         end
       end
     end
