@@ -121,16 +121,19 @@
   <% end %>
 </div>
 
-<div id="answer-option-map-selector" data-reveal class="reveal answer_option_map">
-  <%= cell(
-    "decidim/locations/locations",
-    questionnaire,
-    form: form,
-    coords: [0, 0],
-    map_configuration: "single",
-    select_location: true
-  ) %>
-</div>
+<% begin %>
+  <div id="answer-option-map-selector" data-reveal class="reveal answer_option_map">
+    <%= cell(
+      "decidim/locations/locations",
+      questionnaire,
+      form: form,
+      coords: [0, 0],
+      map_configuration: "single",
+      select_location: true
+    ) %>
+  </div>
+<% rescue StandardError => error %>
+<% end %>
 
 <%= javascript_pack_tag "decidim_forms_admin", defer: false %>
 

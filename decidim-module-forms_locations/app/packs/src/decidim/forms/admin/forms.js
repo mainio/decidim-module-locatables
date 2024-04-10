@@ -159,6 +159,9 @@ export default function createEditableForm() {
       const toggleAttr = `${collapsibleId}-question-card button--collapse-question-${collapsibleId} button--expand-question-${collapsibleId}`;
       $target.find(".question--collapse").data("toggle", toggleAttr);
     }
+    if ($("[data-decidim-map]").length === 0) {
+      $target.find("option[value='select_locations']").prop("disabled", true);
+    }
   };
 
   const createDynamicFieldsForAnswerOptions = (fieldId) => {
@@ -219,21 +222,23 @@ export default function createEditableForm() {
       fieldTemplateSelector: ".decidim-location-option-template",
       removeFieldButtonSelector: locationOptionRemoveFieldButtonSelector,
       onAddField: (jquery) => {
-        const element = jquery[0];
-        const button = element.querySelector(".location-option-define");
-        button.addEventListener("click", (event) => {
-          const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-          const selectedButton = document.querySelector(".location-option-define.location-selector");
-          if (selectedButton){
-            selectedButton.classList.remove("location-selector");
-          }
-          $(modalEl).foundation("open");
-          button.classList.add("location-selector");
-          mapCtrl.map.invalidateSize()
-          if (textAreaVal) {
-            mapCtrl.addLocation(textAreaVal);
-          }
-        })
+        if ($("[data-decidim-map]").length > 0) {
+          const element = jquery[0];
+          const button = element.querySelector(".location-option-define");
+          button.addEventListener("click", (event) => {
+            const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
+            const selectedButton = document.querySelector(".location-option-define.location-selector");
+            if (selectedButton) {
+              selectedButton.classList.remove("location-selector");
+            }
+            $(modalEl).foundation("open");
+            button.classList.add("location-selector");
+            mapCtrl.map.invalidateSize()
+            if (textAreaVal) {
+              mapCtrl.addLocation(textAreaVal);
+            }
+          })
+        }
 
         autoButtons.run();
         autoSelectOptions.run();
@@ -254,7 +259,7 @@ export default function createEditableForm() {
 
         const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
         const selectedButton = document.querySelector(".location-option-define.location-selector");
-        if (selectedButton){
+        if (selectedButton) {
           selectedButton.classList.remove("location-selector");
         }
         $(modalEl).foundation("open");
@@ -570,7 +575,10 @@ export default function createEditableForm() {
   });
 
   createSortableList();
-  addSelectLocationButtonListeners();
+
+  if ($("[data-decidim-map]").length > 0) {
+    addSelectLocationButtonListeners();
+  }
 
   $(fieldSelector).each((idx, el) => {
     const $target = $(el);

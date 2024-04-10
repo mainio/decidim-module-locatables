@@ -14,7 +14,11 @@
 </div>
 
 <div class="field" data-meeting-type="in_person">
-  <%= cell("decidim/locations/locations", meeting, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude], checkbox: false) %>
+  <% begin %>
+    <%= cell("decidim/locations/locations", meeting, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude], checkbox: false) %>
+  <% rescue StandardError => error %>
+    <%= form.geocoding_field :address, input_html: { required: false } %>
+  <% end %>
   <p class="help-text"><%= t(".address_help") %></p>
 </div>
 
