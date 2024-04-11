@@ -20,6 +20,12 @@ describe "Admin creates survey", type: :system do
   let!(:question) { create :questionnaire_question, questionnaire: questionnaire }
 
   before do
+    utility = Decidim::Map.autocomplete(organization: organization)
+    allow(Decidim::Map).to receive(:autocomplete).with(organization: organization).and_return(utility)
+    allow(utility).to receive(:builder_options).and_return(
+      api_key: "key1234"
+    )
+
     switch_to_host(organization.host)
     login_as user, scope: :user
     visit questionnaire_edit_path
