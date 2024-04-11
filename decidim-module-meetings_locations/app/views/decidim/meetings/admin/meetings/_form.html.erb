@@ -19,7 +19,11 @@
     </div>
 
     <div class="field" data-meeting-type="in_person">
-      <%= cell("decidim/locations/locations", @meeting, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude], checkbox: false) %>
+      <% if Decidim::Map.autocomplete(organization: current_organization).present? %>
+        <%= cell("decidim/locations/locations", @meeting, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude], checkbox: false) %>
+      <% else %>
+        <%= form.geocoding_field :address %>
+      <% end %>
       <p class="help-text"><%= t(".address_help") %></p>
     </div>
 
