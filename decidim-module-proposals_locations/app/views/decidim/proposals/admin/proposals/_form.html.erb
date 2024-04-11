@@ -53,7 +53,19 @@
 
     <% if @form.geocoding_enabled? %>
       <div class="row column">
-        <%= cell("decidim/locations/locations", @proposal, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude], checkbox: true) %>
+        <% if Decidim::Map.autocomplete(organization: current_organization).present? %>
+          <%= cell("decidim/locations/locations",
+              @proposal,
+              form: form,
+              coords: [
+                current_component.settings.default_latitude,
+                current_component.settings.default_longitude
+              ],
+              checkbox: true
+            ) %>
+        <% else %>
+          <%= form.geocoding_field :address %>
+        <% end %>
       </div>
     <% end %>
 

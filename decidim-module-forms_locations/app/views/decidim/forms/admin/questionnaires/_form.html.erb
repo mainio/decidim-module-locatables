@@ -121,14 +121,6 @@
   <% end %>
 </div>
 
-<%= javascript_pack_tag "decidim_forms_admin", defer: false %>
-
-<% if questionnaire.questions_editable? %>
-  <script>
-    window.Decidim.createEditableForm()
-  </script>
-<% end %>
-
 <% if Decidim::Map.autocomplete(organization: current_organization).present? %>
   <div id="answer-option-map-selector" data-reveal class="reveal answer_option_map">
     <%= cell(
@@ -140,4 +132,12 @@
       select_location: true
     ) %>
   </div>
+<% end %>
+
+<%= javascript_pack_tag "decidim_forms_admin", defer: false %>
+
+<% if questionnaire.questions_editable? %>
+  <script>
+    window.Decidim.createEditableForm()
+  </script>
 <% end %>
