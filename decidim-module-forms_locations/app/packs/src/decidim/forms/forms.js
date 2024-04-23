@@ -81,10 +81,16 @@ $(() => {
         const classList = Array.from(mutation.target.classList);
         if (!classList.includes("hide")) {
           mutation.target.querySelectorAll("[data-decidim-map]").forEach((map) => {
+            const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
+
             const mapCtrl = $(map).data("map-controller");
+            console.log(mapCtrl)
             mapCtrl.map.invalidateSize();
-            mapCtrl.start();
-            mapCtrl.refreshMarkers();
+
+            if (mapData.type === "locations") {
+              mapCtrl.start();
+              mapCtrl.refreshMarkers();
+            }
           })
         }
       }
