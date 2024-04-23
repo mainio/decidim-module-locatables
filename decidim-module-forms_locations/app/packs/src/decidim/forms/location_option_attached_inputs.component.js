@@ -11,17 +11,17 @@ class LocationOptionAttachedInputsComponent {
   }
 
   _run() {
-    this.controllerSelector.each((idx, el) => {
+    this.controllerSelector.each((_idx, el) => {
       const $field = $(el);
       const enabled = $field.is(":checked");
-      $field.parents("div.collection-input").find(this.dependentInputSelector).each((idx, element) => {
+      $field.parents("div.collection-input").find(this.dependentInputSelector).each((_index, element) => {
         $(element).prop("disabled", !enabled)
       });
     });
   }
 
   _bindEvent() {
-    this.controllerSelector.each((idx, el) => {
+    this.controllerSelector.each((_idx, el) => {
       const $field = $(el)
       $field.on("change", () => {
         this._run();

@@ -74,4 +74,30 @@ $(() => {
       event.returnValue = true;
     });
   }
+
+  const callback = (mutationsList) => {
+    mutationsList.forEach((mutation) => {
+      if (mutation.type === "attributes") {
+        const classList = Array.from(mutation.target.classList);
+        if (!classList.includes("hide")) {
+          mutation.target.querySelectorAll("[data-decidim-map]").forEach((map) => {
+            const mapCtrl = $(map).data("map-controller");
+            mapCtrl.map.invalidateSize();
+            mapCtrl.start();
+            mapCtrl.refreshMarkers();
+          })
+        }
+      }
+    })
+  };
+
+  const observer = new MutationObserver(callback)
+
+  const config = { attributes: true }
+
+  if ($(".questionnaire-step")) {
+    $(".questionnaire-step").each((idx, el) => {
+      observer.observe(el, config);
+    })
+  }
 })
