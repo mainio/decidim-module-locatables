@@ -84,7 +84,6 @@ $(() => {
             const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
 
             const mapCtrl = $(map).data("map-controller");
-            console.log(mapCtrl)
             mapCtrl.map.invalidateSize();
 
             if (mapData.type === "locations") {
