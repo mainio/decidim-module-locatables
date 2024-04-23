@@ -122,7 +122,7 @@
 </div>
 
 <% if Decidim::Map.autocomplete(organization: current_organization).present? %>
-  <div id="answer-option-map-selector" data-reveal class="reveal answer_option_map">
+  <div id="answer-option-map-selector" data-reveal class="reveal answer-option-map">
     <%= cell(
       "decidim/locations/locations",
       questionnaire,

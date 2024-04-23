@@ -26,6 +26,7 @@ module Decidim
                 answer_option_attributes = {
                   body: form_answer_option.body,
                   geojson: form_answer_option.geojson,
+                  tooltip_direction: form_answer_option.tooltip_direction,
                   free_text: form_answer_option.free_text
                 }
 

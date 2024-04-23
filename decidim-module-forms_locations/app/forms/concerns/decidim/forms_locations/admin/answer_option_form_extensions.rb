@@ -8,6 +8,7 @@ module Decidim
 
         included do
           attribute :geojson, JSON
+          attribute :tooltip_direction, String, default: "left"
         end
       end
     end

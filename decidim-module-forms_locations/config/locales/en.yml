@@ -24,6 +24,12 @@ en:
             geojson_help: Insert GeoJSON to add option or press "Define" to
                           define GeoJSON.
             define: Define
+            tooltip_direction: Tooltip direction
+            top: Top
+            bottom: Bottom
+            left: Left
+            right: Right
+            center: Center
   activemodel:
     attributes:
       questionnaire_question:

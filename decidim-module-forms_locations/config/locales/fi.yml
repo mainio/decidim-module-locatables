@@ -24,6 +24,12 @@ fi:
             geojson_help: Lisää GeoJSON lisätäksesi vaihtoehto tai paina
                           "Määritä" painiketta määrittääksesi GeoJSON.
             define: Määritä
+            tooltip_direction: Vihjetekstin suunta
+            top: Ylös
+            bottom: Alas
+            left: Vasen
+            right: Oikea
+            center: Keskelle
   activemodel:
     attributes:
       questionnaire_question:

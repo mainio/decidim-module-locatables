@@ -40,6 +40,27 @@
         <%= form.button t(".define"), type: "button", class: "button small button--title location-option-define" %>
       <% end %>
     </div>
+
+    <div class="row column">
+      <%=
+        form.select(
+          :tooltip_direction,
+          options_for_select(
+            [
+              [t(".left"), "left"],
+              [t(".right"), "right"],
+              [t(".top"), "top"],
+              [t(".bottom"), "bottom"],
+              [t(".center"), "center"]
+            ],
+            answer_option.tooltip_direction
+          ),
+          {},
+          label: t(".tooltip_direction"),
+          disabled: !editable
+        )
+      %>
+    </div>
   </div>
 
   <% if answer_option.persisted? %>
