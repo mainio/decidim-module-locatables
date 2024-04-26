@@ -21,6 +21,7 @@ module Decidim
           manifest.settings(:global) do |settings|
             settings.attribute :default_latitude, type: :float, default: 0
             settings.attribute :default_longitude, type: :float, default: 0
+            settings.attribute :default_zoom, type: :integer, default: 11
           end
         end
       end

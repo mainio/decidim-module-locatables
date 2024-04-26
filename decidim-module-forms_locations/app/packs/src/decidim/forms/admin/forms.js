@@ -26,8 +26,7 @@ export default function createEditableForm() {
   const addMatrixRowButtonSelector = ".add-matrix-row";
   const maxChoicesWrapperSelector = ".questionnaire-question-max-choices";
   const locationCountWrapperSelector = ".questionnaire-question-location-count";
-  const defaultLatitudeWrapperSelector = ".questionnaire-question-default-latitude";
-  const defaultLongitudeWrapperSelector = ".questionnaire-question-default-longitude";
+  const defaultMapPositionWrapperSelector = ".questionnaire-question-default-map-position";
   const locationOptionFieldSelector = ".questionnaire-question-location-option";
   const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
   const locationOptionRemoveFieldButtonSelector = ".remove-location-option";
@@ -81,6 +80,7 @@ export default function createEditableForm() {
   const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple"];
   const MATRIX_VALUES = ["matrix_single", "matrix_multiple"];
   const SELECT_LOCATION = ["select_locations"]
+  const MAP_LOCATION = ["map_locations"]
 
   const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
     return new AutoSelectOptionsByTotalItemsComponent({
@@ -226,11 +226,23 @@ export default function createEditableForm() {
           const element = jquery[0];
           const button = element.querySelector(".location-option-define");
           button.addEventListener("click", (event) => {
+            mapCtrl.map.pm.addControls({
+              drawPolygon: true,
+              drawPolyline: true
+            })
+
             const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
             const selectedButton = document.querySelector(".location-option-define.location-selector");
+            const activeButton = document.querySelector(".default-position-active");
+
             if (selectedButton) {
               selectedButton.classList.remove("location-selector");
             }
+
+            if (activeButton) {
+              activeButton.classList.remove("default-position-active");
+            }
+
             $(modalEl).foundation("open");
             button.classList.add("location-selector");
             mapCtrl.map.invalidateSize()
@@ -257,11 +269,24 @@ export default function createEditableForm() {
       button.addEventListener("click", (event) => {
         const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
+        mapCtrl.map.pm.addControls({
+          drawPolygon: true,
+          drawPolyline: true
+        })
+
         const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
         const selectedButton = document.querySelector(".location-option-define.location-selector");
+
+        const activeButton = document.querySelector(".default-position-active");
+
         if (selectedButton) {
           selectedButton.classList.remove("location-selector");
         }
+
+        if (activeButton) {
+          activeButton.classList.remove("default-position-active");
+        }
+
         $(modalEl).foundation("open");
         button.classList.add("location-selector");
         mapCtrl.map.invalidateSize()
@@ -284,6 +309,10 @@ export default function createEditableForm() {
 
   const isSelectLocation = (value) => {
     return SELECT_LOCATION.includes(value);
+  }
+
+  const isMapLocation = (value) => {
+    return MAP_LOCATION.includes(value);
   }
 
   const getSelectedQuestionType = (select) => {
@@ -418,17 +447,7 @@ export default function createEditableForm() {
     createFieldDependentInputs({
       controllerField: $fieldQuestionTypeSelect,
       wrapperSelector: fieldSelector,
-      dependentFieldsSelector: defaultLatitudeWrapperSelector,
-      dependentInputSelector: "input",
-      enablingCondition: ($field) => {
-        return $field.val() === "map_locations";
-      }
-    });
-
-    createFieldDependentInputs({
-      controllerField: $fieldQuestionTypeSelect,
-      wrapperSelector: fieldSelector,
-      dependentFieldsSelector: defaultLongitudeWrapperSelector,
+      dependentFieldsSelector: defaultMapPositionWrapperSelector,
       dependentInputSelector: "input",
       enablingCondition: ($field) => {
         return $field.val() === "map_locations";
@@ -491,6 +510,39 @@ export default function createEditableForm() {
           dynamicFieldsLocationOptions._addField();
           dynamicFieldsLocationOptions._addField();
         }
+      }
+
+      if (isMapLocation($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
+        const button = $target.find(".default-position-button");
+        button.on("click", () => {
+          const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
+          const activeButton = document.querySelector(".default-position-active")
+
+          if (activeButton) {
+            activeButton.classList.remove("default-position-active");
+          }
+
+          button[0].classList.add("default-position-active");
+          mapCtrl.map.pm.addControls({
+            drawPolygon: false,
+            drawPolyline: false
+          })
+
+          const latitude = button.closest(".questionnaire-question-default-map-position").find(".default-position-latitude label input").val();
+          const longitude = button.closest(".questionnaire-question-default-map-position").find(".default-position-longitude label input").val();
+          const zoom = button.closest(".questionnaire-question-default-map-position").find(".default-position-zoom label input").val();
+          const locationSelector = document.querySelector(".location-selector");
+
+          if (locationSelector) {
+            locationSelector.classList.remove("location-selector")
+          }
+
+          $(modalEl).foundation("open");
+          mapCtrl.map.invalidateSize()
+          if (latitude && longitude) {
+            mapCtrl.addViewPort(latitude, longitude, zoom);
+          }
+        })
       }
 
       if (isMatrix($fieldQuestionTypeSelect.val())) {

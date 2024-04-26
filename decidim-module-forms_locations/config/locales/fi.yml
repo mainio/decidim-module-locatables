@@ -16,6 +16,7 @@ fi:
             map_config_help: Karttamerkkien sallittu määrä
             multiple: Useita
             single: Yksittäinen
+            select_from_map: Valitse kartalta
           location_option:
             answer_option: Vastausvaihtoehto
             remove: Poista
@@ -33,5 +34,6 @@ fi:
   activemodel:
     attributes:
       questionnaire_question:
-        default_latitude: Oletus leveysaste
-        default_longitude: Oletus pituusaste
+        default_latitude: Leveysaste
+        default_longitude: Pituusaste
+        default_zoom: Zoom

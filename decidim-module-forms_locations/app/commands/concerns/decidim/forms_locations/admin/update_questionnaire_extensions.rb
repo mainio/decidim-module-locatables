@@ -18,7 +18,8 @@ module Decidim
               max_characters: form_question.max_characters,
               map_configuration: form_question.map_configuration,
               default_latitude: form_question.default_latitude,
-              default_longitude: form_question.default_longitude
+              default_longitude: form_question.default_longitude,
+              default_zoom: form_question.default_zoom
             }
 
             update_nested_model(form_question, question_attributes, @questionnaire.questions) do |question|

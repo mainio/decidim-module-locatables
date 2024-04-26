@@ -10,6 +10,7 @@ module Decidim
           attribute :map_configuration, String, default: "multiple"
           attribute :default_latitude, Float, default: 0
           attribute :default_longitude, Float, default: 0
+          attribute :default_zoom, Integer, default: 11
 
           validate :answer_option_location, if: :select_locations?
 

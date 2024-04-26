@@ -16,3 +16,21 @@
   position: relative;
   bottom: 45px;
 }
+
+.questionnaire-question-default-map-position {
+  display: flex;
+}
+
+.default-map-position-child {
+  margin-right: 15px;
+}
+
+.select-position {
+  position: relative;
+  width: 13%;
+}
+
+.default-position-button {
+  position: relative;
+  top: 32px;
+}

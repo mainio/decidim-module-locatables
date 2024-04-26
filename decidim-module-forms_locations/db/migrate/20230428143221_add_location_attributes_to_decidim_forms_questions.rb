@@ -5,5 +5,6 @@ class AddLocationAttributesToDecidimFormsQuestions < ActiveRecord::Migration[5.2
     add_column :decidim_forms_questions, :map_configuration, :jsonb
     add_column :decidim_forms_questions, :default_latitude, :float, default: 0
     add_column :decidim_forms_questions, :default_longitude, :float, default: 0
+    add_column :decidim_forms_questions, :default_zoom, :integer, default: 11
   end
 end

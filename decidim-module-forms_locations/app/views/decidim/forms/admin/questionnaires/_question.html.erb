@@ -157,26 +157,44 @@
       <p class="help-text-map"><%= t("decidim.forms.admin.questionnaires.question.map_config_help") %></p>
     </div>
 
-    <div class="row column questionnaire-question-default-latitude">
-      <%=
-        form.number_field(
-          :default_latitude,
-          disabled: !editable,
-          min: 0,
-          label: t("activemodel.attributes.questionnaire_question.default_latitude")
-        )
-      %>
-    </div>
+    <div class="row column questionnaire-question-default-map-position">
+      <div class="default-map-position-child default-position-latitude">
+        <%=
+          form.number_field(
+            :default_latitude,
+            disabled: !editable,
+            min: 0,
+            label: t("activemodel.attributes.questionnaire_question.default_latitude")
+          )
+        %>
+      </div>
 
-    <div class="row column questionnaire-question-default-longitude">
-      <%=
-        form.number_field(
-          :default_longitude,
-          disabled: !editable,
-          min: 0,
-          label: t("activemodel.attributes.questionnaire_question.default_longitude")
-        )
-      %>
+      <div class="default-map-position-child default-position-longitude">
+        <%=
+          form.number_field(
+            :default_longitude,
+            disabled: !editable,
+            min: 0,
+            label: t("activemodel.attributes.questionnaire_question.default_longitude")
+          )
+        %>
+      </div>
+
+      <div class="default-map-position-child default-position-zoom">
+        <%=
+          form.number_field(
+            :default_zoom,
+            disabled: !editable,
+            min: 0,
+            max: 16,
+            label: t("activemodel.attributes.questionnaire_question.default_zoom")
+          )
+        %>
+      </div>
+
+      <div>
+        <%= form.button t(".select_from_map"), type: "button", class: "button small button--title default-position-button" %>
+      </div>
     </div>
 
     <div class="row column questionnaire-question-max-choices">
