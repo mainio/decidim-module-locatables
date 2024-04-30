@@ -1,6 +1,6 @@
 <%= render partial: "decidim/shared/component_announcement" %>
 <% if component_settings.geocoding_enabled? %>
-  <%= cell("decidim/locations/map", @all_geocoded_proposals) %>
+  <%= cell("decidim/locations/map", @proposals) %>
 <% end %>
 <%= render partial: "voting_rules" %>
 <div class="row columns">

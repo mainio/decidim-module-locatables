@@ -9,9 +9,3 @@
 
   $preview.html("<%= j(render partial: "preview", locals: { questionnaire: @questionnaire }) %>");
 }());
-
-document.querySelectorAll("[data-decidim-map]").forEach((map) => {
-  const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
-  const mapCtrl = $(map).data("map-controller");
-  mapCtrl.map.invalidateSize();
-})
