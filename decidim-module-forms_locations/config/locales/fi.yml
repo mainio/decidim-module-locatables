@@ -17,6 +17,7 @@ fi:
             multiple: Useita
             single: Yksittäinen
             select_from_map: Valitse kartalta
+            default_map_position: Kartan oletusasetukset
           location_option:
             answer_option: Vastausvaihtoehto
             remove: Poista

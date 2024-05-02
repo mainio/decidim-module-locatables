@@ -33,8 +33,8 @@ describe "Admin creates survey", type: :system do
           check "Mandatory"
           select("Map", from: "Type").select_option
           expect(page).to have_field("Map config", with: "multiple")
-          fill_in "Default latitude", with: "11"
-          fill_in "Default longitude", with: "13"
+          fill_in "Latitude", with: "11"
+          fill_in "Longitude", with: "13"
           click_button "Save"
 
           expect(page).to have_content("Survey successfully saved.")
@@ -48,8 +48,8 @@ describe "Admin creates survey", type: :system do
           select("Map", from: "Type").select_option
           select("Single", from: "Map config")
           expect(page).to have_field("Map config", with: "single")
-          fill_in "Default latitude", with: "11"
-          fill_in "Default longitude", with: "13"
+          fill_in "Latitude", with: "11"
+          fill_in "Longitude", with: "13"
           click_button "Save"
 
           expect(page).to have_content("Survey successfully saved.")
@@ -71,6 +71,7 @@ describe "Admin creates survey", type: :system do
             within(option) do
               fill_in find("input", match: :first)["name"], with: "Lauttasaari"
               fill_in "Geojson", match: :first, with: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
+              select("Left", from: "Tooltip direction")
             end
           end
 

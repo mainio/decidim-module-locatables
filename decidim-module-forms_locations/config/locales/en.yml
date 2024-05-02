@@ -17,6 +17,7 @@ en:
             multiple: Multiple
             single: Single
             select_from_map: Select from map
+            default_map_position: Default map position
           location_option:
             answer_option: Answer option
             remove: Remove

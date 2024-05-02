@@ -157,6 +157,10 @@
       <p class="help-text-map"><%= t("decidim.forms.admin.questionnaires.question.map_config_help") %></p>
     </div>
 
+    <div class="row column questionnaire-question-default-map-position-label">
+      <%= label(:default_map_position, :default_map_position)%>
+    </div>
+
     <div class="row column questionnaire-question-default-map-position">
       <div class="default-map-position-child default-position-latitude">
         <%=
@@ -193,7 +197,7 @@
       </div>
 
       <div>
-        <%= form.button t(".select_from_map"), type: "button", class: "button small button--title default-position-button" %>
+        <%= form.button t(".select_from_map"), type: "button", class: "button small hollow button--title default-position-button" %>
       </div>
     </div>
 

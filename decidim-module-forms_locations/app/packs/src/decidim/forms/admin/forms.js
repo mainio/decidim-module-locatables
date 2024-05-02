@@ -26,6 +26,7 @@ export default function createEditableForm() {
   const addMatrixRowButtonSelector = ".add-matrix-row";
   const maxChoicesWrapperSelector = ".questionnaire-question-max-choices";
   const locationCountWrapperSelector = ".questionnaire-question-location-count";
+  const defaultMapPositionLabelWrapperSelector = ".questionnaire-question-default-map-position-label"
   const defaultMapPositionWrapperSelector = ".questionnaire-question-default-map-position";
   const locationOptionFieldSelector = ".questionnaire-question-location-option";
   const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
@@ -441,6 +442,16 @@ export default function createEditableForm() {
       dependentInputSelector: "select",
       enablingCondition: ($field) => {
         return $field.val() === "map_locations"
+      }
+    });
+
+    createFieldDependentInputs({
+      controllerField: $fieldQuestionTypeSelect,
+      wrapperSelector: fieldSelector,
+      dependentFieldsSelector: defaultMapPositionLabelWrapperSelector,
+      dependentInputSelector: "label",
+      enablingCondition: ($field) => {
+        return $field.val() === "map_locations";
       }
     });
 
