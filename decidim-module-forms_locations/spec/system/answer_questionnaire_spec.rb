@@ -167,10 +167,12 @@ describe "Answer survey", type: :system do
 
     before do
       Decidim::Forms::Question.first.answer_options.first.update(
-        geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12345,5.12345]}}'
+        geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12645,5.12345]}}',
+        tooltip_direction: "top"
       )
       Decidim::Forms::Question.first.answer_options.second.update(
-        geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12346,5.12346]}}'
+        geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12346,5.12346]}}',
+        tooltip_direction: "bottom"
       )
       component.update!(
         step_settings: {
@@ -195,9 +197,19 @@ describe "Answer survey", type: :system do
     end
 
     context "when markers are close" do
+      before do
+        Decidim::Forms::Question.first.answer_options.first.update(
+          geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.123456789,5.12346]}}'
+        )
+        Decidim::Forms::Question.first.answer_options.second.update(
+          geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.123456788,5.12346]}}'
+        )
+      end
+
       it "generates a marker cluster" do
         expect(page).to have_css("[data-decidim-map]")
         expect(page).to have_css(".leaflet-marker-icon")
+        find(".leaflet-control-zoom-out").click
         expect(page).to have_css(".marker-cluster")
       end
 
@@ -205,6 +217,8 @@ describe "Answer survey", type: :system do
         it "shows markers separately" do
           expect(page).to have_css("[data-decidim-map]")
           expect(page).to have_css(".leaflet-marker-icon")
+          find(".leaflet-control-zoom-out").click
+          expect(page).to have_css(".marker-cluster")
           find(".marker-cluster").click
           expect(page).to have_css(".leaflet-marker-pane > img", count: 2)
         end
@@ -214,17 +228,15 @@ describe "Answer survey", type: :system do
     context "when marker is clicked" do
       it "changes color to green if selected" do
         expect(page).to have_css("[data-decidim-map]")
-        find(".marker-cluster").click
-        find(".leaflet-tooltip", match: :first).click
+        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
       end
 
       it "changes the color back to blue if unselected" do
         expect(page).to have_css("[data-decidim-map]")
-        find(".marker-cluster").click
-        find(".leaflet-tooltip", match: :first).click
+        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
-        find(".leaflet-tooltip", match: :first).click
+        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
         expect(page).not_to have_css('img[style*="hue-rotate(275deg)"]')
       end
     end
@@ -232,8 +244,7 @@ describe "Answer survey", type: :system do
     context "when mandatory question" do
       it "submits form when option picked" do
         expect(page).to have_css("[data-decidim-map]")
-        find(".marker-cluster").click
-        find(".leaflet-tooltip", match: :first).click
+        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
         find("#questionnaire_tos_agreement").click
         click_button "Submit"
