@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
-  s.add_dependency "decidim-core", Decidim::MeetingsLocations.version
+  s.add_dependency "decidim-core", Decidim::MeetingsLocations.decidim_version
+  s.add_dependency "decidim-locations", Decidim::MeetingsLocations.decidim_version
+  s.add_dependency "decidim-meetings", Decidim::MeetingsLocations.decidim_version
   s.metadata["rubygems_mfa_required"] = "true"
 end
