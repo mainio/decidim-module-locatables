@@ -7,7 +7,6 @@ describe "admin map render", type: :system do
   let(:organization) { user.organization }
   let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, :with_creation_enabled, :published, organization: organization) }
 
-
   context "when map provided" do
     before do
       switch_to_host(organization.host)

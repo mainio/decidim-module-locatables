@@ -14,7 +14,7 @@ DECIDIM_VERSION = Decidim::Locatables.decidim_version
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-locatables", path: "."
-gem "decidim-locations", github: "mainio/decidim-module-locations", branch: "develop"
+gem "decidim-locations", github: "mainio/decidim-module-locations", branch: "release/0.27-stable"
 
 gem "bootsnap", "~> 1.4"
 gem "puma", ">= 5.0.0"

@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.add_dependency "decidim-forms_locations", Decidim::Locatables.version
   s.add_dependency "decidim-meetings_locations", Decidim::Locatables.version
   s.add_dependency "decidim-proposals_locations", Decidim::Locatables.version
+  s.metadata["rubygems_mfa_required"] = "true"
 end

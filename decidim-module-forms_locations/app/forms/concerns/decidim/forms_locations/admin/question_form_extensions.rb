@@ -24,9 +24,7 @@ module Decidim
 
           def answer_option_location
             answer_options.each do |answer_option|
-              if answer_option.geojson.blank?
-                errors.add(:answer_options, :missing)
-              end
+              errors.add(:answer_options, :missing) if answer_option.geojson.blank?
             end
           end
         end
