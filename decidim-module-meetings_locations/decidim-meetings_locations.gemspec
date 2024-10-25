@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["joonas.aapro@mainiotech.fi"]
   s.license = "AGPL-3.0"
   s.homepage = "https://github.com/decidim/decidim-module-meetings_locations"
-  s.required_ruby_version = ">= 3.0"
+  s.required_ruby_version = ">= 3.1"
 
   s.name = "decidim-meetings_locations"
   s.summary = "A decidim meetings_locations module"

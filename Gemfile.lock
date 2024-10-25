@@ -19,12 +19,12 @@ PATH
       decidim-core (~> 0.28.0)
       decidim-forms (~> 0.28.0)
       decidim-locations (~> 0.28.0)
-    decidim-locatables (0.28)
-      decidim-accountability_locations (= 0.28)
-      decidim-core (= 0.28)
-      decidim-forms_locations (= 0.28)
-      decidim-meetings_locations (= 0.28)
-      decidim-proposals_locations (= 0.28)
+    decidim-locatables (0.28.0)
+      decidim-accountability_locations (= 0.28.0)
+      decidim-core (= 0.28.0)
+      decidim-forms_locations (= 0.28.0)
+      decidim-meetings_locations (= 0.28.0)
+      decidim-proposals_locations (= 0.28.0)
     decidim-meetings_locations (0.28.0)
       decidim-core (~> 0.28.0)
       decidim-locations (~> 0.28.0)
@@ -819,8 +819,8 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (~> 1.4)
-  decidim (~> 0.28)
-  decidim-dev (~> 0.28)
+  decidim (~> 0.28.0)
+  decidim-dev (~> 0.28.0)
   decidim-locatables!
   decidim-locations!
   faker (~> 3.2)

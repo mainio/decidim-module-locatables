@@ -9,6 +9,8 @@ def install_modules(path)
     system("bundle exec rake decidim_proposals_locations:install:migrations")
     system("bundle exec rake decidim_meetings_locations:install:migrations")
     system("bundle exec rake db:migrate")
+
+    system("npm i '@tarekraafat/autocomplete.js@<=10.2.7'")
   end
 end
 
