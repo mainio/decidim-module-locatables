@@ -12,10 +12,7 @@ describe "map render", type: :system do
       switch_to_host(organization.host)
       login_as user, scope: :user
 
-      visit decidim.root_path
-      click_link "Processes"
-      find(".card__link").click
-      click_link "Proposals"
+      visit main_component_path(proposal_component)
       click_link "New proposal"
       fill_in "Title", with: "Example proposal for test"
       fill_in "Body", with: "Example body text for test"
@@ -49,10 +46,7 @@ describe "map render", type: :system do
       switch_to_host(organization.host)
       login_as user, scope: :user
 
-      visit decidim.root_path
-      click_link "Processes"
-      find(".card__link").click
-      click_link "Proposals"
+      visit main_component_path(proposal_component)
       click_link "New proposal"
       fill_in "Title", with: "Example proposal for test"
       fill_in "Body", with: "Example body text for test"

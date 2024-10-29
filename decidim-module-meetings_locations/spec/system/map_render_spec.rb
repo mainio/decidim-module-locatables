@@ -11,10 +11,7 @@ describe "map render", type: :system do
     switch_to_host(organization.host)
     login_as user, scope: :user
 
-    visit decidim.root_path
-    click_link "Processes"
-    find(".card__link").click
-    click_link "Meetings"
+    visit main_component_path(meeting_component)
     click_link "New meeting"
   end
 
@@ -35,10 +32,7 @@ describe "map render", type: :system do
       switch_to_host(organization.host)
       login_as user, scope: :user
 
-      visit decidim.root_path
-      click_link "Processes"
-      find(".card__link").click
-      click_link "Meetings"
+      visit main_component_path(meeting_component)
       click_link "New meeting"
     end
 
