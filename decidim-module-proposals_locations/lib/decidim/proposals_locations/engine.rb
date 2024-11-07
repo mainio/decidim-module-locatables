@@ -111,6 +111,9 @@ module Decidim
           Decidim::Proposals::ProposalForm.include(Decidim::Locations::LocatableForm)
           Decidim::Proposals::Admin::ProposalForm.include(Decidim::Locations::LocatableForm)
 
+          # Helpers
+          Decidim::Proposals::MapHelper.include(Decidim::ProposalsLocations::MapHelperExtensions)
+
           # Type
           Decidim::Proposals::ProposalType.implements(Decidim::Locations::LocationsInterface)
 
