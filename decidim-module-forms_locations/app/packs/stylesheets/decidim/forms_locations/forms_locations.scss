@@ -34,3 +34,9 @@
   position: relative;
   top: 32px;
 }
+
+.survey-map__container{
+  [data-decidim-map] {
+    @apply aspect-[2/1];
+  }
+}

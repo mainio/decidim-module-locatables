@@ -8,4 +8,5 @@ Decidim::Webpacker.register_entrypoints(
   decidim_forms_admin: "#{base_path}/app/packs/entrypoints/decidim_forms_admin.js"
 )
 
+Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/forms_locations/forms_locations")
 Decidim::Webpacker.register_stylesheet_import("stylesheets/decidim/forms_locations/forms_locations", group: :admin)

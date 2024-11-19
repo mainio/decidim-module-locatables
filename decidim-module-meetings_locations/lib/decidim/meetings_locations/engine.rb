@@ -125,7 +125,7 @@ module Decidim
 
           # Form
           Decidim::Meetings::MeetingForm.include(Decidim::Locations::LocatableForm)
-          Decidim::Meetings::MeetingForm.include(Decidim::MeetingsLocations::BaseMeetingFormExtensions)
+          Decidim::Meetings::BaseMeetingForm.include(Decidim::MeetingsLocations::BaseMeetingFormExtensions)
           Decidim::Meetings::Admin::MeetingForm.include(Decidim::Locations::LocatableForm)
 
           # Type

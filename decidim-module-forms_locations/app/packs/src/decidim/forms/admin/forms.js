@@ -10,7 +10,6 @@ import AutoLabelByPositionComponent from "src/decidim/admin/auto_label_by_positi
 import createSortList from "src/decidim/admin/sort_list.component"
 import createDynamicFields from "src/decidim/admin/dynamic_fields.component"
 import createFieldDependentInputs from "src/decidim/admin/field_dependent_inputs.component"
-import createQuillEditor from "src/decidim/editor"
 import initLanguageChangeSelect from "src/decidim/admin/choose_language"
 
 export default function createEditableForm() {
@@ -118,6 +117,7 @@ export default function createEditableForm() {
   };
 
   const createAutoSelectOptionsFromUrl = ($field) => {
+    console.log($field)
     return new AutoSelectOptionsFromUrl({
       source: $field.find(displayConditionQuestionSelector),
       select: $field.find(displayConditionAnswerOptionSelector),
@@ -157,11 +157,10 @@ export default function createEditableForm() {
     const $collapsible = $target.find(".collapsible");
     if ($collapsible.length > 0) {
       const collapsibleId = $collapsible.attr("id").replace("-question-card", "");
-      const toggleAttr = `${collapsibleId}-question-card button--collapse-question-${collapsibleId} button--expand-question-${collapsibleId}`;
-      $target.find(".question--collapse").data("toggle", toggleAttr);
-    }
-    if ($("[data-decidim-map]").length === 0) {
-      $target.find("option[value='select_locations'], option[value='map_locations']").prop("disabled", true);
+      const toggleAttr = `${collapsibleId}-question-card`;
+
+      // we need to update the DOM, not just the dataset
+      $target.find(".question--collapse").attr("data-controls", toggleAttr);
     }
   };
 
@@ -207,7 +206,6 @@ export default function createEditableForm() {
   };
 
   const dynamicFieldsForMatrixRows = {};
-  const modalEl = document.querySelector("#answer-option-map-selector");
 
   const createDynamicFieldsForLocationOptions = (fieldId) => {
     const autoButtons = createAutoButtonsByMinItemsForLocationOptions(fieldId);
@@ -244,7 +242,7 @@ export default function createEditableForm() {
               activeButton.classList.remove("default-position-active");
             }
 
-            $(modalEl).foundation("open");
+            window.Decidim.currentDialogs["answer-option-map-selector"].open();
             button.classList.add("location-selector");
             mapCtrl.map.invalidateSize()
             if (textAreaVal) {
@@ -288,7 +286,7 @@ export default function createEditableForm() {
           activeButton.classList.remove("default-position-active");
         }
 
-        $(modalEl).foundation("open");
+        window.Decidim.currentDialogs["answer-option-map-selector"].open();
         button.classList.add("location-selector");
         mapCtrl.map.invalidateSize()
         if (textAreaVal) {
@@ -548,7 +546,7 @@ export default function createEditableForm() {
             locationSelector.classList.remove("location-selector")
           }
 
-          $(modalEl).foundation("open");
+          window.Decidim.currentDialogs["answer-option-map-selector"].open();
           mapCtrl.map.invalidateSize()
           if (latitude && longitude) {
             mapCtrl.addViewPort(latitude, longitude, zoom);
@@ -598,14 +596,13 @@ export default function createEditableForm() {
       setupInitialQuestionAttributes($field);
       createSortableList();
 
-      $field.find(".editor-container").each((idx, el) => {
-        createQuillEditor(el);
-      });
-
       autoLabelByPosition.run();
       autoButtonsByPosition.run();
 
       initLanguageChangeSelect($field.find("select.language-change").toArray());
+
+      // instead of initialize specific stuff, we send an event, with the DOM fragment we wanna update/refresh/bind
+      document.dispatchEvent(new CustomEvent("ajax:loaded", { detail: $field[0] }));
     },
     onRemoveField: ($field) => {
       autoLabelByPosition.run();
