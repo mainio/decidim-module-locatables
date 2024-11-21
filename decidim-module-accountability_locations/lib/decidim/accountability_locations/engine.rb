@@ -101,9 +101,6 @@ module Decidim
           Decidim::Accountability::Admin::CreateResult.include(Decidim::AccountabilityLocations::Admin::CreateResultExtensions)
           Decidim::Accountability::Admin::UpdateResult.include(Decidim::AccountabilityLocations::Admin::UpdateResultExtensions)
 
-          # Controller
-          Decidim::Accountability::ResultsController.include(Decidim::AccountabilityLocations::ResultsControllerExtensions)
-
           # Form
           Decidim::Accountability::Admin::ResultForm.include(Decidim::AccountabilityLocations::Admin::ResultFormExtensions)
           Decidim::Accountability::Admin::ResultForm.include(Decidim::Locations::LocatableForm)

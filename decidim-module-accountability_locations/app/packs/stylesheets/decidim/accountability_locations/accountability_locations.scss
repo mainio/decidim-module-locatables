@@ -1,1 +1,7 @@
 /* css for decidim_accountability_locations */
+
+.result-map__container{
+  [data-decidim-map]{
+    @apply aspect-[2/1];
+  }
+}
