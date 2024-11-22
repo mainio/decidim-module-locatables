@@ -5,9 +5,9 @@ require "spec_helper"
 describe "admin map render", type: :system do
   let(:user) { create(:user, :admin, :confirmed) }
   let(:organization) { user.organization }
-  let!(:participatory_space) { create :participatory_process, :published, organization: organization }
+  let!(:participatory_space) { create :participatory_process, :published, organization: }
 
-  let!(:accountability_component) { create(:accountability_component, organization: organization, participatory_space: participatory_space) }
+  let!(:accountability_component) { create(:accountability_component, organization:, participatory_space:) }
 
   before do
     switch_to_host(organization.host)
@@ -17,15 +17,13 @@ describe "admin map render", type: :system do
   context "when creating a result" do
     it "allows adding locations with a map" do
       visit decidim.root_path
-      find("nav.topbar__dropmenu").click
-      click_link "Admin dashboard"
-      click_link "Processes"
+      click_on "Admin dashboard"
+      click_on "Processes"
       find(".action-icon--new").click
-      click_link "Accountability"
-      click_link "New Result"
-      expect(page).to have_selector("#result_has_location")
-      find("#result_has_location").click
-      scroll_to("[data-decidim-map]")
+      click_on "Accountability"
+      click_on "New result"
+      scroll_to(".type-locations-wrapper")
+      find("#result_decidim_category_id").click
       expect(page).to have_selector("[data-decidim-map]")
     end
   end

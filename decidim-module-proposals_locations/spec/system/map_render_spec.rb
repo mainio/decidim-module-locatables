@@ -3,36 +3,49 @@
 require "spec_helper"
 
 describe "map render", type: :system do
-  let(:user) { create(:user, :confirmed) }
-  let(:organization) { user.organization }
-  let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, :with_creation_enabled, :published, organization: organization) }
+  include_context "with a component"
+
+  let(:manifest_name) { "proposals" }
+  let!(:user) { create(:user, :confirmed, organization:) }
+  let!(:component) do
+    create(:proposal_component,
+           :with_creation_enabled,
+           :published,
+           manifest:,
+           participatory_space: participatory_process,
+           settings: { new_proposal_body_template: body_template, geocoding_enabled: true })
+  end
+  let(:body_template) do
+    { "en" => "<p>This test has <strong>many</strong> characters </p>" }
+  end
 
   context "when map provided" do
     before do
       switch_to_host(organization.host)
       login_as user, scope: :user
+      visit_component
+      element = find("a", text: "New proposal")
+      execute_script("arguments[0].click();", element)
 
-      visit decidim.root_path
-      click_link "Processes"
-      find(".card__link").click
-      click_link "Proposals"
-      click_link "New proposal"
-      fill_in "Title", with: "Example proposal for test"
-      fill_in "Body", with: "Example body text for test"
-      click_button "Continue"
+      fill_in :proposal_title, with: "Test proposal for map"
+      click_on "Continue"
     end
 
     context "when creating a proposal, geocoding enabled" do
       it "allows adding locations with a map" do
-        expect(page).to have_selector("#proposal_has_location")
-        expect(page).to have_selector("[data-decidim-map]", visible: :hidden)
-        find("#proposal_has_location").click
         expect(page).to have_selector("[data-decidim-map]")
       end
     end
 
     context "when creating a proposal, geocoding disabled" do
-      let!(:proposal_component) { create(:proposal_component, :with_creation_enabled, :published, organization: organization) }
+      let!(:component) do
+        create(:proposal_component,
+               :with_creation_enabled,
+               :published,
+               manifest:,
+               participatory_space: participatory_process,
+               settings: { new_proposal_body_template: body_template })
+      end
 
       it "doesn't allow adding locations" do
         expect(page).not_to have_selector("#proposal_has_location")
@@ -48,15 +61,8 @@ describe "map render", type: :system do
 
       switch_to_host(organization.host)
       login_as user, scope: :user
+      visit_component
 
-      visit decidim.root_path
-      click_link "Processes"
-      find(".card__link").click
-      click_link "Proposals"
-      click_link "New proposal"
-      fill_in "Title", with: "Example proposal for test"
-      fill_in "Body", with: "Example body text for test"
-      click_button "Continue"
     end
 
     context "when creating a proposal, geocoding enabled" do
