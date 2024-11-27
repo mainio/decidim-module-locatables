@@ -10,11 +10,12 @@ module Decidim
         def call
           return broadcast(:invalid) if form.invalid?
 
-          transaction do
+          with_events(with_transaction: true) do
             update_meeting!
-            send_notification if should_notify_followers?
-            schedule_upcoming_meeting_notification if start_time_changed?
           end
+
+          send_notification if should_notify_followers?
+          schedule_upcoming_meeting_notification if start_time_changed?
 
           update_locations(@meeting, @form)
 

@@ -7,9 +7,9 @@ module Decidim
     module Admin
       describe UpdateMeeting do
         let!(:organization) { create(:organization) }
-        let!(:meeting_component) { create(:meeting_component, organization: organization) }
+        let!(:meeting_component) { create(:meeting_component, organization:) }
         let(:meeting) { create(:meeting, component: meeting_component) }
-        let!(:author) { create(:user, organization: organization) }
+        let!(:author) { create(:user, organization:) }
         let!(:form_klass) { MeetingForm }
 
         let(:title) { { en: "A reasonable meeting title" } }
@@ -19,13 +19,14 @@ module Decidim
         let(:longitude) { 0.335462 }
         let(:form_params) do
           {
-            title: title,
-            description: description,
-            locations: locations,
+            title:,
+            description:,
+            locations:,
             start_time: Time.current,
             end_time: 2.weeks.from_now,
-            registration_type: "disabled",
-            type_of_meeting: "in person",
+            location: { en: "Test location" },
+            registration_type: "registration_disabled",
+            type_of_meeting: "in_person",
             current_user: author
           }
         end
@@ -33,9 +34,9 @@ module Decidim
         let(:locations) do
           [
             {
-              address: address,
-              latitude: latitude,
-              longitude: longitude,
+              address:,
+              latitude:,
+              longitude:,
               shape: "Point",
               geojson:
               '{"type":"Feature",
@@ -86,9 +87,9 @@ module Decidim
           let(:locations) do
             [
               {
-                address: address,
-                latitude: latitude,
-                longitude: longitude,
+                address:,
+                latitude:,
+                longitude:,
                 shape: "Point",
                 geojson:
                 '{"type":"Feature",
@@ -147,7 +148,7 @@ module Decidim
             )
           end
 
-          let!(:loc2) do
+          let!(:loc_two) do
             create(
               :location,
               locatable: meeting,
@@ -204,7 +205,7 @@ module Decidim
             )
           end
 
-          let!(:loc2) do
+          let!(:loc_two) do
             create(
               :location,
               locatable: meeting,
@@ -222,7 +223,7 @@ module Decidim
           let(:locations) do
             [
               {
-                address: "Updated",
+                address: "Update",
                 latitude: 2.222222,
                 longitude: 2.222222,
                 shape: "Point",
@@ -270,7 +271,7 @@ module Decidim
               )
             end
 
-            let!(:loc2) do
+            let!(:loc_two) do
               create(
                 :location,
                 locatable: meeting,
@@ -347,7 +348,7 @@ module Decidim
               )
             end
 
-            let!(:loc2) do
+            let!(:loc_two) do
               create(
                 :location,
                 locatable: meeting,
@@ -362,7 +363,7 @@ module Decidim
               )
             end
 
-            let!(:loc3) do
+            let!(:loc_three) do
               create(
                 :location,
                 locatable: meeting,

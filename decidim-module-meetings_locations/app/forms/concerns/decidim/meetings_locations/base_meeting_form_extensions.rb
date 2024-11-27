@@ -7,7 +7,7 @@ module Decidim
 
       included do
         def needs_address?
-          (in_person_meeting? || hybrid_meeting?) && !Decidim::Map.autocomplete(organization: current_organization).present?
+          (in_person_meeting? || hybrid_meeting?) && Decidim::Map.autocomplete(organization: current_organization).blank?
         end
       end
     end

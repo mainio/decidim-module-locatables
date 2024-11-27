@@ -6,8 +6,8 @@ module Decidim
   module Meetings
     describe CreateMeeting do
       let!(:organization) { create(:organization) }
-      let!(:meeting_component) { create(:meeting_component, organization: organization) }
-      let!(:author) { create(:user, :admin, organization: organization) }
+      let!(:meeting_component) { create(:meeting_component, organization:) }
+      let!(:author) { create(:user, :admin, organization:) }
       let!(:form_klass) { MeetingForm }
 
       let(:title) { { en: "A reasonable meeting title" } }
@@ -17,13 +17,14 @@ module Decidim
       let(:longitude) { 0.335462 }
       let(:form_params) do
         {
-          title: title,
-          description: description,
-          locations: locations,
+          title:,
+          description:,
+          locations:,
           start_time: Time.current,
           end_time: 2.weeks.from_now,
-          registration_type: "disabled",
-          type_of_meeting: "in person",
+          location: "Test location",
+          registration_type: "registration_disabled",
+          type_of_meeting: "in_person",
           current_user: author
         }
       end
@@ -31,9 +32,9 @@ module Decidim
       let(:locations) do
         [
           {
-            address: address,
-            latitude: latitude,
-            longitude: longitude,
+            address:,
+            latitude:,
+            longitude:,
             shape: "Point",
             geojson:
             '{"type":"Feature",
@@ -86,9 +87,9 @@ module Decidim
         let(:locations) do
           [
             {
-              address: address,
-              latitude: latitude,
-              longitude: longitude,
+              address:,
+              latitude:,
+              longitude:,
               shape: "Point",
               geojson:
               '{"type":"Feature",

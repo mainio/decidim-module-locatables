@@ -10,13 +10,14 @@ module Decidim
         def call
           return broadcast(:invalid) if form.invalid?
 
-          transaction do
+          with_events(with_transaction: true) do
             create_meeting!
-            schedule_upcoming_meeting_notification
-            send_notification
           end
 
           create_follow_form_resource(form.current_user)
+          schedule_upcoming_meeting_notification
+          send_notification
+
           update_locations(@meeting, @form)
 
           broadcast(:ok, meeting)
