@@ -2,7 +2,7 @@
 
 class TransferProposalsLocations < ActiveRecord::Migration[6.1]
   def up
-    Decidim::Proposals::Proposal.where.not(latitude: nil, longitude: nil).each do |location|
+    Decidim::Proposals::Proposal.where("latitude IS NOT NULL AND longitude IS NOT NULL").each do |location|
       Decidim::Locations::Location.create!(
         address: location["address"],
         latitude: location["latitude"],

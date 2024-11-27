@@ -14,7 +14,7 @@ DECIDIM_VERSION = Decidim::Locatables.decidim_version
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-locatables", path: "."
-gem "decidim-locations", github: "mainio/decidim-module-locations", branch: "develop"
+gem "decidim-locations", github: "mainio/decidim-module-locations"
 
 gem "bootsnap", "~> 1.4"
 gem "puma", ">= 5.0.0"
@@ -22,8 +22,9 @@ gem "uglifier", "~> 4.1"
 
 group :development, :test do
   gem "decidim-dev", DECIDIM_VERSION
+  gem "rubocop", "~>1.28"
   gem "rubocop-faker"
-  gem "rubocop-performance", "~> 1.15.0" # ?
+  gem "rubocop-rspec", "2.20"
 end
 
 group :development do

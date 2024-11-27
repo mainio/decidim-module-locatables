@@ -12,7 +12,7 @@
 
       <% if Decidim::Map.autocomplete(organization: current_organization).present? %>
         <div class="row column">
-          <%= cell("decidim/locations/locations", @result, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude]) %>
+          <%= cell("decidim/locations/locations", @result, form: form, coords: [current_component.settings.default_latitude, current_component.settings.default_longitude], checkbox: true) %>
         </div>
       <% end %>
 

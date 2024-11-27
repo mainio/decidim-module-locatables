@@ -4,12 +4,12 @@ namespace :decidim do
   namespace :proposals_locations do
     desc "Transfers proposals' addresses to locations"
     task transfer_addresses: :environment do
-      proposals = Decidim::Proposals::Proposal.all.ids
-      locations = Decidim::Locations::Location.all.pluck(:decidim_locations_locatable_id)
+      proposals = Decidim::Proposals::Proposal.ids
+      locations = Decidim::Locations::Location.pluck(:decidim_locations_locatable_id)
 
       proposals -= locations
 
-      Decidim::Proposals::Proposal.all.where(id: proposals).each do |transfer|
+      Decidim::Proposals::Proposal.where(id: proposals).each do |transfer|
         next if transfer.latitude.nil? && transfer.longitude.nil?
 
         Decidim::Locations::Location.create!(

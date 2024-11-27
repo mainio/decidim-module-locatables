@@ -7,9 +7,9 @@ module Decidim
     module Admin
       describe UpdateProposal do
         let!(:organization) { create(:organization) }
-        let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, organization: organization) }
+        let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, organization:) }
         let(:proposal) { create(:proposal, :official, component: proposal_component, users: [author]) }
-        let!(:author) { create(:user, :admin, organization: organization) }
+        let!(:author) { create(:user, :admin, organization:) }
         let!(:form_klass) { Decidim::Proposals::Admin::ProposalForm }
 
         let(:title) { { en: "A reasonable proposal title" } }
@@ -19,18 +19,18 @@ module Decidim
         let(:longitude) { 0.335462 }
         let(:form_params) do
           {
-            title: title,
-            body: body,
-            locations: locations
+            title:,
+            body:,
+            locations:
           }
         end
 
         let(:locations) do
           [
             {
-              address: address,
-              latitude: latitude,
-              longitude: longitude,
+              address:,
+              latitude:,
+              longitude:,
               shape: "Point",
               geojson:
               '{"type":"Feature",
@@ -79,9 +79,9 @@ module Decidim
           let(:locations) do
             [
               {
-                address: address,
-                latitude: latitude,
-                longitude: longitude,
+                address:,
+                latitude:,
+                longitude:,
                 shape: "Point",
                 geojson:
                 '{"type":"Feature",
@@ -138,7 +138,7 @@ module Decidim
             )
           end
 
-          let!(:loc2) do
+          let!(:loc_two) do
             create(
               :location,
               locatable: proposal,
@@ -195,7 +195,7 @@ module Decidim
             )
           end
 
-          let!(:loc2) do
+          let!(:loc_two) do
             create(
               :location,
               locatable: proposal,
@@ -261,7 +261,7 @@ module Decidim
               )
             end
 
-            let!(:loc2) do
+            let!(:loc_two) do
               create(
                 :location,
                 locatable: proposal,
@@ -338,7 +338,7 @@ module Decidim
               )
             end
 
-            let!(:loc2) do
+            let!(:loc_two) do
               create(
                 :location,
                 locatable: proposal,
@@ -353,7 +353,7 @@ module Decidim
               )
             end
 
-            let!(:loc3) do
+            let!(:loc_three) do
               create(
                 :location,
                 locatable: proposal,

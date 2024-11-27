@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "map render", type: :system do
+describe "Map" do
   include_context "with a component"
 
   let(:manifest_name) { "proposals" }
@@ -33,7 +33,10 @@ describe "map render", type: :system do
 
     context "when creating a proposal, geocoding enabled" do
       it "allows adding locations with a map" do
-        expect(page).to have_selector("[data-decidim-map]")
+        expect(page).to have_css("#proposal_has_location")
+        expect(page).to have_css("[data-decidim-map]", visible: :hidden)
+        find_by_id("proposal_has_location").click
+        expect(page).to have_css("[data-decidim-map]")
       end
     end
 
@@ -48,9 +51,9 @@ describe "map render", type: :system do
       end
 
       it "doesn't allow adding locations" do
-        expect(page).not_to have_selector("#proposal_has_location")
-        expect(page).not_to have_selector("[data-decidim-map]", visible: :hidden)
-        expect(page).not_to have_selector("[data-decidim-map]")
+        expect(page).to have_no_css("#proposal_has_location")
+        expect(page).to have_no_css("[data-decidim-map]", visible: :hidden)
+        expect(page).to have_no_css("[data-decidim-map]")
       end
     end
   end
@@ -62,13 +65,12 @@ describe "map render", type: :system do
       switch_to_host(organization.host)
       login_as user, scope: :user
       visit_component
-
     end
 
     context "when creating a proposal, geocoding enabled" do
       it "doesn't render a map" do
-        expect(page).not_to have_selector("#proposal_has_location")
-        expect(page).not_to have_selector("[data-decidim-map]", visible: :all)
+        expect(page).to have_no_css("#proposal_has_location")
+        expect(page).to have_no_css("[data-decidim-map]", visible: :all)
       end
     end
   end

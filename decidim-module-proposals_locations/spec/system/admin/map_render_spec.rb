@@ -2,11 +2,10 @@
 
 require "spec_helper"
 
-describe "admin map render", type: :system do
+describe "AdminMap" do
   let(:user) { create(:user, :admin, :confirmed) }
   let(:organization) { user.organization }
-  let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, :with_creation_enabled, :published, organization: organization) }
-
+  let!(:proposal_component) { create(:proposal_component, :with_geocoding_enabled, :with_creation_enabled, :published, organization:) }
 
   context "when map provided" do
     before do
@@ -14,30 +13,29 @@ describe "admin map render", type: :system do
       login_as user, scope: :user
 
       visit decidim.root_path
-      find("nav.topbar__dropmenu").click
-      click_link "Admin dashboard"
-      click_link "Processes"
+      click_on "Admin dashboard"
+      click_on "Processes"
       find(".action-icon--new").click
-      click_link "Proposals"
-      click_link "New proposal"
+      click_on "Proposals"
+      click_on "New proposal"
     end
 
     context "when creating a proposal, geocoding enabled" do
       it "allows adding locations with a map" do
-        expect(page).to have_selector("#proposal_has_location")
-        expect(page).to have_selector("[data-decidim-map]", visible: :hidden)
-        find("#proposal_has_location").click
-        expect(page).to have_selector("[data-decidim-map]")
+        expect(page).to have_css("#proposal_has_location")
+        expect(page).to have_css("[data-decidim-map]", visible: :hidden)
+        find_by_id("proposal_has_location").click
+        expect(page).to have_css("[data-decidim-map]")
       end
     end
 
     context "when creating a proposal, geocoding disabled" do
-      let!(:proposal_component) { create(:proposal_component, :with_creation_enabled, :published, organization: organization) }
+      let!(:proposal_component) { create(:proposal_component, :with_creation_enabled, :published, organization:) }
 
       it "doesn't allow adding locations" do
-        expect(page).not_to have_selector("#proposal_has_location")
-        expect(page).not_to have_selector("[data-decidim-map]", visible: :hidden)
-        expect(page).not_to have_selector("[data-decidim-map]")
+        expect(page).to have_no_css("#proposal_has_location")
+        expect(page).to have_no_css("[data-decidim-map]", visible: :hidden)
+        expect(page).to have_no_css("[data-decidim-map]")
       end
     end
   end
@@ -50,18 +48,17 @@ describe "admin map render", type: :system do
       login_as user, scope: :user
 
       visit decidim.root_path
-      find("nav.topbar__dropmenu").click
-      click_link "Admin dashboard"
-      click_link "Processes"
+      click_on "Admin dashboard"
+      click_on "Processes"
       find(".action-icon--new").click
-      click_link "Proposals"
-      click_link "New proposal"
+      click_on "Proposals"
+      click_on "New proposal"
     end
 
     context "when creating a proposal, geocoding enabled" do
       it "doesn't render map" do
-        expect(page).not_to have_selector("#proposal_has_location")
-        expect(page).not_to have_selector("[data-decidim-map]", visible: :all)
+        expect(page).to have_no_css("#proposal_has_location")
+        expect(page).to have_no_css("[data-decidim-map]", visible: :all)
       end
     end
   end

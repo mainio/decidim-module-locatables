@@ -8,7 +8,7 @@ module Decidim
     describe ProposalType, type: :graphql do
       include_context "with a graphql class type"
       let(:component) { create(:proposal_component) }
-      let(:model) { create(:proposal, component: component) }
+      let(:model) { create(:proposal, component:) }
       let(:location) { create(:location, locatable: proposal, address: "Model speedway", latitude: 11.11, longitude: 10.10) }
       let(:location2) { create(:location, locatable: proposal, address: "Proposal path", latitude: 12.12, longitude: 9.9) }
 
