@@ -212,7 +212,7 @@ describe "AnswerSurvey" do
         5.times do
           find(".leaflet-control-zoom-out").click
         end
-        expect(page).to have_css(".marker-cluster", wait: 10)
+        expect(page).to have_css(".marker-cluster-small")
       end
 
       context "when marker clicked" do
@@ -222,7 +222,7 @@ describe "AnswerSurvey" do
           5.times do
             find(".leaflet-control-zoom-out").click
           end
-          expect(page).to have_css(".marker-cluster", wait: 10)
+          expect(page).to have_css(".marker-cluster-small")
           find(".marker-cluster-small").click
           expect(page).to have_css(".leaflet-marker-pane > img", count: 2)
         end
