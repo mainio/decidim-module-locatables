@@ -211,9 +211,7 @@ describe "AnswerSurvey" do
       it "generates a marker cluster" do
         expect(page).to have_css("[data-decidim-map]")
         expect(page).to have_css(".leaflet-marker-icon")
-        5.times do
-          find(".leaflet-control-zoom-out").click
-        end
+        zoom_out_max
         expect(page).to have_css(".marker-cluster-small")
       end
 
@@ -221,9 +219,7 @@ describe "AnswerSurvey" do
         it "shows markers separately" do
           expect(page).to have_css("[data-decidim-map]")
           expect(page).to have_css(".leaflet-marker-icon")
-          5.times do
-            find(".leaflet-control-zoom-out").click
-          end
+          zoom_out_max
           expect(page).to have_css(".marker-cluster-small")
           find(".marker-cluster-small").click
           expect(page).to have_css(".leaflet-marker-pane > img", count: 2)
@@ -281,4 +277,12 @@ describe "AnswerSurvey" do
       end
     end
   end
+end
+
+def zoom_out_max
+  page.execute_script(
+    <<~JS
+      $("[data-decidim-map]").data("map").zoomOut(10)
+    JS
+  )
 end
