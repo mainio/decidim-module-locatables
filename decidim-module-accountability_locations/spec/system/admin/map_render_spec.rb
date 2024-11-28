@@ -2,10 +2,10 @@
 
 require "spec_helper"
 
-describe "admin map render", type: :system do
+describe "MapRender" do
   let(:user) { create(:user, :admin, :confirmed) }
   let(:organization) { user.organization }
-  let!(:participatory_space) { create :participatory_process, :published, organization: }
+  let!(:participatory_space) { create(:participatory_process, :published, organization:) }
 
   let!(:accountability_component) { create(:accountability_component, organization:, participatory_space:) }
 
@@ -23,8 +23,9 @@ describe "admin map render", type: :system do
       click_on "Accountability"
       click_on "New result"
       scroll_to(".type-locations-wrapper")
-      find("#result_decidim_category_id").click
-      expect(page).to have_selector("[data-decidim-map]")
+      expect(page).to have_css("#result_has_location")
+      find_by_id("result_has_location").click
+      expect(page).to have_css("[data-decidim-map]")
     end
   end
 end

@@ -7,9 +7,9 @@ module Decidim
     module Admin
       describe UpdateResult do
         let!(:organization) { create(:organization) }
-        let!(:accountability_component) { create(:accountability_component, organization: organization) }
+        let!(:accountability_component) { create(:accountability_component, organization:) }
         let!(:result) { create(:result) }
-        let!(:author) { create(:user, :admin, organization: organization) }
+        let!(:author) { create(:user, :admin, organization:) }
         let!(:form_klass) { ResultForm }
 
         let(:title) { { en: "A reasonable result title" } }
@@ -19,9 +19,9 @@ module Decidim
         let(:longitude) { 0.335462 }
         let(:form_params) do
           {
-            title: title,
-            description: description,
-            locations: locations,
+            title:,
+            description:,
+            locations:,
             start_date: Time.current,
             end_date: 2.weeks.from_now
           }
@@ -30,9 +30,9 @@ module Decidim
         let(:locations) do
           [
             {
-              address: address,
-              latitude: latitude,
-              longitude: longitude,
+              address:,
+              latitude:,
+              longitude:,
               shape: "Point",
               geojson:
               '{"type":"Feature",
@@ -81,9 +81,9 @@ module Decidim
           let(:locations) do
             [
               {
-                address: address,
-                latitude: latitude,
-                longitude: longitude,
+                address:,
+                latitude:,
+                longitude:,
                 shape: "Point",
                 geojson:
                 '{"type":"Feature",
@@ -142,7 +142,7 @@ module Decidim
             )
           end
 
-          let!(:loc2) do
+          let!(:loc_two) do
             create(
               :location,
               locatable: result,
@@ -199,7 +199,7 @@ module Decidim
             )
           end
 
-          let!(:loc2) do
+          let!(:loc_two) do
             create(
               :location,
               locatable: result,
@@ -265,7 +265,7 @@ module Decidim
               )
             end
 
-            let!(:loc2) do
+            let!(:loc_two) do
               create(
                 :location,
                 locatable: result,
@@ -342,7 +342,7 @@ module Decidim
               )
             end
 
-            let!(:loc2) do
+            let!(:loc_two) do
               create(
                 :location,
                 locatable: result,
@@ -357,7 +357,7 @@ module Decidim
               )
             end
 
-            let!(:loc3) do
+            let!(:loc_three) do
               create(
                 :location,
                 locatable: result,
