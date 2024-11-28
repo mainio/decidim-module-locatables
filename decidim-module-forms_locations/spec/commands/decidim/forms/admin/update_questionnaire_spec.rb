@@ -49,7 +49,7 @@ module Decidim
           QuestionnaireForm.from_params(
             questionnaire: form_params
           ).with_context(
-            current_organization: current_organization
+            current_organization:
           )
         end
         let(:command) { described_class.new(form, questionnaire, user) }
@@ -90,7 +90,7 @@ module Decidim
           end
 
           describe "when the questionnaire has an existing question" do
-            let!(:question) { create(:questionnaire_question, questionnaire: questionnaire) }
+            let!(:question) { create(:questionnaire_question, questionnaire:) }
 
             context "and the question should be removed" do
               let(:form_params) do
@@ -227,7 +227,7 @@ module Decidim
           end
 
           describe "when the questionnaire has an existing question" do
-            let!(:question) { create(:questionnaire_question, questionnaire: questionnaire) }
+            let!(:question) { create(:questionnaire_question, questionnaire:) }
 
             context "and the question should be removed" do
               let(:form_params) do

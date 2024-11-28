@@ -2,23 +2,23 @@
 
 require "spec_helper"
 
-describe "Answer survey", type: :system do
+describe "AnswerSurvey" do
   let(:manifest) { Decidim.find_component_manifest("surveys") }
   let!(:organization) { create(:organization) }
-  let!(:participatory_space) { create :participatory_process, :published, organization: organization }
+  let!(:participatory_space) { create(:participatory_process, :published, organization:) }
 
-  let(:user) { create :user, :confirmed, organization: organization }
+  let(:user) { create(:user, :confirmed, organization:) }
 
   let!(:component) do
     create(:component,
            :with_one_step,
-           manifest: manifest,
-           participatory_space: participatory_space)
+           manifest:,
+           participatory_space:)
   end
 
-  let(:questionnaire) { create :questionnaire }
-  let!(:survey) { create :survey, questionnaire: questionnaire, component: component }
-  let!(:question) { create :questionnaire_question, mandatory: mandatory, questionnaire: questionnaire, question_type: question_type }
+  let(:questionnaire) { create(:questionnaire) }
+  let!(:survey) { create(:survey, questionnaire:, component:) }
+  let!(:question) { create(:questionnaire_question, mandatory:, questionnaire:, question_type:) }
 
   let(:revgeo) do
     <<~JS
@@ -73,8 +73,8 @@ describe "Answer survey", type: :system do
     let(:mandatory) { false }
 
     before do
-      utility = Decidim::Map.autocomplete(organization: organization)
-      allow(Decidim::Map).to receive(:autocomplete).with(organization: organization).and_return(utility)
+      utility = Decidim::Map.autocomplete(organization:)
+      allow(Decidim::Map).to receive(:autocomplete).with(organization:).and_return(utility)
       allow(utility).to receive(:builder_options).and_return(
         api_key: "key1234"
       )
@@ -102,9 +102,9 @@ describe "Answer survey", type: :system do
           add_marker
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
-          click_button "Submit"
+          click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
-          click_link "OK"
+          click_on "OK"
           expect(page).to have_content("Already answered")
           expect(page).to have_content("You have already answered this form.")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
@@ -116,9 +116,9 @@ describe "Answer survey", type: :system do
           add_marker(latitude: 11.621, longitude: 5.621)
           expect(page).to have_css(".leaflet-marker-icon", count: 2)
           check "questionnaire_tos_agreement"
-          click_button "Submit"
+          click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
-          click_link "OK"
+          click_on "OK"
           expect(page).to have_content("Already answered")
           expect(page).to have_content("You have already answered this form.")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(2)
@@ -131,9 +131,9 @@ describe "Answer survey", type: :system do
           add_marker
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
-          click_button "Submit"
+          click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
-          click_link "OK"
+          click_on "OK"
           expect(page).to have_content("Already answered")
           expect(page).to have_content("You have already answered this form.")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
@@ -148,9 +148,9 @@ describe "Answer survey", type: :system do
           add_marker(latitude: 11.621, longitude: 5.621)
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
-          click_button "Submit"
+          click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
-          click_link "OK"
+          click_on "OK"
           expect(page).to have_content("Already answered")
           expect(page).to have_content("You have already answered this form.")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
@@ -161,7 +161,7 @@ describe "Answer survey", type: :system do
 
   context "when question type select_locations" do
     let(:question_type) { "select_locations" }
-    let!(:answer_options) { create_list(:answer_option, 2, question: question) }
+    let!(:answer_options) { create_list(:answer_option, 2, question:) }
     let!(:answer_option_ids) { answer_options.pluck(:id).map(&:to_s) }
     let(:mandatory) { true }
 
@@ -209,7 +209,9 @@ describe "Answer survey", type: :system do
       it "generates a marker cluster" do
         expect(page).to have_css("[data-decidim-map]")
         expect(page).to have_css(".leaflet-marker-icon")
-        find(".leaflet-control-zoom-out").click
+        5.times do
+          find(".leaflet-control-zoom-out").click
+        end
         expect(page).to have_css(".marker-cluster")
       end
 
@@ -217,7 +219,9 @@ describe "Answer survey", type: :system do
         it "shows markers separately" do
           expect(page).to have_css("[data-decidim-map]")
           expect(page).to have_css(".leaflet-marker-icon")
-          find(".leaflet-control-zoom-out").click
+          5.times do
+            find(".leaflet-control-zoom-out").click
+          end
           expect(page).to have_css(".marker-cluster")
           find(".marker-cluster").click
           expect(page).to have_css(".leaflet-marker-pane > img", count: 2)
@@ -228,36 +232,36 @@ describe "Answer survey", type: :system do
     context "when marker is clicked" do
       it "changes color to green if selected" do
         expect(page).to have_css("[data-decidim-map]")
-        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
+        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
       end
 
       it "changes the color back to blue if unselected" do
         expect(page).to have_css("[data-decidim-map]")
-        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
+        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
-        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
-        expect(page).not_to have_css('img[style*="hue-rotate(275deg)"]')
+        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
+        expect(page).to have_no_css('img[style*="hue-rotate(275deg)"]')
       end
     end
 
     context "when mandatory question" do
       it "submits form when option picked" do
         expect(page).to have_css("[data-decidim-map]")
-        find(".leaflet-marker-pane").find(".leaflet-interactive", match: :first).click
+        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
-        find("#questionnaire_tos_agreement").click
-        click_button "Submit"
-        click_link "OK"
+        find_by_id("questionnaire_tos_agreement").click
+        click_on "Submit"
+        click_on "OK"
         expect(page).to have_content("Already answered")
         expect(page).to have_content("You have already answered this form.")
       end
 
       it "gives an error if no option picked" do
         expect(page).to have_css("[data-decidim-map]")
-        find("#questionnaire_tos_agreement").click
-        click_button "Submit"
-        click_link "OK"
+        find_by_id("questionnaire_tos_agreement").click
+        click_on "Submit"
+        click_on "OK"
         expect(page).to have_content("There was a problem answering the survey.")
       end
     end
@@ -267,9 +271,9 @@ describe "Answer survey", type: :system do
 
       it "submits the form with no picks" do
         expect(page).to have_css("[data-decidim-map]")
-        find("#questionnaire_tos_agreement").click
-        click_button "Submit"
-        click_link "OK"
+        find_by_id("questionnaire_tos_agreement").click
+        click_on "Submit"
+        click_on "OK"
         expect(page).to have_content("Already answered")
         expect(page).to have_content("You have already answered this form.")
       end

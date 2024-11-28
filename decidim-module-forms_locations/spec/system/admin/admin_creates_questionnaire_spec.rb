@@ -2,22 +2,22 @@
 
 require "spec_helper"
 
-describe "Admin creates survey", type: :system do
+describe "CreateSurvey" do
   let(:manifest) { Decidim.find_component_manifest("surveys") }
   let!(:organization) { create(:organization) }
-  let!(:participatory_space) { create :participatory_process, :published, organization: organization }
+  let!(:participatory_space) { create(:participatory_process, :published, organization:) }
 
-  let(:user) { create :user, :admin, :confirmed, organization: organization }
+  let(:user) { create(:user, :admin, :confirmed, organization:) }
 
   let!(:component) do
     create(:component,
-           manifest: manifest,
-           participatory_space: participatory_space)
+           manifest:,
+           participatory_space:)
   end
 
-  let(:questionnaire) { create :questionnaire }
-  let!(:survey) { create :survey, questionnaire: questionnaire, component: component }
-  let!(:question) { create :questionnaire_question, questionnaire: questionnaire }
+  let(:questionnaire) { create(:questionnaire) }
+  let!(:survey) { create(:survey, questionnaire:, component:) }
+  let!(:question) { create(:questionnaire_question, questionnaire:) }
 
   context "when map is provided" do
     before do
@@ -35,7 +35,7 @@ describe "Admin creates survey", type: :system do
           expect(page).to have_field("Map config", with: "multiple")
           fill_in "Latitude", with: "11"
           fill_in "Longitude", with: "13"
-          click_button "Save"
+          click_on "Save"
 
           expect(page).to have_content("Survey successfully saved.")
         end
@@ -50,7 +50,7 @@ describe "Admin creates survey", type: :system do
           expect(page).to have_field("Map config", with: "single")
           fill_in "Latitude", with: "11"
           fill_in "Longitude", with: "13"
-          click_button "Save"
+          click_on "Save"
 
           expect(page).to have_content("Survey successfully saved.")
         end
@@ -75,7 +75,7 @@ describe "Admin creates survey", type: :system do
             end
           end
 
-          click_button "Save"
+          click_on "Save"
 
           expect(page).to have_content("Survey successfully saved.")
           expect(Decidim::Forms::Question.first.answer_options.count).to eq(2)
@@ -90,7 +90,7 @@ describe "Admin creates survey", type: :system do
           find(".question--collapse", match: :first).click
           select("Select locations", from: "Type").select_option
           expect(page).to have_content("Answer option")
-          click_button "Add answer option"
+          click_on "Add answer option"
           answer_options = all(".questionnaire-question-location-option")
 
           answer_options.each do |option|
@@ -100,7 +100,7 @@ describe "Admin creates survey", type: :system do
             end
           end
 
-          click_button "Save"
+          click_on "Save"
 
           expect(page).to have_content("Survey successfully saved.")
           expect(Decidim::Forms::Question.first.answer_options.count).to eq(3)
@@ -125,8 +125,8 @@ describe "Admin creates survey", type: :system do
       it "doesn't allow picking 'Map locations' or 'Select locations'" do
         find(".question--collapse", match: :first).click
         select_element = find("#questionnaire_questions_#{question.id}_question_type")
-        expect(select_element).to have_selector("option[value='select_locations'][disabled]")
-        expect(select_element).to have_selector("option[value='map_locations'][disabled]")
+        expect(select_element).to have_css("option[value='select_locations'][disabled]")
+        expect(select_element).to have_css("option[value='map_locations'][disabled]")
       end
     end
   end

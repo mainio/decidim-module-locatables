@@ -162,6 +162,9 @@ export default function createEditableForm() {
       // we need to update the DOM, not just the dataset
       $target.find(".question--collapse").attr("data-controls", toggleAttr);
     }
+    if ($("[data-decidim-map]").length === 0) {
+      $target.find("option[value='select_locations'], option[value='map_locations']").prop("disabled", true);
+    }
   };
 
   const createDynamicFieldsForAnswerOptions = (fieldId) => {

@@ -1,38 +1,31 @@
 /* css for decidim_forms_locations */
 
 .help-text-map{
-  margin-top: -1.5rem;
-  font-size: 0.8125rem;
-  font-style: italic;
-  color: #202734;
+  @apply mt-[-1.5rem] text-[0.8125rem] italic text-[#202734];
 }
 
 .answer-option-map {
-  width: 100%;
-  height: 75%;
+  @apply w-full h-3/4;
 }
 
 .location-option-define {
-  position: relative;
-  bottom: 45px;
+  @apply relative bottom-[45px];
 }
 
 .questionnaire-question-default-map-position {
-  display: flex;
+  @apply flex;
 }
 
 .default-map-position-child {
-  margin-right: 15px;
+  @apply mr-[15px];
 }
 
 .select-position {
-  position: relative;
-  width: 13%;
+  @apply relative w-[13%];
 }
 
 .default-position-button {
-  position: relative;
-  top: 32px;
+  @apply top-8 relative;
 }
 
 .survey-map__container{

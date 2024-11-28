@@ -17,22 +17,22 @@ module Decidim
       let(:ip_hash) { tokenize(remote_ip) }
       let(:request) do
         double(
-          session: { session_id: session_id },
-          remote_ip: remote_ip
+          session: { session_id: },
+          remote_ip:
         )
       end
 
       let(:participatory_process) { create(:participatory_process, organization: current_organization) }
       let(:questionnaire) { create(:questionnaire, questionnaire_for: participatory_process) }
-      let(:question) { create(:questionnaire_question, question_type: question_type, questionnaire: questionnaire) }
+      let(:question) { create(:questionnaire_question, question_type:, questionnaire:) }
 
       let(:form) do
         QuestionnaireForm.from_params(
           form_params
         ).with_context(
-          current_organization: current_organization,
-          session_token: session_token,
-          ip_hash: ip_hash
+          current_organization:,
+          session_token:,
+          ip_hash:
         )
       end
       let(:command) { described_class.new(form, current_user, questionnaire) }
@@ -57,7 +57,7 @@ module Decidim
           {
             responses: [
               {
-                locations: locations,
+                locations:,
                 question_id: question.id
               }
             ],
@@ -119,7 +119,7 @@ module Decidim
 
       context "when question type is select_locations" do
         let(:question_type) { "select_locations" }
-        let(:answer_options) { create_list(:answer_option, 2, question: question) }
+        let(:answer_options) { create_list(:answer_option, 2, question:) }
         let(:answer_option_ids) { answer_options.pluck(:id).map(&:to_s) }
 
         let(:choices) do
@@ -137,7 +137,7 @@ module Decidim
           {
             responses: [
               {
-                choices: choices,
+                choices:,
                 question_id: question.id
               }
             ],

@@ -9,7 +9,7 @@ module Decidim
         described_class.from_params(params)
       end
 
-      let!(:question) { create :questionnaire_question, question_type: question_type, mandatory: mandatory, questionnaire: questionnaire }
+      let!(:question) { create(:questionnaire_question, question_type:, mandatory:, questionnaire:) }
 
       let!(:questionable) { create(:dummy_resource) }
       let!(:questionnaire) { create(:questionnaire, questionnaire_for: questionable) }
