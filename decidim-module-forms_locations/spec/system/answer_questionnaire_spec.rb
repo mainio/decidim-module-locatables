@@ -223,7 +223,7 @@ describe "AnswerSurvey" do
             find(".leaflet-control-zoom-out").click
           end
           expect(page).to have_css(".marker-cluster")
-          find(".marker-cluster").click
+          find(".marker-cluster-small").click
           expect(page).to have_css(".leaflet-marker-pane > img", count: 2)
         end
       end
