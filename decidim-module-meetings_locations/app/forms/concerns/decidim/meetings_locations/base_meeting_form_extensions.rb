@@ -6,11 +6,8 @@ module Decidim
       extend ActiveSupport::Concern
 
       included do
-        _validators.reject! { |key, _| key == :address }
-        _validate_callbacks.each do |callback|
-          next unless callback.raw_filter.respond_to?(:attributes)
-
-          _validate_callbacks.delete(callback) if callback.raw_filter.attributes == [:address]
+        def needs_address?
+          (in_person_meeting? || hybrid_meeting?) && Decidim::Map.autocomplete(organization: current_organization).blank?
         end
       end
     end

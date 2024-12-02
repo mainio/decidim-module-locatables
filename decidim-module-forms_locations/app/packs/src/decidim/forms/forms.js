@@ -75,34 +75,21 @@ $(() => {
     });
   }
 
-  const callback = (mutationsList) => {
-    mutationsList.forEach((mutation) => {
-      if (mutation.type === "attributes") {
-        const classList = Array.from(mutation.target.classList);
-        if (!classList.includes("hide")) {
-          mutation.target.querySelectorAll("[data-decidim-map]").forEach((map) => {
-            const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
+  $(document).on("attributechange", ".questionnaire-step", (event) => {
+    const target = event.target;
 
-            const mapCtrl = $(map).data("map-controller");
-            mapCtrl.map.invalidateSize();
+    if (!target.classList.contains("hide")) {
+      target.querySelectorAll("[data-decidim-map]").forEach((map) => {
+        const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
 
-            if (mapData.type === "locations") {
-              mapCtrl.start();
-              mapCtrl.refreshMarkers();
-            }
-          })
+        const mapCtrl = $(map).data("map-controller");
+
+        mapCtrl.map.invalidateSize();
+        if (mapData.type === "locations") {
+          mapCtrl.start();
+          mapCtrl.refreshMarkers();
         }
-      }
-    })
-  };
-
-  const observer = new MutationObserver(callback)
-
-  const config = { attributes: true }
-
-  if ($(".questionnaire-step")) {
-    $(".questionnaire-step").each((idx, el) => {
-      observer.observe(el, config);
-    })
-  }
+      });
+    }
+  });
 })
