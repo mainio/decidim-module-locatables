@@ -213,7 +213,7 @@ export default function createEditableForm() {
   const createDynamicFieldsForLocationOptions = (fieldId) => {
     const autoButtons = createAutoButtonsByMinItemsForLocationOptions(fieldId);
     const autoSelectOptions = createAutoMaxChoicesByNumberOfLocationOptions(fieldId);
-    const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
+    let mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
     return createDynamicFields({
       placeholderId: "questionnaire-question-answer-option-id",
@@ -224,6 +224,7 @@ export default function createEditableForm() {
       fieldTemplateSelector: ".decidim-location-option-template",
       removeFieldButtonSelector: locationOptionRemoveFieldButtonSelector,
       onAddField: (jquery) => {
+        mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
         if ($("[data-decidim-map]").length > 0) {
           const element = jquery[0];
           const button = element.querySelector(".location-option-define");

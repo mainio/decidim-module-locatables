@@ -19,3 +19,5 @@
     <%= decidim_paginate results, order_start_time: params[:order_start_time], with_scope: params.dig(:filter, :with_scope) %>
   </section>
 <% end %>
+
+<%= append_stylesheet_pack_tag "decidim_accountability_locations" %>

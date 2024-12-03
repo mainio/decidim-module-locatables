@@ -8,10 +8,6 @@
   @apply w-full h-3/4;
 }
 
-.location-option-define {
-  @apply relative bottom-[45px];
-}
-
 .questionnaire-question-default-map-position {
   @apply flex;
 }
@@ -32,4 +28,8 @@
   [data-decidim-map] {
     @apply aspect-[2/1];
   }
+}
+
+.autoComplete_wrapper > input{
+  @apply w-full;
 }

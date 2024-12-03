@@ -1,0 +1,11 @@
+/* css for decidim_meetings_locations admin */
+
+.input-group > .autoComplete_wrapper{
+  @apply w-[90%];
+}
+
+.calendar-map__container{
+  [data-decidim-map]{
+    @apply h-[136px];
+  }
+}

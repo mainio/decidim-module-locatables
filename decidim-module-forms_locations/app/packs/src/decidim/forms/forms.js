@@ -81,34 +81,51 @@ $(() => {
     });
   }
 
-  const callback = (mutationsList) => {
-    mutationsList.forEach((mutation) => {
-      if (mutation.type === "attributes") {
-        const classList = Array.from(mutation.target.classList);
-        if (!classList.includes("hidden")) {
-          mutation.target.querySelectorAll("[data-decidim-map]").forEach((map) => {
-            const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
+  // const callback = (mutationsList) => {
+  //   mutationsList.forEach((mutation) => {
+  //     if (mutation.type === "attributes") {
+  //       const classList = Array.from(mutation.target.classList);
+  //       if (!classList.includes("hidden")) {
+  //         mutation.target.querySelectorAll("[data-decidim-map]").forEach((map) => {
+  //           const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
 
-            const mapCtrl = $(map).data("map-controller");
-            mapCtrl.map.invalidateSize();
+  //           const mapCtrl = $(map).data("map-controller");
+  //           mapCtrl.map.invalidateSize();
 
-            if (mapData.type === "locations") {
-              mapCtrl.start();
-              mapCtrl.refreshMarkers();
-            }
-          })
+  //           if (mapData.type === "locations") {
+  //             mapCtrl.start();
+  //             mapCtrl.refreshMarkers();
+  //           }
+  //         })
+  //       }
+  //     }
+  //   })
+  // };
+
+  // const observer = new MutationObserver(callback)
+
+  // const config = { attributes: true }
+
+  // if ($(".questionnaire-step")) {
+  //   $(".questionnaire-step").each((idx, el) => {
+  //     observer.observe(el, config);
+  //   })
+  // }
+  $(document).on("attributechange", ".questionnaire-step", (event) => {
+    const target = event.target;
+
+    if (!target.classList.contains("hidden")) {
+      target.querySelectorAll("[data-decidim-map]").forEach((map) => {
+        const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
+
+        const mapCtrl = $(map).data("map-controller");
+
+        mapCtrl.map.invalidateSize();
+        if (mapData.type === "locations") {
+          mapCtrl.start();
+          mapCtrl.refreshMarkers();
         }
-      }
-    })
-  };
-
-  const observer = new MutationObserver(callback)
-
-  const config = { attributes: true }
-
-  if ($(".questionnaire-step")) {
-    $(".questionnaire-step").each((idx, el) => {
-      observer.observe(el, config);
-    })
-  }
+      });
+    }
+  });
 })
