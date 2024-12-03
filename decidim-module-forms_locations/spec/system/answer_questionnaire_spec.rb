@@ -198,8 +198,6 @@ describe "AnswerSurvey" do
 
     context "when markers are close" do
       before do
-        page.driver.browser.manage.window.resize_to(1280, 1024)
-
         Decidim::Forms::Question.first.answer_options.first.update(
           geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.123456789,5.12346]}}'
         )
