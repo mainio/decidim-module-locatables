@@ -2,7 +2,7 @@
   <div class="card pt-4">
     <div class="card-section">
       <div class="row column">
-        <%= form.translated :text_field, :title, autofocus: true, aria: { label: :title } %>
+        <%= form.translated :text_field, :title, autofocus: true, aria: { label: :title }, label: t("models.components.title", scope: "decidim.forms.admin") %>
       </div>
       <div class="row column">
         <%= form.translated :editor, :description, toolbar: :full, lines: 30, label: t("models.components.description", scope: "decidim.forms.admin"), aria: { label: :description } %>
