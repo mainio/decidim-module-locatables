@@ -10,6 +10,9 @@ en:
         map_locations: Map
         select_locations: Select locations
       admin:
+        models:
+          components:
+            title: Title
         questionnaires:
           question:
             map_config: Map configuration

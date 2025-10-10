@@ -10,6 +10,9 @@ fi:
         map_locations: Kartta
         select_locations: Valitse paikat
       admin:
+        models:
+          components:
+            title: Otsikko
         questionnaires:
           question:
             map_config: Kartan asetukset
