@@ -160,16 +160,17 @@
           form.select(
             :map_configuration,
             options_for_select([[t(".multiple"), "multiple"], [t(".single"), "single"]], question.map_configuration),
-            {},
-            disabled: !editable,
-            label: t("decidim.forms.admin.questionnaires.question.map_config")
+            {
+              label: t(".map_config")
+            },
+            disabled: !editable
           )
         %>
         <p class="help-text help-text-map"><%= t("decidim.forms.admin.questionnaires.question.map_config_help") %></p>
       </div>
 
       <div class="row column questionnaire-question-default-map-position-label">
-        <%= label(:default_map_position, :default_map_position)%>
+        <%= label(:default_map_position, t(".default_map_position"))%>
       </div>
 
       <div class="row column questionnaire-question-default-map-position">
@@ -208,7 +209,7 @@
         </div>
 
         <div>
-          <%= form.button t(".select_from_map"), type: "button", class: "button button__sm button__secondary mt-4 default-position-button" %>
+          <%= form.button t(".select_from_map"), type: "button", class: "button button__sm button__secondary default-position-button" %>
         </div>
       </div>
 
