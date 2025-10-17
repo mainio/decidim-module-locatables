@@ -11,10 +11,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_app:
-    name: Build test application
-    uses: mainio/gha-decidim-module/.github/workflows/build_app.yml@main
-    secrets: inherit
   main:
     needs: build_app
     name: Tests
