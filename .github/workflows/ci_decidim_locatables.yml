@@ -1,0 +1,30 @@
+name: "[CI] Locatables"
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build_app:
+    name: Build test application
+    uses: mainio/gha-decidim-module/.github/workflows/build_app.yml@main
+    secrets: inherit
+  test_modules:
+    needs: build_app
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - decidim-module-accountability_locations
+          - decidim-module-forms_locations
+          - decidim-module-meetings_locations
+          - decidim-module-proposals_locations
+        name: Tests
+        uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
+        secrets: inherit
