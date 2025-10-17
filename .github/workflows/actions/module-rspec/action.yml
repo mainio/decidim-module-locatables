@@ -8,7 +8,7 @@ inputs:
     description: 'Github token'
     required: true
 
-jobs:
+run:
   build_app:
     name: Build test application
     uses: mainio/gha-decidim-module/.github/workflows/build_app.yml@main
