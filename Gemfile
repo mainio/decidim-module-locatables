@@ -20,6 +20,8 @@ gem "bootsnap", "~> 1.4"
 gem "puma", ">= 5.0.0"
 gem "uglifier", "~> 4.1"
 
+gem "nokogiri", "1.16.8"
+
 group :development, :test do
   gem "decidim-dev", DECIDIM_VERSION
   gem "rubocop", "~>1.28"
