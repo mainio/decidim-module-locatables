@@ -25,6 +25,6 @@ jobs:
           - decidim-module-forms_locations
           - decidim-module-meetings_locations
           - decidim-module-proposals_locations
-        name: Tests
-        uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
-        secrets: inherit
+    name: Tests
+    uses: mainio/gha-decidim-module/.github/workflows/ci_rspec.yml@main
+    secrets: inherit
