@@ -111,21 +111,34 @@ $(() => {
   //     observer.observe(el, config);
   //   })
   // }
-  $(document).on("attributechange", ".questionnaire-step", (event) => {
-    const target = event.target;
 
-    if (!target.classList.contains("hidden")) {
-      target.querySelectorAll("[data-decidim-map]").forEach((map) => {
-        const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
+  document.querySelectorAll(".answer-questionnaire__step").forEach((step) => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "attributes" && mutation.attributeName === "aria-expanded") {
+          const target = mutation.target;
 
-        const mapCtrl = $(map).data("map-controller");
+          if (target.getAttribute("aria-expanded") === "true") {
+            target.querySelectorAll("[data-decidim-map]").forEach((map) => {
+              const mapData = JSON.parse(map.getAttribute("data-decidim-map"));
+              const mapCtrl = $(map).data("map-controller");
 
-        mapCtrl.map.invalidateSize();
-        if (mapData.type === "locations") {
-          mapCtrl.start();
-          mapCtrl.refreshMarkers();
+              if (mapCtrl?.map) {
+                mapCtrl.map.invalidateSize();
+                if (mapData.type === "locations") {
+                  mapCtrl.start();
+                  mapCtrl.refreshMarkers();
+                }
+              }
+            })
+          }
         }
-      });
-    }
-  });
+      })
+    })
+
+    observer.observe(step, {
+      attributes: true,
+      attributeFilter: ["aria-expanded"]
+    })
+  })
 })
