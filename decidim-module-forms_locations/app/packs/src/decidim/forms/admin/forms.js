@@ -45,6 +45,8 @@ export default function createEditableForm() {
 
   const addDisplayConditionButtonSelector = ".add-display-condition";
 
+  const typeLocButton = document.querySelector(".input-group .input-group-button");
+
   const removeDisplayConditionsForFirstQuestion = () => {
     $(fieldSelector).each((idx, el) => {
       const $question = $(el);
@@ -229,6 +231,7 @@ export default function createEditableForm() {
           const element = jquery[0];
           const button = element.querySelector(".location-option-define");
           button.addEventListener("click", (event) => {
+            mapCtrl.setAutoAdd(false, typeLocButton)
             mapCtrl.map.pm.addControls({
               drawPolygon: true,
               drawPolyline: true
@@ -251,6 +254,8 @@ export default function createEditableForm() {
             mapCtrl.map.invalidateSize()
             if (textAreaVal) {
               mapCtrl.addLocation(textAreaVal);
+            } else {
+              mapCtrl.addViewPort(0, 0, 0);
             }
           })
         }
@@ -272,6 +277,7 @@ export default function createEditableForm() {
       button.addEventListener("click", (event) => {
         const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
+        mapCtrl.setAutoAdd(false, typeLocButton);
         mapCtrl.map.pm.addControls({
           drawPolygon: true,
           drawPolyline: true
@@ -295,6 +301,8 @@ export default function createEditableForm() {
         mapCtrl.map.invalidateSize()
         if (textAreaVal) {
           mapCtrl.addLocation(textAreaVal);
+        } else {
+          mapCtrl.addViewPort(0, 0, 11);
         }
       })
     })
@@ -536,6 +544,8 @@ export default function createEditableForm() {
           }
 
           button[0].classList.add("default-position-active");
+
+          mapCtrl.setAutoAdd(true, typeLocButton);
           mapCtrl.map.pm.addControls({
             drawPolygon: false,
             drawPolyline: false
