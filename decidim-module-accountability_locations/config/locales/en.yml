@@ -7,5 +7,6 @@ en:
           global:
             default_latitude: Default latitude
             default_longitude: Default longitude
+            default_zoom: Default zoom
       accountability_locations:
         name: AccountabilityLocations
