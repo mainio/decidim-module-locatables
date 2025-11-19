@@ -1,0 +1,16 @@
+<div class="survey-map__container">
+  <%= cell(
+    "decidim/locations/map",
+    Array(answer.question),
+    map_display: true,
+    type: "display"
+  ) %>
+</div>
+
+<% if answer.question.allow_comments %>
+  <div>
+    <%= answer_form.text_area :body, label: false, id: field_id, rows: 10, disabled:, maxlength:, class: "w-full" %>
+  </div>
+<% end %>
+
+<%= append_stylesheet_pack_tag "decidim_forms_locations" %>

@@ -19,7 +19,9 @@ module Decidim
               map_configuration: form_question.map_configuration,
               default_latitude: form_question.default_latitude,
               default_longitude: form_question.default_longitude,
-              default_zoom: form_question.default_zoom
+              default_zoom: form_question.default_zoom,
+              geojson: form_question.geojson,
+              allow_comments: form_question.allow_comments
             }
 
             update_nested_model(form_question, question_attributes, @questionnaire.questions) do |question|

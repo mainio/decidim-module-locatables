@@ -6,21 +6,24 @@ en:
         exports:
           locations: Locations
     forms:
-      question_types:
-        map_locations: Map
-        select_locations: Select locations
       admin:
         models:
           components:
             title: Title
         questionnaires:
           question:
+            allow_comments: Allow comments
+            allow_comments_help: This setting defines if users can comment on the map.
+            default_map_position: Default map position
+            geojson: Geojson
+            geojson_help: Insert GeoJSON to set bounds for the map or press "Set bounds" to
+                          define GeoJSON.
             map_config: Map configuration
             map_config_help: Amount of pins allowed
             multiple: Multiple
+            set_bounds: Set bounds
             single: Single
             select_from_map: Select from map
-            default_map_position: Default map position
           location_option:
             answer_option: Answer option
             remove: Remove
@@ -35,6 +38,10 @@ en:
             left: Left
             right: Right
             center: Center
+      question_types:
+        map_display: Map display
+        map_locations: Map
+        select_locations: Select locations
   activemodel:
     attributes:
       questionnaire_question:

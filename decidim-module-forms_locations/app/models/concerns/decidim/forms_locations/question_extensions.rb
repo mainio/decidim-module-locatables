@@ -10,6 +10,7 @@ module Decidim
           question_types = remove_const(:QUESTION_TYPES)
           question_types += %w(map_locations) unless question_types.include?("map_locations")
           question_types += %w(select_locations) unless question_types.include?("select_locations")
+          question_types += %w(map_display) unless question_types.include?("map_display")
           const_set(:QUESTION_TYPES, question_types.freeze)
 
           remove_const(:TYPES)
@@ -24,10 +25,14 @@ module Decidim
 
         validates :question_type, inclusion: { in: const_get(:TYPES) }
 
-        scope :with_choices, -> { where.not(question_type: %w(short_answer long_answer map_locations)) }
+        scope :with_choices, -> { where.not(question_type: %w(short_answer long_answer map_locations map_display)) }
 
         def mandatory_body?
-          mandatory? && !multiple_choice? && !has_attachments? && !map_locations? && !select_locations?
+          mandatory? && !multiple_choice? && !has_attachments? && !map_type?
+        end
+
+        def map_type?
+          map_locations? && select_locations? && map_display?
         end
 
         def mandatory_location?
@@ -40,6 +45,10 @@ module Decidim
 
         def select_locations?
           question_type == "select_locations"
+        end
+
+        def map_display?
+          question_type == "map_display"
         end
       end
     end

@@ -213,6 +213,36 @@
         </div>
       </div>
 
+      <div class="row column questionnaire-question-map-display space-y-2">
+        <div>
+          <%=
+            form.text_area(
+              :geojson,
+              label: t(".geojson"),
+              disabled: !editable
+            )
+          %>
+          <p class="help-text"><%= t(".geojson_help") %></p>
+
+          <% if editable %>
+            <%= form.button t(".set_bounds"), type: "button", class: "button button__sm button__secondary mt-2 map-display-set-bounds" %>
+          <% end %>
+        </div>
+
+        <div>
+          <%=
+            form.check_box(
+              :allow_comments,
+              {
+                label: t(".allow_comments")
+              },
+              disabled: !editable
+            )
+          %>
+          <p class="help-text help-text-map"><%= t("decidim.forms.admin.questionnaires.question.allow_comments_help") %></p>
+        </div>
+      </div>
+
       <div class="row column questionnaire-question-max-choices">
         <%=
           form.select(

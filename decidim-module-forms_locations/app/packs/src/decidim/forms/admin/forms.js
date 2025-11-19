@@ -29,6 +29,7 @@ export default function createEditableForm() {
   const defaultMapPositionWrapperSelector = ".questionnaire-question-default-map-position";
   const locationOptionFieldSelector = ".questionnaire-question-location-option";
   const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
+  const mapDisplayWrapperSelector = ".questionnaire-question-map-display";
   const locationOptionRemoveFieldButtonSelector = ".remove-location-option";
 
   const displayConditionFieldSelector = ".questionnaire-question-display-condition";
@@ -46,6 +47,7 @@ export default function createEditableForm() {
   const addDisplayConditionButtonSelector = ".add-display-condition";
 
   const typeLocButton = document.querySelector(".input-group .input-group-button");
+  const typeLocWrapper = document.querySelector(".picker-wrapper .type-locations-wrapper")
 
   const removeDisplayConditionsForFirstQuestion = () => {
     $(fieldSelector).each((idx, el) => {
@@ -81,8 +83,9 @@ export default function createEditableForm() {
 
   const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple"];
   const MATRIX_VALUES = ["matrix_single", "matrix_multiple"];
-  const SELECT_LOCATION = ["select_locations"]
-  const MAP_LOCATION = ["map_locations"]
+  const SELECT_LOCATION = ["select_locations"];
+  const MAP_LOCATION = ["map_locations"];
+  const MAP_DISPLAY = ["map_display"];
 
   const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
     return new AutoSelectOptionsByTotalItemsComponent({
@@ -119,7 +122,6 @@ export default function createEditableForm() {
   };
 
   const createAutoSelectOptionsFromUrl = ($field) => {
-    console.log($field)
     return new AutoSelectOptionsFromUrl({
       source: $field.find(displayConditionQuestionSelector),
       select: $field.find(displayConditionAnswerOptionSelector),
@@ -227,31 +229,40 @@ export default function createEditableForm() {
       removeFieldButtonSelector: locationOptionRemoveFieldButtonSelector,
       onAddField: (jquery) => {
         mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
+
         if ($("[data-decidim-map]").length > 0) {
           const element = jquery[0];
           const button = element.querySelector(".location-option-define");
           button.addEventListener("click", (event) => {
-            mapCtrl.setAutoAdd(false, typeLocButton)
+            mapCtrl.customizeSearch(false, false, {typeLocButton, typeLocWrapper})
             mapCtrl.map.pm.addControls({
               drawPolygon: true,
               drawPolyline: true
             })
 
-            const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-            const selectedButton = document.querySelector(".location-option-define.location-selector");
             const activeButton = document.querySelector(".default-position-active");
-
-            if (selectedButton) {
-              selectedButton.classList.remove("location-selector");
-            }
+            const locationSelector = document.querySelector(".location-option-define.location-selector");
+            const setBoundsActive = document.querySelector(".set-bounds-active");
 
             if (activeButton) {
               activeButton.classList.remove("default-position-active");
             }
 
-            window.Decidim.currentDialogs["answer-option-map-selector"].open();
+            if (locationSelector) {
+              locationSelector.classList.remove("location-selector");
+            }
+
+            if (setBoundsActive) {
+              setBoundsActive.classList.remove("set-bounds-active");
+            }
+
             button.classList.add("location-selector");
-            mapCtrl.map.invalidateSize()
+
+            window.Decidim.currentDialogs["answer-option-map-selector"].open();
+            mapCtrl.map.invalidateSize();
+
+            const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
+
             if (textAreaVal) {
               mapCtrl.addLocation(textAreaVal);
             } else {
@@ -277,28 +288,36 @@ export default function createEditableForm() {
       button.addEventListener("click", (event) => {
         const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
-        mapCtrl.setAutoAdd(false, typeLocButton);
+        mapCtrl.customizeSearch(false, false, {typeLocButton, typeLocWrapper});
         mapCtrl.map.pm.addControls({
+          drawMarker: true,
           drawPolygon: true,
           drawPolyline: true
         })
 
-        const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-        const selectedButton = document.querySelector(".location-option-define.location-selector");
-
         const activeButton = document.querySelector(".default-position-active");
-
-        if (selectedButton) {
-          selectedButton.classList.remove("location-selector");
-        }
+        const locationSelector = document.querySelector(".location-option-define.location-selector");
+        const setBoundsActive = document.querySelector(".set-bounds-active");
 
         if (activeButton) {
           activeButton.classList.remove("default-position-active");
         }
 
-        window.Decidim.currentDialogs["answer-option-map-selector"].open();
+        if (locationSelector) {
+          locationSelector.classList.remove("location-selector");
+        }
+
+        if (setBoundsActive) {
+          setBoundsActive.classList.remove("set-bounds-active");
+        }
+
         button.classList.add("location-selector");
-        mapCtrl.map.invalidateSize()
+
+        window.Decidim.currentDialogs["answer-option-map-selector"].open();
+        mapCtrl.map.invalidateSize();
+
+        const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
+
         if (textAreaVal) {
           mapCtrl.addLocation(textAreaVal);
         } else {
@@ -324,6 +343,10 @@ export default function createEditableForm() {
 
   const isMapLocation = (value) => {
     return MAP_LOCATION.includes(value);
+  }
+
+  const isMapDisplay = (value) => {
+    return MAP_DISPLAY.includes(value);
   }
 
   const getSelectedQuestionType = (select) => {
@@ -488,6 +511,16 @@ export default function createEditableForm() {
     createFieldDependentInputs({
       controllerField: $fieldQuestionTypeSelect,
       wrapperSelector: fieldSelector,
+      dependentFieldsSelector: mapDisplayWrapperSelector,
+      dependentInputSelector: "input",
+      enablingCondition: ($field) => {
+        return $field.val() === "map_display";
+      }
+    });
+
+    createFieldDependentInputs({
+      controllerField: $fieldQuestionTypeSelect,
+      wrapperSelector: fieldSelector,
       dependentFieldsSelector: maxChoicesWrapperSelector,
       dependentInputSelector: "select",
       enablingCondition: ($field) => {
@@ -535,35 +568,84 @@ export default function createEditableForm() {
 
       if (isMapLocation($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
         const button = $target.find(".default-position-button");
-        button.on("click", () => {
+        button.off("click").on("click", () => {
           const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
-          const activeButton = document.querySelector(".default-position-active")
+
+          mapCtrl.customizeSearch(true, false, {typeLocButton, typeLocWrapper});
+          mapCtrl.map.pm.addControls({
+            drawMarker: true,
+            drawPolygon: false,
+            drawPolyline: false
+          })
+
+          const activeButton = document.querySelector(".default-position-active");
+          const locationSelector = document.querySelector(".location-selector");
+          const setBoundsActive = document.querySelector(".set-bounds-active");
 
           if (activeButton) {
             activeButton.classList.remove("default-position-active");
           }
 
+          if (locationSelector) {
+            locationSelector.classList.remove("location-selector")
+          }
+
+          if (setBoundsActive) {
+            setBoundsActive.classList.remove("set-bounds-active");
+          }
+
           button[0].classList.add("default-position-active");
 
-          mapCtrl.setAutoAdd(true, typeLocButton);
-          mapCtrl.map.pm.addControls({
-            drawPolygon: false,
-            drawPolyline: false
-          })
+          window.Decidim.currentDialogs["answer-option-map-selector"].open();
+          mapCtrl.map.invalidateSize();
 
           const latitude = button.closest(".questionnaire-question-default-map-position").find(".default-position-latitude label input").val();
           const longitude = button.closest(".questionnaire-question-default-map-position").find(".default-position-longitude label input").val();
           const zoom = button.closest(".questionnaire-question-default-map-position").find(".default-position-zoom label input").val();
+
+          if (latitude && longitude) {
+            mapCtrl.addViewPort(latitude, longitude, zoom);
+          }
+        })
+      }
+
+      if (isMapDisplay($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
+        const button = $target.find(".map-display-set-bounds");
+        button.off("click").on("click", (event) => {
+          const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
+
+          mapCtrl.customizeSearch(false, true, {typeLocButton, typeLocWrapper});
+          mapCtrl.map.pm.addControls({
+            drawMarker: false,
+            drawPolygon: true,
+            drawPolyline: false
+          })
+
+          const activeButton = document.querySelector(".default-position-active")
           const locationSelector = document.querySelector(".location-selector");
+          const setBoundsActive = document.querySelector(".set-bounds-active");
+
+          if (activeButton) {
+            activeButton.classList.remove("default-position-active");
+          }
 
           if (locationSelector) {
             locationSelector.classList.remove("location-selector")
           }
 
+          if (setBoundsActive) {
+            setBoundsActive.classList.remove("set-bounds-active");
+          }
+
+          button[0].classList.add("set-bounds-active");
+
           window.Decidim.currentDialogs["answer-option-map-selector"].open();
-          mapCtrl.map.invalidateSize()
-          if (latitude && longitude) {
-            mapCtrl.addViewPort(latitude, longitude, zoom);
+          mapCtrl.map.invalidateSize();
+
+          const textAreaVal = event.target.parentNode.querySelector("textarea").value;
+
+          if (textAreaVal) {
+            mapCtrl.addLocation(textAreaVal);
           }
         })
       }

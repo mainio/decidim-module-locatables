@@ -11,6 +11,8 @@ module Decidim
           attribute :default_latitude, Float, default: 0
           attribute :default_longitude, Float, default: 0
           attribute :default_zoom, Integer, default: 0
+          attribute :geojson, JSON
+          attribute :allow_comments, Decidim::Form::Boolean, default: true
 
           validate :answer_option_location, if: :select_locations?
 

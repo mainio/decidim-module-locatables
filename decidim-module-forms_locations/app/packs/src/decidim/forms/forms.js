@@ -125,9 +125,12 @@ $(() => {
 
               if (mapCtrl?.map) {
                 mapCtrl.map.invalidateSize();
-                if (mapData.type === "locations") {
+                if (mapData.type === "locations" || mapData.type === "display") {
                   mapCtrl.start();
-                  mapCtrl.refreshMarkers();
+
+                  if (mapData.type === "locations") {
+                    mapCtrl.refreshMarkers();
+                  }
                 }
               }
             })

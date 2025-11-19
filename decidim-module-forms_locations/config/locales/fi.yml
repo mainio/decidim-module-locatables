@@ -6,28 +6,31 @@ fi:
         exports:
           locations: Paikkatiedot
     forms:
-      question_types:
-        map_locations: Kartta
-        select_locations: Valitse paikat
       admin:
         models:
           components:
             title: Otsikko
         questionnaires:
           question:
+            allow_comments: Salli kommentointi
+            allow_comments_help: Tämä asetus määrittää voivatko osallistujat kommentoida karttaa.
+            default_map_position: Kartan oletusasetukset
+            geojson: Geojson
+            geojson_help: Lisää GeoJSON määrittääksesi kartan rajat tai paina "Aseta rajat" -painiketta määrittääksesi
+                          GeoJSON.
             map_config: Kartan asetukset
             map_config_help: Karttamerkkien sallittu määrä
             multiple: Useita
+            set_bounds: Aseta rajat
             single: Yksittäinen
             select_from_map: Valitse kartalta
-            default_map_position: Kartan oletusasetukset
           location_option:
             answer_option: Vastausvaihtoehto
             remove: Poista
             statement: Selite
             geojson: Geojson
             geojson_help: Lisää GeoJSON lisätäksesi vaihtoehto tai paina
-                          "Määritä" painiketta määrittääksesi GeoJSON.
+                          "Määritä" -painiketta määrittääksesi GeoJSON.
             define: Määritä
             tooltip_direction: Vihjetekstin suunta
             top: Ylös
@@ -35,6 +38,10 @@ fi:
             left: Vasen
             right: Oikea
             center: Keskelle
+      question_types:
+        map_display: Esityskartta
+        map_locations: Kartta
+        select_locations: Valitse paikat
   activemodel:
     attributes:
       questionnaire_question:
