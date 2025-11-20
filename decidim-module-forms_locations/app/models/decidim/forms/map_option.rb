@@ -11,12 +11,6 @@ module Decidim
 
       belongs_to :question, class_name: "Question", foreign_key: "decidim_question_id"
 
-      has_many :display_conditions,
-               class_name: "DisplayCondition",
-               foreign_key: "decidim_map_option_id",
-               dependent: :nullify,
-               inverse_of: :answer_option
-
       def translated_label
         Decidim::Forms::MapOptionPresenter.new(self).translated_label
       end

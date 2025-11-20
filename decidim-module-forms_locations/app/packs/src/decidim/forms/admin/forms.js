@@ -31,6 +31,9 @@ export default function createEditableForm() {
   const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
   const locationOptionRemoveFieldButtonSelector = ".remove-location-option";
   const mapDisplayWrapperSelector = ".questionnaire-question-map-display";
+  const mapOptionFieldSelector = ".questionnaire-question-map-option";
+  const mapOptionsWrapperSelector = ".questionnaire-question-map-options";
+  const mapOptionRemoveFieldButtonSelector = ".remove-map-option";
 
   const displayConditionFieldSelector = ".questionnaire-question-display-condition";
   const displayConditionsWrapperSelector = ".questionnaire-question-display-conditions";
@@ -86,6 +89,7 @@ export default function createEditableForm() {
   const SELECT_LOCATION = ["select_locations"];
   const MAP_LOCATION = ["map_locations"];
   const MAP_DISPLAY = ["map_display"];
+  const TAG_LOCATION = ["tag_locations"]
 
   const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
     return new AutoSelectOptionsByTotalItemsComponent({
@@ -281,6 +285,26 @@ export default function createEditableForm() {
     });
   };
 
+  const dynamicFieldsForLocationOptions = {};
+
+  const createDynamicFieldsForMapOptions = (fieldId) => {
+    return createDynamicFields({
+      placeholderId: "questionnaire-question-map-option-id",
+      wrapperSelector: `#${fieldId} ${mapOptionsWrapperSelector}`,
+      containerSelector: ".questionnaire-question-map-options-list",
+      fieldSelector: mapOptionFieldSelector,
+      addFieldButtonSelector: ".add-map-option",
+      fieldTemplateSelector: ".decidim-map-option-template",
+      removeFieldButtonSelector: mapOptionRemoveFieldButtonSelector,
+      onAddField: () => {
+      },
+      onRemoveField: () => {
+      }
+    });
+  };
+
+  const dynamicFieldsForMapOptions = {};
+
   const addSelectLocationButtonListeners = () => {
     const buttons = document.querySelectorAll(".location-option-define");
 
@@ -327,8 +351,6 @@ export default function createEditableForm() {
     })
   }
 
-  const dynamicFieldsForLocationOptions = {};
-
   const isMultipleChoiceOption = (value) => {
     return MULTIPLE_CHOICE_VALUES.indexOf(value) >= 0;
   }
@@ -347,6 +369,10 @@ export default function createEditableForm() {
 
   const isMapDisplay = (value) => {
     return MAP_DISPLAY.includes(value);
+  }
+
+  const isTagLocation = (value) => {
+    return TAG_LOCATION.includes(value);
   }
 
   const getSelectedQuestionType = (select) => {
@@ -542,10 +568,12 @@ export default function createEditableForm() {
     dynamicFieldsForLocationOptions[fieldId] = createDynamicFieldsForLocationOptions(fieldId);
     dynamicFieldsForMatrixRows[fieldId] = createDynamicFieldsForMatrixRows(fieldId);
     dynamicFieldsForDisplayConditions[fieldId] = createDynamicFieldsForDisplayConditions(fieldId);
+    dynamicFieldsForMapOptions[fieldId] = createDynamicFieldsForMapOptions(fieldId);
 
     const dynamicFieldsAnswerOptions = dynamicFieldsForAnswerOptions[fieldId];
     const dynamicFieldsLocationOptions = dynamicFieldsForLocationOptions[fieldId];
     const dynamicFieldsMatrixRows = dynamicFieldsForMatrixRows[fieldId];
+    const dynamicFieldsMapOptions = dynamicFieldsForMapOptions[fieldId];
 
     const onQuestionTypeChange = () => {
       if (isMultipleChoiceOption($fieldQuestionTypeSelect.val())) {
@@ -563,6 +591,15 @@ export default function createEditableForm() {
         if (nLocations === 0) {
           dynamicFieldsLocationOptions._addField();
           dynamicFieldsLocationOptions._addField();
+        }
+      }
+
+      if (isTagLocation($fieldQuestionTypeSelect.val())) {
+        const nMapOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(mapOptionFieldSelector).length;
+
+        if (nMapOptions === 0) {
+          dynamicFieldsMapOptions._addField();
+          dynamicFieldsMapOptions._addField();
         }
       }
 
@@ -710,7 +747,11 @@ export default function createEditableForm() {
 
       $field.find(locationOptionRemoveFieldButtonSelector).each((idx, el) => {
         dynamicFieldsForLocationOptions[$field.attr("id")]._removeField(el);
-      })
+      });
+
+      $field.find(mapOptionRemoveFieldButtonSelector).each((idx, el) => {
+        dynamicFieldsForMapOptions[$field.attr("id")]._removeField(el);
+      });
 
       $field.find(matrixRowRemoveFieldButtonSelector).each((idx, el) => {
         dynamicFieldsForMatrixRows[$field.attr("id")]._removeField(el);

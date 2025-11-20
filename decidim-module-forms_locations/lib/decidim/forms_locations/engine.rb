@@ -99,7 +99,7 @@ module Decidim
 
       initializer "decidim_forms_locations.add_customizations", after: "decidim.action_controller" do
         config.to_prepare do
-          # Model
+          # Models
           # NOTE: Keep these before the form extensions! Otherwise the question
           #       type validator on the Admin::QuestionForm is incorrectly
           #       defined.
@@ -107,7 +107,11 @@ module Decidim
           Decidim::Forms::Questionnaire.include(Decidim::Locations::Locatable)
           Decidim::Forms::Question.include(Decidim::FormsLocations::QuestionExtensions)
 
-          # Form
+          # Commands
+          Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
+          Decidim::Forms::Admin::UpdateQuestionnaire.include(Decidim::FormsLocations::Admin::UpdateQuestionnaireExtensions)
+
+          # Forms
 
           Decidim::Forms::QuestionnaireForm.include(Decidim::Locations::LocatableForm)
           Decidim::Forms::Admin::QuestionnaireForm.include(Decidim::Locations::LocatableForm)
@@ -117,11 +121,9 @@ module Decidim
           Decidim::Forms::Admin::QuestionForm.include(Decidim::FormsLocations::Admin::QuestionFormExtensions)
           Decidim::Forms::Admin::AnswerOptionForm.include(Decidim::FormsLocations::Admin::AnswerOptionFormExtensions)
           Decidim::Forms::AnswerChoiceForm.include(Decidim::FormsLocations::AnswerChoiceFormExtensions)
-          Decidim::Forms::Admin::DisplayConditionForm.include(Decidim::FormsLocations::Admin::DisplayConditionFormExtensions)
 
-          # Commands
-          Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
-          Decidim::Forms::Admin::UpdateQuestionnaire.include(Decidim::FormsLocations::Admin::UpdateQuestionnaireExtensions)
+          # Helpers
+          Decidim::Forms::Admin::ApplicationHelper.include(Decidim::FormsLocations::Admin::ApplicationHelperExtensions)
 
           # Presenters
           Decidim::Forms::Admin::QuestionnaireParticipantPresenter.include(Decidim::FormsLocations::Admin::QuestionnaireParticipantPresenterExtensions)
