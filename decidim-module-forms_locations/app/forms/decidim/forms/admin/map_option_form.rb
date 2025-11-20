@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Decidim
-  module FormsLocations
+  module Forms
     module Admin
       class MapOptionForm < Decidim::Form
         include TranslatableAttributes

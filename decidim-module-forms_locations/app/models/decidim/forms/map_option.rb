@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Decidim
-  module FormsLocations
+  module Forms
     class MapOption < Forms::ApplicationRecord
       include Decidim::TranslatableResource
 

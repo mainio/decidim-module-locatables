@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Decidim
-  module FormsLocations
+  module Forms
     #
     # Decorator for map_options
     #
