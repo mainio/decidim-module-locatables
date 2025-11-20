@@ -29,8 +29,8 @@ export default function createEditableForm() {
   const defaultMapPositionWrapperSelector = ".questionnaire-question-default-map-position";
   const locationOptionFieldSelector = ".questionnaire-question-location-option";
   const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
-  const mapDisplayWrapperSelector = ".questionnaire-question-map-display";
   const locationOptionRemoveFieldButtonSelector = ".remove-location-option";
+  const mapDisplayWrapperSelector = ".questionnaire-question-map-display";
 
   const displayConditionFieldSelector = ".questionnaire-question-display-condition";
   const displayConditionsWrapperSelector = ".questionnaire-question-display-conditions";
@@ -338,7 +338,7 @@ export default function createEditableForm() {
   }
 
   const isSelectLocation = (value) => {
-    return SELECT_LOCATION.includes(value);
+    return SELECT_LOCATION.indexOf(value) >= 0;
   }
 
   const isMapLocation = (value) => {
