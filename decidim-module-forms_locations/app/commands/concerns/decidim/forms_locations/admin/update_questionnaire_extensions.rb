@@ -36,6 +36,16 @@ module Decidim
                 update_nested_model(form_answer_option, answer_option_attributes, question.answer_options)
               end
 
+              form_question.map_options.each do |_form_map_option|
+                map_option_attributes = {
+                  label: form_map_option.label,
+                  shape: form_map_option.shape,
+                  color: form_map_option.color
+                }
+
+                update_nested_model(form_map_option, map_option_attributes, question.map_options)
+              end
+
               form_question.display_conditions.each do |form_display_condition|
                 type = form_display_condition.condition_type
 
@@ -44,6 +54,7 @@ module Decidim
                   condition_type: form_display_condition.condition_type,
                   condition_value: type == "match" ? form_display_condition.condition_value : nil,
                   answer_option: %w(equal not_equal).include?(type) ? form_display_condition.answer_option : nil,
+                  map_option: %w(equal not_equal).include?(type) ? form_display_condition.map_option : nil,
                   mandatory: form_display_condition.mandatory
                 }
 
