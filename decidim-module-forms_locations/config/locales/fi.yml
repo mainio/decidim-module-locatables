@@ -42,6 +42,7 @@ fi:
         map_display: Esityskartta
         map_locations: Kartta
         select_locations: Valitse paikat
+        tag_locations: Merkitse paikat
   activemodel:
     attributes:
       questionnaire_question:

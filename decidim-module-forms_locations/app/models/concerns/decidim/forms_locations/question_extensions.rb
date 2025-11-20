@@ -11,6 +11,7 @@ module Decidim
           question_types += %w(map_locations) unless question_types.include?("map_locations")
           question_types += %w(select_locations) unless question_types.include?("select_locations")
           question_types += %w(map_display) unless question_types.include?("map_display")
+          question_types += %w(tag_locations) unless question_types.include?("tag_locations")
           const_set(:QUESTION_TYPES, question_types.freeze)
 
           remove_const(:TYPES)
@@ -23,9 +24,15 @@ module Decidim
           _validate_callbacks.delete(callback) if callback.raw_filter.respond_to?(:attributes) && callback.raw_filter.attributes == [:question_type]
         end
 
+        has_many :map_options,
+                 class_name: "MapOption",
+                 foreign_key: "decidim_question_id",
+                 dependent: :destroy,
+                 inverse_of: :question
+
         validates :question_type, inclusion: { in: const_get(:TYPES) }
 
-        scope :with_choices, -> { where.not(question_type: %w(short_answer long_answer map_locations map_display)) }
+        scope :with_choices, -> { where.not(question_type: %w(short_answer long_answer map_locations map_display tag_locations)) }
 
         def mandatory_body?
           mandatory? && !multiple_choice? && !has_attachments? && !map_type?
@@ -49,6 +56,10 @@ module Decidim
 
         def map_display?
           question_type == "map_display"
+        end
+
+        def tag_locations?
+          question_type == "tag_locations"
         end
       end
     end

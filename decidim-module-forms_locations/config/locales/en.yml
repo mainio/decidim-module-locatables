@@ -42,6 +42,7 @@ en:
         map_display: Map display
         map_locations: Map
         select_locations: Select locations
+        tag_locations: Tag locations
   activemodel:
     attributes:
       questionnaire_question:

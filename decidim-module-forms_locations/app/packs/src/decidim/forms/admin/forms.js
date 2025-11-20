@@ -484,7 +484,7 @@ export default function createEditableForm() {
       dependentFieldsSelector: defaultMapPositionLabelWrapperSelector,
       dependentInputSelector: "label",
       enablingCondition: ($field) => {
-        return $field.val() === "map_locations";
+        return ["map_locations", "tag_locations"].includes($field.val());
       }
     });
 
@@ -494,7 +494,7 @@ export default function createEditableForm() {
       dependentFieldsSelector: defaultMapPositionWrapperSelector,
       dependentInputSelector: "input",
       enablingCondition: ($field) => {
-        return $field.val() === "map_locations";
+        return ["map_locations", "tag_locations"].includes($field.val());
       }
     });
 
