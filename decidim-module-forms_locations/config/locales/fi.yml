@@ -12,6 +12,7 @@ fi:
             title: Otsikko
         questionnaires:
           question:
+            add_map_option: Lisää karttavaihtis
             allow_comments: Salli kommentointi
             allow_comments_help: Tämä asetus määrittää voivatko osallistujat kommentoida karttaa.
             default_map_position: Kartan oletusasetukset
@@ -38,6 +39,18 @@ fi:
             left: Vasen
             right: Oikea
             center: Keskelle
+          map_option:
+            color: Väri
+            label: Karttavaihtis
+            map_option: Karttavaihtis
+            remove: Poista
+            shape: Muoto
+            shapes:
+              circle: Ympyrä
+              triangle: Kolmio
+              square: Neliö
+              diamond: Ruutu
+              star: Tähti
       question_types:
         map_display: Esityskartta
         map_locations: Kartta

@@ -13,6 +13,7 @@ module Decidim
           attribute :default_zoom, Integer, default: 0
           attribute :geojson, JSON
           attribute :allow_comments, Decidim::Form::Boolean, default: true
+          attribute :map_options, Array[Decidim::Forms::Admin::MapOptionForm]
 
           validate :answer_option_location, if: :select_locations?
 

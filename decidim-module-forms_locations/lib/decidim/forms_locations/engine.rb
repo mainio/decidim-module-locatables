@@ -111,6 +111,9 @@ module Decidim
           Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
           Decidim::Forms::Admin::UpdateQuestionnaire.include(Decidim::FormsLocations::Admin::UpdateQuestionnaireExtensions)
 
+          # Controllers
+          Decidim::Forms::Admin::Concerns::HasQuestionnaire.include(Decidim::FormsLocations::Admin::HasQuestionnaireExtensions)
+
           # Forms
 
           Decidim::Forms::QuestionnaireForm.include(Decidim::Locations::LocatableForm)
@@ -124,6 +127,9 @@ module Decidim
 
           # Helpers
           Decidim::Forms::Admin::ApplicationHelper.include(Decidim::FormsLocations::Admin::ApplicationHelperExtensions)
+
+          # Lib
+          Decidim::Forms::QuestionType.include(Decidim::FormsLocations::QuestionTypeExtensions)
 
           # Presenters
           Decidim::Forms::Admin::QuestionnaireParticipantPresenter.include(Decidim::FormsLocations::Admin::QuestionnaireParticipantPresenterExtensions)

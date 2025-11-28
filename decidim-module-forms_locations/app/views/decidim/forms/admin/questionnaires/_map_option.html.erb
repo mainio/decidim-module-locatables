@@ -30,19 +30,25 @@
     <div class="row column">
       <%=
         form.translated(
-          :text_field,
+          :select,
           :shape,
           tabs_id: tabs_id_for_question_map_option(question, map_option),
           label: t(".shape"),
-          disabled: !editable
+          disabled: !editable,
+          collection: [
+            ["circle", t(".shapes.circle")],
+            ["triangle", t(".shapes.triangle")],
+            ["square", t(".shapes.square")],
+            ["diamond", t(".shapes.diamond")],
+            ["star", t(".shapes.star")]
+          ]
         )
       %>
     </div>
 
     <div class="row column">
       <%=
-        form.translated(
-          :text_field,
+        form.color_field(
           :color,
           tabs_id: tabs_id_for_question_map_option(question, map_option),
           label: t(".color"),

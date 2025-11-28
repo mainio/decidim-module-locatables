@@ -12,6 +12,7 @@ en:
             title: Title
         questionnaires:
           question:
+            add_map_option: Add map option
             allow_comments: Allow comments
             allow_comments_help: This setting defines if users can comment on the map.
             default_map_position: Default map position
@@ -38,6 +39,18 @@ en:
             left: Left
             right: Right
             center: Center
+          map_option:
+            color: Color
+            label: Map option
+            map_option: Map option
+            remove: Remove
+            shape: Shape
+            shapes:
+              circle: Circle
+              triangle: Triangle
+              square: Square
+              diamond: Diamond
+              star: Star
       question_types:
         map_display: Map display
         map_locations: Map

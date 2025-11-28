@@ -6,8 +6,8 @@ module Decidim
       class MapOptionForm < Decidim::Form
         include TranslatableAttributes
 
+        attribute :color, String, default: "#000000"
         attribute :deleted, Boolean, default: false
-        attribute :color, String
 
         translatable_attribute :label, String
         translatable_attribute :shape, String

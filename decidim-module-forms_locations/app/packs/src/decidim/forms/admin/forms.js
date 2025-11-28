@@ -297,6 +297,7 @@ export default function createEditableForm() {
       fieldTemplateSelector: ".decidim-map-option-template",
       removeFieldButtonSelector: mapOptionRemoveFieldButtonSelector,
       onAddField: () => {
+
       },
       onRemoveField: () => {
       }
@@ -598,7 +599,6 @@ export default function createEditableForm() {
         const nMapOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(mapOptionFieldSelector).length;
 
         if (nMapOptions === 0) {
-          dynamicFieldsMapOptions._addField();
           dynamicFieldsMapOptions._addField();
         }
       }
