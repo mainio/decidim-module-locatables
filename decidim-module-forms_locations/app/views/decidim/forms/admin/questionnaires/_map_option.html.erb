@@ -29,19 +29,21 @@
 
     <div class="row column">
       <%=
-        form.translated(
-          :select,
+        form.select(
           :shape,
+          options_for_select(
+            [
+              [t(".shapes.circle"), "circle"],
+              [t(".shapes.triangle"), "triangle"],
+              [t(".shapes.square"), "square"],
+              [t(".shapes.diamond"), "diamond"],
+              [t(".shapes.star"), "star"]
+            ],
+            form.object.shape
+          ),
           tabs_id: tabs_id_for_question_map_option(question, map_option),
           label: t(".shape"),
           disabled: !editable,
-          collection: [
-            ["circle", t(".shapes.circle")],
-            ["triangle", t(".shapes.triangle")],
-            ["square", t(".shapes.square")],
-            ["diamond", t(".shapes.diamond")],
-            ["star", t(".shapes.star")]
-          ]
         )
       %>
     </div>

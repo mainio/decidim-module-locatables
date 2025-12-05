@@ -1,0 +1,12 @@
+<div class="survey-map__container">
+  <%= cell(
+    "decidim/locations/locations",
+    @answer,
+    form: answer_form,
+    coords: [answer.question.default_latitude, answer.question.default_longitude],
+    zoom: answer.question.default_zoom,
+    map_options: answer.question.map_options
+  ) %>
+</div>
+
+<%= append_stylesheet_pack_tag "decidim_forms_locations" %>

@@ -36,7 +36,7 @@ module Decidim
                 update_nested_model(form_answer_option, answer_option_attributes, question.answer_options)
               end
 
-              form_question.map_options.each do |_form_map_option|
+              form_question.map_options.each do |form_map_option|
                 map_option_attributes = {
                   label: form_map_option.label,
                   shape: form_map_option.shape,

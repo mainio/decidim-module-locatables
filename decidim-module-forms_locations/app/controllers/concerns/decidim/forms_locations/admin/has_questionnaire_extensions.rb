@@ -7,13 +7,14 @@ module Decidim
         extend ActiveSupport::Concern
 
         included do
-          helper_method :blank_map_option
+          helper_method :blank_map_option, :map_options_url
 
           def map_options
             respond_to do |format|
               format.json do
                 question_id = params["id"]
                 question = Question.find_by(id: question_id)
+
                 render json: question.map_options.map { |map_option| MapOptionPresenter.new(map_option).as_json } if question.present?
               end
             end

@@ -10,10 +10,10 @@ module Decidim
         attribute :deleted, Boolean, default: false
 
         translatable_attribute :label, String
-        translatable_attribute :shape, String
+        attribute :shape, String
 
         validates :label, translatable_presence: true, unless: :deleted
-        validates :shape, translatable_presence: true, unless: :deleted
+        validates :shape, presence: true, unless: :deleted
 
         def to_param
           return id if id.present?

@@ -50,7 +50,7 @@ export default function createEditableForm() {
   const addDisplayConditionButtonSelector = ".add-display-condition";
 
   const typeLocButton = document.querySelector(".input-group .input-group-button");
-  const typeLocWrapper = document.querySelector(".picker-wrapper .type-locations-wrapper")
+  const typeLocWrapper = document.querySelector(".picker-wrapper .type-locations-wrapper");
 
   const removeDisplayConditionsForFirstQuestion = () => {
     $(fieldSelector).each((idx, el) => {
@@ -297,7 +297,6 @@ export default function createEditableForm() {
       fieldTemplateSelector: ".decidim-map-option-template",
       removeFieldButtonSelector: mapOptionRemoveFieldButtonSelector,
       onAddField: () => {
-
       },
       onRemoveField: () => {
       }
@@ -373,7 +372,7 @@ export default function createEditableForm() {
   }
 
   const isTagLocation = (value) => {
-    return TAG_LOCATION.includes(value);
+    return TAG_LOCATION.indexOf(value) >= 0;
   }
 
   const getSelectedQuestionType = (select) => {
@@ -564,6 +563,16 @@ export default function createEditableForm() {
         return isMatrix($field.val());
       }
     });
+
+    createFieldDependentInputs({
+      controllerField: $fieldQuestionTypeSelect,
+      wrapperSelector: fieldSelector,
+      dependentFieldsSelector: mapOptionsWrapperSelector,
+      dependentInputSelector: `${mapOptionFieldSelector} input`,
+      enablingCondition: ($field) => {
+        return isTagLocation($field.val());
+      }
+    })
 
     dynamicFieldsForAnswerOptions[fieldId] = createDynamicFieldsForAnswerOptions(fieldId);
     dynamicFieldsForLocationOptions[fieldId] = createDynamicFieldsForLocationOptions(fieldId);

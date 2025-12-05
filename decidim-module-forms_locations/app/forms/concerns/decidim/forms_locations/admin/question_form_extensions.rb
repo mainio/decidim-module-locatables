@@ -17,12 +17,18 @@ module Decidim
 
           validate :answer_option_location, if: :select_locations?
 
+          validates :map_options, presence: true, if: :tag_locations?
+
           def map_locations?
             question_type == "map_locations"
           end
 
           def select_locations?
             question_type == "select_locations"
+          end
+
+          def tag_locations?
+            question_type == "tag_locations"
           end
 
           def answer_option_location

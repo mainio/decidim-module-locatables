@@ -12,12 +12,8 @@ module Decidim
         @translated_label ||= translated_attribute label
       end
 
-      def translated_shape
-        @translated_shape ||= translated_attribute shape
-      end
-
       def as_json(*_args)
-        { id:, label: translated_label, shape: translated_shape }
+        { id:, label: translated_label }
       end
     end
   end

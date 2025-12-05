@@ -97,6 +97,13 @@ module Decidim
         Decidim.register_assets_path File.expand_path("app/packs", root)
       end
 
+      initializer "decidim_forms_locations.register_icons" do
+        Decidim.icons.register(name: "circle-line", icon: "circle-line", category: "system", description: "", engine: :forms_locations)
+        Decidim.icons.register(name: "triangle-line", icon: "triangle-line", category: "system", description: "", engine: :forms_locations)
+        Decidim.icons.register(name: "square-line", icon: "square-line", category: "system", description: "", engine: :forms_locations)
+        Decidim.icons.register(name: "poker-diamonds-line", icon: "poker-diamonds-line", category: "system", description: "", engine: :forms_locations)
+      end
+
       initializer "decidim_forms_locations.add_customizations", after: "decidim.action_controller" do
         config.to_prepare do
           # Models
