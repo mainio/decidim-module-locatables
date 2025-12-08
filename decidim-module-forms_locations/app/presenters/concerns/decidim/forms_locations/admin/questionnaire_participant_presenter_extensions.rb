@@ -16,7 +16,7 @@ module Decidim
                                  .count
             with_choices = sibilings.where.not("decidim_forms_questions.question_type in (?)", %w(short_answer long_answer))
                                     .where("decidim_forms_answers.id IN (SELECT decidim_answer_id FROM decidim_forms_answer_choices)").count
-            with_locations = sibilings.where(decidim_forms_questions: { question_type: %w(map_locations) })
+            with_locations = sibilings.where(decidim_forms_questions: { question_type: %w(map_locations tag_locations) })
                                       .joins(:locations).uniq.count
 
             valid_questions = questionnaire

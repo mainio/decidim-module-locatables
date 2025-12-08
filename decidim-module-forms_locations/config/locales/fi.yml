@@ -56,6 +56,10 @@ fi:
         map_locations: Kartta
         select_locations: Valitse paikat
         tag_locations: Merkitse paikat
+      user_answers_serializer:
+        address: Osoite
+        coordinates: Koordinaatit
+        label: Karttavaihtis
   activemodel:
     attributes:
       questionnaire_question:

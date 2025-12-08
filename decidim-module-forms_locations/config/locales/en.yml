@@ -56,6 +56,10 @@ en:
         map_locations: Map
         select_locations: Select locations
         tag_locations: Tag locations
+      user_answers_serializer:
+        address: Address
+        coordinates: Coordinates
+        label: Label
   activemodel:
     attributes:
       questionnaire_question:

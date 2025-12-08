@@ -36,10 +36,33 @@
     <dl class="p-4 [&_ul]:list-disc [&_ul]:pl-4">
       <% @participant.answers.each do |answer| %>
         <dt class="font-semibold"><%= answer.question %></dt>
-        <% if answer.answer.question.map_locations? %>
+        <% if answer.answer.question.map_locations? || answer.answer.question.tag_locations? %>
           <% if answer.answer.locations.count > 0 %>
-            <% answer.answer.locations.each do |location| %>
-              <dd><%= location.address %></dd>
+            <% if answer.answer.question.tag_locations? %>
+              <table class="table-list mt-4">
+                <thead>
+                  <tr>
+                    <th><%= t("label", scope: "decidim.forms.user_answers_serializer") %></th>
+                    <th><%= t("address", scope: "decidim.forms.user_answers_serializer") %></th>
+                    <th><%= t("coordinates", scope: "decidim.forms.user_answers_serializer") %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% answer.answer.locations.each do |location| %>
+                    <tr>
+                        <td><%= location.shape %></td>
+                        <td><%= location.address %></td>
+                        <td><%= location.latitude %>, <%= location.longitude %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% else %>
+              <% answer.answer.locations.each do |location| %>
+                <dd>
+                  <%= location.address %>
+                </dd>
+              <% end %>
             <% end %>
           <% else %>
             <dd>-</dd>
