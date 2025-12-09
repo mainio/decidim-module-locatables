@@ -47,9 +47,9 @@ en:
             shape: Shape
             shapes:
               circle: Circle
+              flag: Flag
               triangle: Triangle
               square: Square
-              diamond: Diamond
               star: Star
       question_types:
         map_display: Map display
