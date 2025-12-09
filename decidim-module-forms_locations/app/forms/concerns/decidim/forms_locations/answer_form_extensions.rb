@@ -6,9 +6,15 @@ module Decidim
       extend ActiveSupport::Concern
 
       included do
+        _validators.reject! { |key, _| key == :body }
+        _validate_callbacks.each do |callback|
+          _validate_callbacks.delete(callback) if callback.raw_filter.respond_to?(:attributes) && callback.raw_filter.attributes == [:body]
+        end
+
         attribute :latitude, Float
         attribute :longitude, Float
 
+        validates :body, presence: true, if: :mandatory_body?
         validates :latitude, presence: true, if: :mandatory_location?
         validates :longitude, presence: true, if: :mandatory_location?
 
@@ -18,6 +24,12 @@ module Decidim
 
         private
 
+        def mandatory_body?
+          return false if question.map_locations? || question.select_locations? || question.tag_locations?
+
+          question.mandatory_body? if display_conditions_fulfilled?
+        end
+
         def mandatory_location?
           question.mandatory_location? if display_conditions_fulfilled?
         end
@@ -25,6 +37,8 @@ module Decidim
         def select_location_choices
           errors.add(:choices, :missing) if selected_choices.count <= 0
         end
+
+        def mandatory_tags?; end
       end
     end
   end
