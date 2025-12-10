@@ -108,23 +108,6 @@ export default function createEditableForm() {
     })
   };
 
-  const createAutoMaxChoicesByNumberOfLocationOptions = (fieldId) => {
-    return new AutoSelectOptionsByTotalItemsComponent({
-      wrapperSelector: fieldSelector,
-      selectSelector: `${maxChoicesWrapperSelector} select`,
-      listSelector: `#${fieldId} ${locationOptionsWrapperSelector} .questionnaire-question-location-option:not(.hidden)`
-    })
-  };
-
-  const createAutoButtonsByMinItemsForLocationOptions = (fieldId) => {
-    return new AutoButtonsByMinItemsComponent({
-      wrapperSelector: fieldSelector,
-      listSelector: `#${fieldId} ${locationOptionsWrapperSelector} .questionnaire-question-location-option:not(.hidden)`,
-      minItems: 2,
-      hideOnMinItemsOrLessSelector: locationOptionRemoveFieldButtonSelector
-    })
-  };
-
   const createAutoSelectOptionsFromUrl = ($field) => {
     return new AutoSelectOptionsFromUrl({
       source: $field.find(displayConditionQuestionSelector),
@@ -219,8 +202,6 @@ export default function createEditableForm() {
   const dynamicFieldsForMatrixRows = {};
 
   const createDynamicFieldsForLocationOptions = (fieldId) => {
-    const autoButtons = createAutoButtonsByMinItemsForLocationOptions(fieldId);
-    const autoSelectOptions = createAutoMaxChoicesByNumberOfLocationOptions(fieldId);
     let mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
 
     return createDynamicFields({
@@ -274,13 +255,8 @@ export default function createEditableForm() {
             }
           })
         }
-
-        autoButtons.run();
-        autoSelectOptions.run();
       },
       onRemoveField: () => {
-        autoButtons.run();
-        autoSelectOptions.run();
       }
     });
   };
