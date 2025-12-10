@@ -66,3 +66,6 @@ fi:
         default_latitude: Leveysaste
         default_longitude: Pituusaste
         default_zoom: Zoom
+  errors:
+    messages:
+      location_missing: Merkki puuttuu.

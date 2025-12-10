@@ -66,3 +66,6 @@ en:
         default_latitude: Latitude
         default_longitude: Longitude
         default_zoom: Zoom
+  errors:
+    messages:
+      location_missing: Marker missing.

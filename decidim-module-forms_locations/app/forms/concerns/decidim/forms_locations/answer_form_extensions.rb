@@ -15,10 +15,9 @@ module Decidim
         attribute :longitude, Float
 
         validates :body, presence: true, if: :mandatory_body?
-        validates :latitude, presence: true, if: :mandatory_location?
-        validates :longitude, presence: true, if: :mandatory_location?
 
         validate :select_location_choices, if: -> { question.mandatory && question.select_locations? }
+        validate :location_applied, if: :mandatory_location?
 
         delegate :mandatory_body?, :mandatory_choices?, :mandatory_location?, :matrix?, to: :question
 
@@ -38,7 +37,9 @@ module Decidim
           errors.add(:choices, :missing) if selected_choices.count <= 0
         end
 
-        def mandatory_tags?; end
+        def location_applied
+          errors.add(:base, :location_missing) if latitude.blank? || longitude.blank?
+        end
       end
     end
   end
