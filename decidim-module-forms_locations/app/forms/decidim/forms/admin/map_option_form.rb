@@ -10,7 +10,7 @@ module Decidim
         attribute :deleted, Boolean, default: false
 
         translatable_attribute :label, String
-        attribute :shape, String
+        attribute :shape, String, default: "circle"
 
         validates :label, translatable_presence: true, unless: :deleted
         validates :shape, presence: true, unless: :deleted

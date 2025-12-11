@@ -25,10 +25,7 @@ fi:
             set_bounds: Aseta rajat
             single: Yksittäinen
             select_from_map: Valitse kartalta
-          location_option:
-            answer_option: Vastausvaihtoehto
-            remove: Poista
-            statement: Selite
+          answer_option:
             geojson: Geojson
             geojson_help: Lisää GeoJSON lisätäksesi vaihtoehto tai paina
                           "Määritä" -painiketta määrittääksesi GeoJSON.

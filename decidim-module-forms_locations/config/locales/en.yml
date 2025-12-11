@@ -25,10 +25,7 @@ en:
             set_bounds: Set bounds
             single: Single
             select_from_map: Select from map
-          location_option:
-            answer_option: Answer option
-            remove: Remove
-            statement: Statement
+          answer_option:
             geojson: Geojson
             geojson_help: Insert GeoJSON to add option or press "Define" to
                           define GeoJSON.

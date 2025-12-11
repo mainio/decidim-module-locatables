@@ -139,22 +139,6 @@
         <% end %>
       </div>
 
-      <div class="questionnaire-question-location-options" data-template="<%= location_option_template_selector %>">
-        <div class="questionnaire-question-location-options-list">
-          <% question.answer_options.each do |answer_option| %>
-            <%= fields_for "questionnaire[questions][#{question.to_param}][answer_options][]", answer_option do |answer_option_form| %>
-              <%= render "decidim/forms/admin/questionnaires/location_option", form: answer_option_form, question: question, editable: editable %>
-            <% end %>
-          <% end %>
-        </div>
-
-        <% if editable %>
-          <div class="row column">
-            <button type="button" class="button button__sm button__secondary mt-4 add-location-option"><%= t(".add_answer_option") %></button>
-          </div>
-        <% end %>
-      </div>
-
       <div class="questionnaire-question-map-options" data-template="<%= map_option_template_selector %>">
         <div class="questionnaire-question-map-options-list">
           <% question.map_options.each do |map_option| %>

@@ -27,9 +27,6 @@ export default function createEditableForm() {
   const locationCountWrapperSelector = ".questionnaire-question-location-count";
   const defaultMapPositionLabelWrapperSelector = ".questionnaire-question-default-map-position-label"
   const defaultMapPositionWrapperSelector = ".questionnaire-question-default-map-position";
-  const locationOptionFieldSelector = ".questionnaire-question-location-option";
-  const locationOptionsWrapperSelector = ".questionnaire-question-location-options";
-  const locationOptionRemoveFieldButtonSelector = ".remove-location-option";
   const mapDisplayWrapperSelector = ".questionnaire-question-map-display";
   const mapOptionFieldSelector = ".questionnaire-question-map-option";
   const mapOptionsWrapperSelector = ".questionnaire-question-map-options";
@@ -86,10 +83,10 @@ export default function createEditableForm() {
 
   const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple"];
   const MATRIX_VALUES = ["matrix_single", "matrix_multiple"];
-  const SELECT_LOCATION = ["select_locations"];
   const MAP_LOCATION = ["map_locations"];
+  const SELECT_LOCATION = ["select_locations"];
   const MAP_DISPLAY = ["map_display"];
-  const TAG_LOCATION = ["tag_locations"]
+  const TAG_LOCATION = ["tag_locations"];
 
   const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
     return new AutoSelectOptionsByTotalItemsComponent({
@@ -154,7 +151,7 @@ export default function createEditableForm() {
       $target.find(".question--collapse").attr("data-controls", toggleAttr);
     }
     if ($("[data-decidim-map]").length === 0) {
-      $target.find("option[value='select_locations'], option[value='map_locations']").prop("disabled", true);
+      $target.find("option[value='select_locations'], option[value='map_locations'], option[value='map_display'], option[value='tag_locations']").prop("disabled", true);
     }
   };
 
@@ -201,68 +198,6 @@ export default function createEditableForm() {
 
   const dynamicFieldsForMatrixRows = {};
 
-  const createDynamicFieldsForLocationOptions = (fieldId) => {
-    let mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
-
-    return createDynamicFields({
-      placeholderId: "questionnaire-question-answer-option-id",
-      wrapperSelector: `#${fieldId} ${locationOptionsWrapperSelector}`,
-      containerSelector: ".questionnaire-question-location-options-list",
-      fieldSelector: locationOptionFieldSelector,
-      addFieldButtonSelector: ".add-location-option",
-      fieldTemplateSelector: ".decidim-location-option-template",
-      removeFieldButtonSelector: locationOptionRemoveFieldButtonSelector,
-      onAddField: (jquery) => {
-        mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
-
-        if ($("[data-decidim-map]").length > 0) {
-          const element = jquery[0];
-          const button = element.querySelector(".location-option-define");
-          button.addEventListener("click", (event) => {
-            mapCtrl.customizeSearch(false, false, {typeLocButton, typeLocWrapper})
-            mapCtrl.map.pm.addControls({
-              drawPolygon: true,
-              drawPolyline: true
-            })
-
-            const activeButton = document.querySelector(".default-position-active");
-            const locationSelector = document.querySelector(".location-option-define.location-selector");
-            const setBoundsActive = document.querySelector(".set-bounds-active");
-
-            if (activeButton) {
-              activeButton.classList.remove("default-position-active");
-            }
-
-            if (locationSelector) {
-              locationSelector.classList.remove("location-selector");
-            }
-
-            if (setBoundsActive) {
-              setBoundsActive.classList.remove("set-bounds-active");
-            }
-
-            button.classList.add("location-selector");
-
-            window.Decidim.currentDialogs["answer-option-map-selector"].open();
-            mapCtrl.map.invalidateSize();
-
-            const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-
-            if (textAreaVal) {
-              mapCtrl.addLocation(textAreaVal);
-            } else {
-              mapCtrl.addViewPort(0, 0, 0);
-            }
-          })
-        }
-      },
-      onRemoveField: () => {
-      }
-    });
-  };
-
-  const dynamicFieldsForLocationOptions = {};
-
   const createDynamicFieldsForMapOptions = (fieldId) => {
     return createDynamicFields({
       placeholderId: "questionnaire-question-map-option-id",
@@ -281,52 +216,6 @@ export default function createEditableForm() {
 
   const dynamicFieldsForMapOptions = {};
 
-  const addSelectLocationButtonListeners = () => {
-    const buttons = document.querySelectorAll(".location-option-define");
-
-    buttons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
-
-        mapCtrl.customizeSearch(false, false, {typeLocButton, typeLocWrapper});
-        mapCtrl.map.pm.addControls({
-          drawMarker: true,
-          drawPolygon: true,
-          drawPolyline: true
-        })
-
-        const activeButton = document.querySelector(".default-position-active");
-        const locationSelector = document.querySelector(".location-option-define.location-selector");
-        const setBoundsActive = document.querySelector(".set-bounds-active");
-
-        if (activeButton) {
-          activeButton.classList.remove("default-position-active");
-        }
-
-        if (locationSelector) {
-          locationSelector.classList.remove("location-selector");
-        }
-
-        if (setBoundsActive) {
-          setBoundsActive.classList.remove("set-bounds-active");
-        }
-
-        button.classList.add("location-selector");
-
-        window.Decidim.currentDialogs["answer-option-map-selector"].open();
-        mapCtrl.map.invalidateSize();
-
-        const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
-
-        if (textAreaVal) {
-          mapCtrl.addLocation(textAreaVal);
-        } else {
-          mapCtrl.addViewPort(0, 0, 11);
-        }
-      })
-    })
-  }
-
   const isMultipleChoiceOption = (value) => {
     return MULTIPLE_CHOICE_VALUES.indexOf(value) >= 0;
   }
@@ -335,12 +224,12 @@ export default function createEditableForm() {
     return MATRIX_VALUES.indexOf(value) >= 0;
   }
 
-  const isSelectLocation = (value) => {
-    return SELECT_LOCATION.indexOf(value) >= 0;
-  }
-
   const isMapLocation = (value) => {
     return MAP_LOCATION.includes(value);
+  }
+
+  const isSelectLocation = (value) => {
+    return SELECT_LOCATION.includes(value);
   }
 
   const isMapDisplay = (value) => {
@@ -360,7 +249,7 @@ export default function createEditableForm() {
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
 
-    const isMultiple = isMultipleChoiceOption(selectedQuestionType);
+    const isMultiple = isMultipleChoiceOption(selectedQuestionType) || isSelectLocation(selectedQuestionType);
 
     let conditionTypes = ["answered", "not_answered"];
 
@@ -403,7 +292,7 @@ export default function createEditableForm() {
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
 
-    const isMultiple = isMultipleChoiceOption(selectedQuestionType);
+    const isMultiple = isMultipleChoiceOption(selectedQuestionType) || isSelectLocation(selectedQuestionType);
 
     if (value === "match") {
       $valueWrapper.show();
@@ -464,9 +353,13 @@ export default function createEditableForm() {
       controllerField: $fieldQuestionTypeSelect,
       wrapperSelector: fieldSelector,
       dependentFieldsSelector: answerOptionsWrapperSelector,
-      dependentInputSelector: `${answerOptionFieldSelector} input`,
+      dependentInputSelector: `
+        ${answerOptionFieldSelector} input,
+        ${answerOptionFieldSelector} textarea,
+        ${answerOptionFieldSelector} select
+      `,
       enablingCondition: ($field) => {
-        return isMultipleChoiceOption($field.val());
+        return isMultipleChoiceOption($field.val()) || isSelectLocation($field.val());
       }
     });
 
@@ -497,16 +390,6 @@ export default function createEditableForm() {
       dependentInputSelector: "input",
       enablingCondition: ($field) => {
         return ["map_locations", "tag_locations"].includes($field.val());
-      }
-    });
-
-    createFieldDependentInputs({
-      controllerField: $fieldQuestionTypeSelect,
-      wrapperSelector: fieldSelector,
-      dependentFieldsSelector: locationOptionsWrapperSelector,
-      dependentInputSelector: "input",
-      enablingCondition: ($field) => {
-        return $field.val() === "select_locations";
       }
     });
 
@@ -551,32 +434,21 @@ export default function createEditableForm() {
     })
 
     dynamicFieldsForAnswerOptions[fieldId] = createDynamicFieldsForAnswerOptions(fieldId);
-    dynamicFieldsForLocationOptions[fieldId] = createDynamicFieldsForLocationOptions(fieldId);
     dynamicFieldsForMatrixRows[fieldId] = createDynamicFieldsForMatrixRows(fieldId);
     dynamicFieldsForDisplayConditions[fieldId] = createDynamicFieldsForDisplayConditions(fieldId);
     dynamicFieldsForMapOptions[fieldId] = createDynamicFieldsForMapOptions(fieldId);
 
     const dynamicFieldsAnswerOptions = dynamicFieldsForAnswerOptions[fieldId];
-    const dynamicFieldsLocationOptions = dynamicFieldsForLocationOptions[fieldId];
     const dynamicFieldsMatrixRows = dynamicFieldsForMatrixRows[fieldId];
     const dynamicFieldsMapOptions = dynamicFieldsForMapOptions[fieldId];
 
     const onQuestionTypeChange = () => {
-      if (isMultipleChoiceOption($fieldQuestionTypeSelect.val())) {
+      if (isMultipleChoiceOption($fieldQuestionTypeSelect.val()) || isSelectLocation($fieldQuestionTypeSelect.val())) {
         const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(answerOptionFieldSelector).length;
 
         if (nOptions === 0) {
           dynamicFieldsAnswerOptions._addField();
           dynamicFieldsAnswerOptions._addField();
-        }
-      }
-
-      if (isSelectLocation($fieldQuestionTypeSelect.val())) {
-        const nLocations = $fieldQuestionTypeSelect.parents(fieldSelector).find(locationOptionFieldSelector).length;
-
-        if (nLocations === 0) {
-          dynamicFieldsLocationOptions._addField();
-          dynamicFieldsLocationOptions._addField();
         }
       }
 
@@ -672,6 +544,48 @@ export default function createEditableForm() {
         })
       }
 
+      if (isSelectLocation($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
+        $target.off("click", ".location-option-define").on("click", ".location-option-define", function (event) {
+          const btn = event.currentTarget;
+          const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
+
+          mapCtrl.customizeSearch(false, false, {typeLocButton, typeLocWrapper})
+          mapCtrl.map.pm.addControls({
+            drawPolygon: true,
+            drawPolyline: true
+          })
+
+          const activeButton = document.querySelector(".default-position-active");
+          const locationSelector = document.querySelector(".location-option-define.location-selector");
+          const setBoundsActive = document.querySelector(".set-bounds-active");
+
+          if (activeButton) {
+            activeButton.classList.remove("default-position-active");
+          }
+
+          if (locationSelector) {
+            locationSelector.classList.remove("location-selector");
+          }
+
+          if (setBoundsActive) {
+            setBoundsActive.classList.remove("set-bounds-active");
+          }
+
+          btn.classList.add("location-selector");
+
+          window.Decidim.currentDialogs["answer-option-map-selector"].open();
+          mapCtrl.map.invalidateSize();
+
+          const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
+
+          if (textAreaVal) {
+            mapCtrl.addLocation(textAreaVal);
+          } else {
+            mapCtrl.addViewPort(0, 0, 0);
+          }
+        })
+      }
+
       if (isMatrix($fieldQuestionTypeSelect.val())) {
         const nRows = $fieldQuestionTypeSelect.parents(fieldSelector).find(matrixRowFieldSelector).length;
 
@@ -680,7 +594,24 @@ export default function createEditableForm() {
           dynamicFieldsMatrixRows._addField();
         }
       }
-    };
+
+      const questionType = $fieldQuestionTypeSelect.val();
+      const $options = $target.find(answerOptionFieldSelector);
+
+      $options.each((_idx, opt) => {
+        const $opt = $(opt);
+
+        if (isMultipleChoiceOption(questionType)) {
+          $opt.find(".multiple-field").show();
+          $opt.find(".location-field").hide();
+        } else if (isSelectLocation(questionType)) {
+          $opt.find(".multiple-field").hide();
+          $opt.find(".location-field").show();
+        } else {
+          return;
+        }
+      })
+    }
 
     $fieldQuestionTypeSelect.on("change", onQuestionTypeChange);
 
@@ -730,10 +661,6 @@ export default function createEditableForm() {
         dynamicFieldsForAnswerOptions[$field.attr("id")]._removeField(el);
       });
 
-      $field.find(locationOptionRemoveFieldButtonSelector).each((idx, el) => {
-        dynamicFieldsForLocationOptions[$field.attr("id")]._removeField(el);
-      });
-
       $field.find(mapOptionRemoveFieldButtonSelector).each((idx, el) => {
         dynamicFieldsForMapOptions[$field.attr("id")]._removeField(el);
       });
@@ -757,10 +684,6 @@ export default function createEditableForm() {
   });
 
   createSortableList();
-
-  if ($("[data-decidim-map]").length > 0) {
-    addSelectLocationButtonListeners();
-  }
 
   $(fieldSelector).each((idx, el) => {
     const $target = $(el);

@@ -39,16 +39,16 @@
               [t(".shapes.flag"), "flag"],
               [t(".shapes.star"), "star"]
             ],
-            form.object.shape
+            form.object.shape || "circle"
           ),
           tabs_id: tabs_id_for_question_map_option(question, map_option),
           label: t(".shape"),
-          disabled: !editable,
+          disabled: !editable
         )
       %>
     </div>
 
-    <div class="row column">
+    <div class="row column map__option-color">
       <%=
         form.color_field(
           :color,
