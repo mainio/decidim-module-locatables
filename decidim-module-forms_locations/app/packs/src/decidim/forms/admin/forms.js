@@ -497,8 +497,10 @@ export default function createEditableForm() {
           const longitude = button.closest(".questionnaire-question-default-map-position").find(".default-position-longitude label input").val();
           const zoom = button.closest(".questionnaire-question-default-map-position").find(".default-position-zoom label input").val();
 
-          if (latitude && longitude) {
+          if (latitude !== "0.0" || longitude !== "0.0" || zoom !== "0") {
             mapCtrl.addViewPort(latitude, longitude, zoom);
+          } else {
+            mapCtrl.setView([0, 0], 0)
           }
         })
       }
@@ -581,7 +583,7 @@ export default function createEditableForm() {
           if (textAreaVal) {
             mapCtrl.addLocation(textAreaVal);
           } else {
-            mapCtrl.addViewPort(0, 0, 0);
+            mapCtrl.setView([0, 0], 0)
           }
         })
       }
