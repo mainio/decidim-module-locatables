@@ -13,7 +13,6 @@ module Decidim
         attribute :shape, String, default: "circle"
 
         validates :label, translatable_presence: true, unless: :deleted
-        validates :shape, presence: true, unless: :deleted
 
         def to_param
           return id if id.present?
