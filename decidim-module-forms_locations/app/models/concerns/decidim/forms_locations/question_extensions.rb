@@ -25,7 +25,7 @@ module Decidim
         end
 
         has_many :map_options,
-                 class_name: "MapOption",
+                 class_name: "Decidim::Forms::MapOption",
                  foreign_key: "decidim_question_id",
                  dependent: :destroy,
                  inverse_of: :question
@@ -39,7 +39,7 @@ module Decidim
         end
 
         def map_type?
-          map_locations? && select_locations? && map_display?
+          map_locations? || select_locations? || map_display?
         end
 
         def mandatory_location?

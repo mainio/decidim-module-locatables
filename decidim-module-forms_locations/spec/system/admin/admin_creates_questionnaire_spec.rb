@@ -65,7 +65,7 @@ describe "CreateSurvey" do
           scroll_to(:bottom)
           expect(page).to have_content("Add answer option")
           expect(page).to have_content("Answer option")
-          answer_options = all(".questionnaire-question-location-option")
+          answer_options = all(".questionnaire-question-answer-option")
 
           answer_options.each do |option|
             within(option) do
@@ -91,7 +91,7 @@ describe "CreateSurvey" do
           select("Select locations", from: "Type").select_option
           expect(page).to have_content("Answer option")
           click_on "Add answer option"
-          answer_options = all(".questionnaire-question-location-option")
+          answer_options = all(".questionnaire-question-answer-option")
 
           answer_options.each do |option|
             within(option) do
