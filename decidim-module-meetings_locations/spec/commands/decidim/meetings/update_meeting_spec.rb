@@ -57,7 +57,7 @@ module Decidim
       end
 
       let(:command) do
-        described_class.new(form, author, meeting)
+        described_class.new(form, meeting)
       end
 
       context "when one location is provided" do

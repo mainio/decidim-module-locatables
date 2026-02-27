@@ -17,7 +17,7 @@ module Decidim
           send_notification if should_notify_followers?
           schedule_upcoming_meeting_notification if start_time_changed?
 
-          update_locations(@meeting, @form)
+          update_locations(meeting, @form)
 
           broadcast(:ok, meeting)
         end

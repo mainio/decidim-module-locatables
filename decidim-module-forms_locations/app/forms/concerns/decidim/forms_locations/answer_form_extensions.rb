@@ -8,7 +8,7 @@ module Decidim
       included do
         _validators.reject! { |key, _| key == :body }
         _validate_callbacks.each do |callback|
-          _validate_callbacks.delete(callback) if callback.raw_filter.respond_to?(:attributes) && callback.raw_filter.attributes == [:body]
+          _validate_callbacks.delete(callback) if callback.filter.respond_to?(:attributes) && callback.filter.attributes == [:body]
         end
 
         attribute :latitude, Float

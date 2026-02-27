@@ -105,8 +105,7 @@ describe "AnswerSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Already answered")
-          expect(page).to have_content("You have already answered this form.")
+          expect(page).to have_content("Survey successfully answered")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
         end
 
@@ -119,8 +118,7 @@ describe "AnswerSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Already answered")
-          expect(page).to have_content("You have already answered this form.")
+          expect(page).to have_content("Survey successfully answered")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(2)
         end
       end
@@ -134,8 +132,7 @@ describe "AnswerSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Already answered")
-          expect(page).to have_content("You have already answered this form.")
+          expect(page).to have_content("Survey successfully answered")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
         end
 
@@ -151,8 +148,7 @@ describe "AnswerSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Already answered")
-          expect(page).to have_content("You have already answered this form.")
+          expect(page).to have_content("Survey successfully answered")
           expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
         end
       end
@@ -249,8 +245,7 @@ describe "AnswerSurvey" do
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("Already answered")
-        expect(page).to have_content("You have already answered this form.")
+        expect(page).to have_content("Survey successfully answered")
       end
 
       it "gives an error if no option picked" do
@@ -270,8 +265,7 @@ describe "AnswerSurvey" do
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("Already answered")
-        expect(page).to have_content("You have already answered this form.")
+        expect(page).to have_content("Survey successfully answered")
       end
     end
   end

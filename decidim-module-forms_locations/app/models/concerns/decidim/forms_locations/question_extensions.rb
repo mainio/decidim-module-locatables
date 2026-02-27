@@ -21,7 +21,7 @@ module Decidim
         # Redefine the question_type inclusion validator
         _validators.reject! { |key, _| key == :question_type }
         _validate_callbacks.each do |callback|
-          _validate_callbacks.delete(callback) if callback.raw_filter.respond_to?(:attributes) && callback.raw_filter.attributes == [:question_type]
+          _validate_callbacks.delete(callback) if callback.filter.respond_to?(:attributes) && callback.filter.attributes == [:question_type]
         end
 
         has_many :map_options,

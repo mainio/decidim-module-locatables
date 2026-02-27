@@ -7,20 +7,12 @@ module Decidim
       include Decidim::Locations::LocationsCommand
 
       included do
-        def call
-          return broadcast(:invalid) if form.invalid?
-
-          with_events(with_transaction: true) do
-            create_meeting!
-          end
-
+        def run_after_hooks
           create_follow_form_resource(form.current_user)
           schedule_upcoming_meeting_notification
           send_notification
 
-          update_locations(@meeting, @form)
-
-          broadcast(:ok, meeting)
+          update_locations(resource, @form)
         end
       end
     end

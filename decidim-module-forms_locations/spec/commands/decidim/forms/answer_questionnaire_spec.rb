@@ -35,7 +35,7 @@ module Decidim
           ip_hash:
         )
       end
-      let(:command) { described_class.new(form, current_user, questionnaire) }
+      let(:command) { described_class.new(form, questionnaire) }
 
       context "when question type is map_locations" do
         let(:question_type) { "map_locations" }

@@ -28,7 +28,6 @@ describe "Map" do
       execute_script("arguments[0].click();", element)
 
       fill_in :proposal_title, with: "Test proposal for map"
-      click_on "Continue"
     end
 
     context "when creating a proposal, geocoding enabled" do

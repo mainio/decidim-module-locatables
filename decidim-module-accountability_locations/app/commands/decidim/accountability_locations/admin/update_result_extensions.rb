@@ -8,20 +8,13 @@ module Decidim
         include Decidim::Locations::LocationsCommand
 
         included do
-          def call
-            return broadcast(:invalid) if form.invalid?
+          def run_after_hooks
+            link_proposals
+            link_meetings
+            link_projects
+            send_notifications if should_notify_followers?
 
-            transaction do
-              update_result
-              link_proposals
-              link_meetings
-              link_projects
-              send_notifications if should_notify_followers?
-            end
-
-            update_locations(@result, @form)
-
-            broadcast(:ok)
+            update_locations(result, @form)
           end
         end
       end
