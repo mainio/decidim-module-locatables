@@ -6,10 +6,9 @@ module Decidim
   module Accountability
     module Admin
       describe UpdateResult do
-        let!(:organization) { create(:organization) }
-        let!(:accountability_component) { create(:accountability_component, organization:) }
         let!(:result) { create(:result) }
-        let!(:author) { create(:user, :admin, organization:) }
+        let!(:accountability_component) { result.component }
+        let!(:author) { create(:user, :admin, organization: result.organization) }
         let!(:form_klass) { ResultForm }
 
         let(:title) { { en: "A reasonable result title" } }
@@ -46,7 +45,7 @@ module Decidim
           form_klass.from_params(
             form_params
           ).with_context(
-            current_organization: organization,
+            current_organization: result.organization,
             current_participatory_space: accountability_component.participatory_space,
             current_component: accountability_component,
             current_user: author

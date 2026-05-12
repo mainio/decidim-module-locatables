@@ -115,7 +115,7 @@ module Decidim
         config.to_prepare do
           # Cell
           Decidim::AddressCell.include(Decidim::MeetingsLocations::AddressCellExtensions)
-          Decidim::Meetings::MeetingsMapCell.include(Decidim::MeetingsLocations::MeetingsMapCellExtensions)
+          Decidim::MapCell.include(Decidim::MeetingsLocations::MapCellExtensions)
 
           # Command
           Decidim::Meetings::Admin::CreateMeeting.include(Decidim::MeetingsLocations::Admin::CreateAdminMeetingExtensions)

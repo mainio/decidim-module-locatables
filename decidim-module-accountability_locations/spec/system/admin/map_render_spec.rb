@@ -19,7 +19,7 @@ describe "MapRender" do
       visit decidim.root_path
       click_on "Admin dashboard"
       click_on "Processes"
-      find(".action-icon--new").click
+      click_on translated_attribute participatory_space.title
       click_on "Accountability"
       click_on "New result"
       scroll_to(".type-locations-wrapper")

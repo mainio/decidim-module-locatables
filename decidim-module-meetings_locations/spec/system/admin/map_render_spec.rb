@@ -14,7 +14,7 @@ describe "AdminMap" do
 
     click_on "Admin dashboard"
     click_on "Processes"
-    find(".action-icon--new").click
+    click_on translated_attribute meeting_component.participatory_space.title
     click_on "Meetings"
     click_on "New meeting"
   end
@@ -38,7 +38,7 @@ describe "AdminMap" do
       visit decidim.root_path
       click_on "Admin dashboard"
       click_on "Processes"
-      find(".action-icon--new").click
+      click_on translated_attribute meeting_component.participatory_space.title
       click_on "Meetings"
       click_on "New meeting"
     end
