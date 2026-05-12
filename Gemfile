@@ -14,8 +14,7 @@ DECIDIM_VERSION = Decidim::Locatables.decidim_version
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-locatables", path: "."
-gem "decidim-locations", github: "mainio/decidim-module-locations", branch: "release/0.29-stable"
-
+gem "decidim-locations", github: "mainio/decidim-module-locations"
 gem "bootsnap", "~> 1.4"
 
 gem "puma", ">= 5.0.0"
@@ -30,9 +29,7 @@ group :development, :test do
 end
 
 group :development do
-  # Lock faker to older version to avoid seed errors from Decidim
-  # (Faker::Twitter no longer exists in newer versions)
-  gem "faker", "3.2"
+  gem "faker", "~> 3.2"
 
   gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.1"
