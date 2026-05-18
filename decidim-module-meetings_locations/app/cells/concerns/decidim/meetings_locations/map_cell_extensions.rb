@@ -16,9 +16,9 @@ module Decidim
 
             record.slice(:latitude, :longitude, :address)
                   .merge(
-                    title: map.presenter.title,
-                    link: resource_locator(map).path,
-                    items: cell(options[:metadata_card], map).send(:items_for_map).to_json
+                    title: record.presenter.title,
+                    link: resource_locator(record).path,
+                    items: cell(options[:metadata_card], record).send(:items_for_map).to_json
                   )
           end
         end
