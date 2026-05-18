@@ -3,10 +3,11 @@
 module Decidim
   module FormsLocations
     module Admin
-      module UpdateQuestionnaireExtensions
+      module UpdateQuestionsExtensions
         extend ActiveSupport::Concern
 
         included do
+          # rubocop:disable Metrics/CyclomaticComplexity
           def update_questionnaire_question(form_question)
             question_attributes = {
               body: form_question.body,
@@ -72,6 +73,7 @@ module Decidim
               end
             end
           end
+          # rubocop:enable Metrics/CyclomaticComplexity
         end
       end
     end

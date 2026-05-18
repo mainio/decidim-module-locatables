@@ -27,8 +27,14 @@ describe "CreateSurvey" do
     end
 
     context "when question type map_locations" do
-      context "when question added with \"multiple\" -map configuration to survey" do
+      context "when question added with 'multiple' -map configuration to survey" do
         it "allows creation of survey" do
+          within ".table-list" do
+            within ".table-list__actions" do
+              click_on "Manage questions"
+            end
+          end
+
           find(".question--collapse", match: :first).click
           check "Mandatory"
           select("Map", from: "Type").select_option
@@ -37,12 +43,18 @@ describe "CreateSurvey" do
           fill_in "Longitude", with: "13"
           click_on "Save"
 
-          expect(page).to have_content("Survey successfully saved.")
+          expect(page).to have_content("Survey questions successfully saved.")
         end
       end
 
-      context "when question added with \"single\" -map configuration to survey" do
+      context "when question added with 'single' -map configuration to survey" do
         it "allows creation of survey" do
+          within ".table-list" do
+            within ".table-list__actions" do
+              click_on "Manage questions"
+            end
+          end
+
           find(".question--collapse", match: :first).click
           check "Mandatory"
           select("Map", from: "Type").select_option
@@ -52,7 +64,7 @@ describe "CreateSurvey" do
           fill_in "Longitude", with: "13"
           click_on "Save"
 
-          expect(page).to have_content("Survey successfully saved.")
+          expect(page).to have_content("Survey questions successfully saved.")
         end
       end
     end
@@ -60,6 +72,12 @@ describe "CreateSurvey" do
     context "when question type select_locations" do
       context "when question added with 2 answer options" do
         it "allows creation of survey" do
+          within ".table-list" do
+            within ".table-list__actions" do
+              click_on "Manage questions"
+            end
+          end
+
           find(".question--collapse", match: :first).click
           select("Select locations", from: "Type").select_option
           scroll_to(:bottom)
@@ -77,7 +95,7 @@ describe "CreateSurvey" do
 
           click_on "Save"
 
-          expect(page).to have_content("Survey successfully saved.")
+          expect(page).to have_content("Survey questions successfully saved.")
           expect(Decidim::Forms::Question.first.answer_options.count).to eq(2)
           expect(Decidim::Forms::Question.first.answer_options.first.geojson).to eq(
             '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
@@ -87,6 +105,12 @@ describe "CreateSurvey" do
 
       context "when question added with 3 answer options" do
         it "allows creation of survey" do
+          within ".table-list" do
+            within ".table-list__actions" do
+              click_on "Manage questions"
+            end
+          end
+
           find(".question--collapse", match: :first).click
           select("Select locations", from: "Type").select_option
           expect(page).to have_content("Answer option")
@@ -102,7 +126,7 @@ describe "CreateSurvey" do
 
           click_on "Save"
 
-          expect(page).to have_content("Survey successfully saved.")
+          expect(page).to have_content("Survey questions successfully saved.")
           expect(Decidim::Forms::Question.first.answer_options.count).to eq(3)
           expect(Decidim::Forms::Question.first.answer_options.first.geojson).to eq(
             '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
@@ -123,8 +147,14 @@ describe "CreateSurvey" do
 
     context "when selecting a question type" do
       it "doesn't allow picking 'Map locations' or 'Select locations'" do
+        within ".table-list" do
+          within ".table-list__actions" do
+            click_on "Manage questions"
+          end
+        end
+
         find(".question--collapse", match: :first).click
-        select_element = find("#questionnaire_questions_#{question.id}_question_type")
+        select_element = find("#questions_questions_#{question.id}_question_type")
         expect(select_element).to have_css("option[value='select_locations'][disabled]")
         expect(select_element).to have_css("option[value='map_locations'][disabled]")
       end

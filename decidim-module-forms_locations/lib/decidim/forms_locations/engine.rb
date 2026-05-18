@@ -117,7 +117,7 @@ module Decidim
 
           # Commands
           Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
-          Decidim::Forms::Admin::UpdateQuestionnaire.include(Decidim::FormsLocations::Admin::UpdateQuestionnaireExtensions)
+          Decidim::Forms::Admin::UpdateQuestions.include(Decidim::FormsLocations::Admin::UpdateQuestionsExtensions)
 
           # Controllers
           Decidim::Forms::Admin::Concerns::HasQuestionnaire.include(Decidim::FormsLocations::Admin::HasQuestionnaireExtensions)

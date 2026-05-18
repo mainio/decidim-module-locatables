@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Forms
     module Admin
-      describe UpdateQuestionnaire do
+      describe UpdateQuestions do
         let(:current_organization) { create(:organization) }
         let(:participatory_process) { create(:participatory_process, organization: current_organization) }
         let(:questionnaire) { create(:questionnaire, questionnaire_for: participatory_process) }
@@ -46,13 +46,13 @@ module Decidim
           }
         end
         let(:form) do
-          QuestionnaireForm.from_params(
+          QuestionsForm.from_params(
             questionnaire: form_params
           ).with_context(
             current_organization:
           )
         end
-        let(:command) { described_class.new(form, questionnaire, user) }
+        let(:command) { described_class.new(form, questionnaire) }
 
         describe "map_locations question type" do
           describe "when the form is invalid" do

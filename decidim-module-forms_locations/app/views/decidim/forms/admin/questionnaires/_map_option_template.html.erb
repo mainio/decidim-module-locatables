@@ -1,7 +1,7 @@
 <% question = form.object %>
 
 <script type="text/template" class="decidim-map-option-template decidim-template" id="<%= template_id %>">
-  <%= fields_for "questionnaire[questions][#{question.to_param}][map_options][]", blank_map_option do |map_option_form| %>
+  <%= fields_for "questions[questions][#{question.to_param}][map_options][]", blank_map_option do |map_option_form| %>
     <%= render "decidim/forms/admin/questionnaires/map_option", form: map_option_form, question:, editable: %>
   <% end %>
 </script>

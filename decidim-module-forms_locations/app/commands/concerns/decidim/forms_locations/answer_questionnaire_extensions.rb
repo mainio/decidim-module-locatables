@@ -14,7 +14,7 @@ module Decidim
           Decidim::Forms::Answer.transaction(requires_new: true) do
             form.responses_by_step.flatten.select(&:display_conditions_fulfilled?).each do |form_answer|
               answer = Decidim::Forms::Answer.new(
-                user: @current_user,
+                user: current_user,
                 questionnaire: @questionnaire,
                 question: form_answer.question,
                 body: form_answer.body,

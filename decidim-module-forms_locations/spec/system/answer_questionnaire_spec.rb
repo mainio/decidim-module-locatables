@@ -3,21 +3,14 @@
 require "spec_helper"
 
 describe "AnswerSurvey" do
-  let(:manifest) { Decidim.find_component_manifest("surveys") }
+  let(:manifest_name) { "surveys" }
   let!(:organization) { create(:organization) }
   let!(:participatory_space) { create(:participatory_process, :published, organization:) }
 
   let(:user) { create(:user, :confirmed, organization:) }
 
-  let!(:component) do
-    create(:component,
-           :with_one_step,
-           manifest:,
-           participatory_space:)
-  end
-
   let(:questionnaire) { create(:questionnaire) }
-  let!(:survey) { create(:survey, questionnaire:, component:) }
+  let!(:survey) { create(:survey, :published, :allow_answers, questionnaire:, component:) }
   let!(:question) { create(:questionnaire_question, mandatory:, questionnaire:, question_type:) }
 
   let(:revgeo) do
@@ -53,6 +46,8 @@ describe "AnswerSurvey" do
       });
     JS
   end
+
+  include_context "with a component"
 
   def add_marker(latitude: 11.521, longitude: 5.521)
     find('div[title="Draw Marker"] a').click
@@ -111,10 +106,12 @@ describe "AnswerSurvey" do
 
         it "allows submitting form with multiple locations when map is configured for multiple locations" do
           Decidim::Forms::Question.first.update(map_configuration: "multiple")
+          click_on decidim_sanitize_admin(translated_attribute(survey.title))
           add_marker
           add_marker(latitude: 11.621, longitude: 5.621)
           expect(page).to have_css(".leaflet-marker-icon", count: 2)
           check "questionnaire_tos_agreement"
+
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
           click_on "OK"
@@ -126,6 +123,7 @@ describe "AnswerSurvey" do
       context "when configurated for single location" do
         it "allows submitting form with single location" do
           Decidim::Forms::Question.first.update(map_configuration: "single")
+          click_on decidim_sanitize_admin(translated_attribute(questionnaire.title))
           add_marker
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
@@ -182,7 +180,9 @@ describe "AnswerSurvey" do
 
       switch_to_host(organization.host)
       login_as user, scope: :user
-      visit main_component_path(component)
+      visit_component
+
+      click_on decidim_sanitize_admin(translated_attribute(survey.title))
     end
 
     after do
