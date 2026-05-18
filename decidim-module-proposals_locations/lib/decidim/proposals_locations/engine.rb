@@ -107,6 +107,9 @@ module Decidim
           Decidim::Proposals::Admin::UpdateProposal.include(Decidim::ProposalsLocations::Admin::UpdateProposalExtensions)
           Decidim::Proposals::Admin::CreateProposal.include(Decidim::ProposalsLocations::Admin::CreateProposalExtensions)
 
+          # Controllers
+          Decidim::Proposals::ProposalsController.include(Decidim::ProposalsLocations::ProposalsControllerExtensions)
+
           # Form
           Decidim::Proposals::ProposalForm.include(Decidim::Locations::LocatableForm)
           Decidim::Proposals::Admin::ProposalForm.include(Decidim::Locations::LocatableForm)
