@@ -464,7 +464,7 @@ export default function createEditableForm() {
         }
       }
 
-      if (isMapLocation($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
+      if ((isMapLocation($fieldQuestionTypeSelect.val()) || isTagLocation($fieldQuestionTypeSelect.val())) && $("[data-decidim-map]").length > 0) {
         const button = $target.find(".default-position-button");
         button.off("click").on("click", () => {
           const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");

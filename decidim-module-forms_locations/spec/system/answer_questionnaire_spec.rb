@@ -87,13 +87,14 @@ describe "AnswerSurvey" do
       switch_to_host(organization.host)
       login_as user, scope: :user
       visit main_component_path(component)
-      page.execute_script(revgeo)
     end
 
     context "when answering question" do
       context "when configurated for multiple locations" do
         it "allows submitting form with single location" do
           Decidim::Forms::Question.first.update(map_configuration: "multiple")
+          click_on decidim_sanitize_admin(translated_attribute(survey.title))
+          page.execute_script(revgeo)
           add_marker
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
@@ -107,6 +108,7 @@ describe "AnswerSurvey" do
         it "allows submitting form with multiple locations when map is configured for multiple locations" do
           Decidim::Forms::Question.first.update(map_configuration: "multiple")
           click_on decidim_sanitize_admin(translated_attribute(survey.title))
+          page.execute_script(revgeo)
           add_marker
           add_marker(latitude: 11.621, longitude: 5.621)
           expect(page).to have_css(".leaflet-marker-icon", count: 2)
@@ -124,6 +126,7 @@ describe "AnswerSurvey" do
         it "allows submitting form with single location" do
           Decidim::Forms::Question.first.update(map_configuration: "single")
           click_on decidim_sanitize_admin(translated_attribute(questionnaire.title))
+          page.execute_script(revgeo)
           add_marker
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
@@ -137,8 +140,8 @@ describe "AnswerSurvey" do
         it "only allows submitting single location" do
           Decidim::Forms::Question.first.update(map_configuration: "single")
           visit main_component_path(component)
+          click_on decidim_sanitize_admin(translated_attribute(questionnaire.title))
           page.execute_script(revgeo)
-
           add_marker
           add_marker(latitude: 11.621, longitude: 5.621)
           expect(page).to have_css(".leaflet-marker-icon", count: 1)

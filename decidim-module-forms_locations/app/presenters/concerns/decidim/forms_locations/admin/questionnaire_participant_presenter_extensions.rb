@@ -8,15 +8,15 @@ module Decidim
 
         included do
           def completion
-            with_body = sibilings.where(decidim_forms_questions: { question_type: %w(short_answer long_answer) })
+            with_body = siblings.where(decidim_forms_questions: { question_type: %w(short_answer long_answer) })
                                  .or(
-                                   sibilings.where(decidim_forms_questions: { question_type: "map_display", allow_comments: true })
+                                   siblings.where(decidim_forms_questions: { question_type: "map_display", allow_comments: true })
                                  )
                                  .where.not(body: "")
                                  .count
-            with_choices = sibilings.where.not("decidim_forms_questions.question_type in (?)", %w(short_answer long_answer))
+            with_choices = siblings.where.not("decidim_forms_questions.question_type in (?)", %w(short_answer long_answer))
                                     .where("decidim_forms_answers.id IN (SELECT decidim_answer_id FROM decidim_forms_answer_choices)").count
-            with_locations = sibilings.where(decidim_forms_questions: { question_type: %w(map_locations tag_locations) })
+            with_locations = siblings.where(decidim_forms_questions: { question_type: %w(map_locations tag_locations) })
                                       .joins(:locations).uniq.count
 
             valid_questions = questionnaire

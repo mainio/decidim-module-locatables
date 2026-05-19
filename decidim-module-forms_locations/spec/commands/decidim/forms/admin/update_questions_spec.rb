@@ -13,21 +13,6 @@ module Decidim
         let(:published_at) { nil }
         let(:form_params) do
           {
-            "title" => {
-              "en" => "Title",
-              "ca" => "Title",
-              "es" => "Title"
-            },
-            "tos" => {
-              "en" => "<p>TOS</p>",
-              "ca" => "<p>TOS</p>",
-              "es" => "<p>TOS</p>"
-            },
-            "description" => {
-              "en" => "<p>Content</p>",
-              "ca" => "<p>Contingut</p>",
-              "es" => "<p>Contenido</p>"
-            },
             "questions" => {
               "0" => {
                 "body" => {
@@ -47,9 +32,10 @@ module Decidim
         end
         let(:form) do
           QuestionsForm.from_params(
-            questionnaire: form_params
+            questions: form_params
           ).with_context(
-            current_organization:
+            current_organization:,
+            current_user: user
           )
         end
         let(:command) { described_class.new(form, questionnaire) }
@@ -79,7 +65,6 @@ module Decidim
               command.call
               questionnaire.reload
 
-              expect(questionnaire.description["en"]).to eq("<p>Content</p>")
               expect(questionnaire.questions.length).to eq(1)
 
               expect(questionnaire.questions.first.question_type).to eq("map_locations")
@@ -95,21 +80,6 @@ module Decidim
             context "and the question should be removed" do
               let(:form_params) do
                 {
-                  "title" => {
-                    "en" => "Title",
-                    "ca" => "Title",
-                    "es" => "Title"
-                  },
-                  "description" => {
-                    "en" => "<p>Content</p>",
-                    "ca" => "<p>Contingut</p>",
-                    "es" => "<p>Contenido</p>"
-                  },
-                  "tos" => {
-                    "en" => "<p>TOS</p>",
-                    "ca" => "<p>TOS</p>",
-                    "es" => "<p>TOS</p>"
-                  },
                   "questions" => [
                     {
                       "id" => question.id,
@@ -138,21 +108,6 @@ module Decidim
         describe "select_locations question type" do
           let(:form_params) do
             {
-              "title" => {
-                "en" => "Title",
-                "ca" => "Title",
-                "es" => "Title"
-              },
-              "tos" => {
-                "en" => "<p>TOS</p>",
-                "ca" => "<p>TOS</p>",
-                "es" => "<p>TOS</p>"
-              },
-              "description" => {
-                "en" => "<p>Content</p>",
-                "ca" => "<p>Contingut</p>",
-                "es" => "<p>Contenido</p>"
-              },
               "questions" => {
                 "0" => {
                   "body" => {
@@ -212,7 +167,6 @@ module Decidim
               command.call
               questionnaire.reload
 
-              expect(questionnaire.description["en"]).to eq("<p>Content</p>")
               expect(questionnaire.questions.length).to eq(1)
 
               expect(questionnaire.questions.first.question_type).to eq("select_locations")
