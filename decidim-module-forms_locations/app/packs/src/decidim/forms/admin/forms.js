@@ -16,15 +16,15 @@ export default function createEditableForm() {
   const wrapperSelector = ".questionnaire-questions";
   const fieldSelector = ".questionnaire-question";
   const questionTypeSelector = "select[name$=\\[question_type\\]]";
-  const answerOptionFieldSelector = ".questionnaire-question-answer-option";
-  const answerOptionsWrapperSelector = ".questionnaire-question-answer-options";
-  const answerOptionRemoveFieldButtonSelector = ".remove-answer-option";
+  const responseOptionFieldSelector = ".questionnaire-question-response-option";
+  const responseOptionsWrapperSelector = ".questionnaire-question-response-options";
+  const responseOptionRemoveFieldButtonSelector = ".remove-response-option";
   const matrixRowFieldSelector = ".questionnaire-question-matrix-row";
   const matrixRowsWrapperSelector = ".questionnaire-question-matrix-rows";
   const matrixRowRemoveFieldButtonSelector = ".remove-matrix-row";
   const addMatrixRowButtonSelector = ".add-matrix-row";
   const maxChoicesWrapperSelector = ".questionnaire-question-max-choices";
-  const responseOptionFreeTextSelector = ".questionnaire-question-answer-option-free-text";
+  const responseOptionFreeTextSelector = ".questionnaire-question-response-option-free-text";
   const locationCountWrapperSelector = ".questionnaire-question-location-count";
   const defaultMapPositionLabelWrapperSelector = ".questionnaire-question-default-map-position-label"
   const defaultMapPositionWrapperSelector = ".questionnaire-question-default-map-position";
@@ -38,12 +38,12 @@ export default function createEditableForm() {
   const displayConditionRemoveFieldButtonSelector = ".remove-display-condition";
 
   const displayConditionQuestionSelector = "select[name$=\\[decidim_condition_question_id\\]]";
-  const displayConditionAnswerOptionSelector = "select[name$=\\[decidim_answer_option_id\\]]";
+  const displayConditionresponseOptionSelector = "select[name$=\\[decidim_response_option_id\\]]";
   const displayConditionTypeSelector = "select[name$=\\[condition_type\\]]";
   const deletedInputSelector = "input[name$=\\[deleted\\]]";
 
   const displayConditionValueWrapperSelector = ".questionnaire-question-display-condition-value";
-  const displayconditionAnswerOptionWrapperSelector = ".questionnaire-question-display-condition-answer-option";
+  const displayconditionresponseOptionWrapperSelector = ".questionnaire-question-display-condition-response-option";
 
   const addDisplayConditionButtonSelector = ".add-display-condition";
 
@@ -89,27 +89,27 @@ export default function createEditableForm() {
   const MAP_DISPLAY = ["map_display"];
   const TAG_LOCATION = ["tag_locations"];
 
-  const createAutoMaxChoicesByNumberOfAnswerOptions = (fieldId) => {
+  const createAutoMaxChoicesByNumberOfresponseOptions = (fieldId) => {
     return new AutoSelectOptionsByTotalItemsComponent({
       wrapperSelector: fieldSelector,
       selectSelector: `${maxChoicesWrapperSelector} select`,
-      listSelector: `#${fieldId} ${answerOptionsWrapperSelector} .questionnaire-question-answer-option:not(.hidden)`
+      listSelector: `#${fieldId} ${responseOptionsWrapperSelector} .questionnaire-question-response-option:not(.hidden)`
     })
   };
 
-  const createAutoButtonsByMinItemsForAnswerOptions = (fieldId) => {
+  const createAutoButtonsByMinItemsForresponseOptions = (fieldId) => {
     return new AutoButtonsByMinItemsComponent({
       wrapperSelector: fieldSelector,
-      listSelector: `#${fieldId} ${answerOptionsWrapperSelector} .questionnaire-question-answer-option:not(.hidden)`,
+      listSelector: `#${fieldId} ${responseOptionsWrapperSelector} .questionnaire-question-response-option:not(.hidden)`,
       minItems: 2,
-      hideOnMinItemsOrLessSelector: answerOptionRemoveFieldButtonSelector
+      hideOnMinItemsOrLessSelector: responseOptionRemoveFieldButtonSelector
     })
   };
 
   const createAutoSelectOptionsFromUrl = ($field) => {
     return new AutoSelectOptionsFromUrl({
       source: $field.find(displayConditionQuestionSelector),
-      select: $field.find(displayConditionAnswerOptionSelector),
+      select: $field.find(displayConditionresponseOptionSelector),
       sourceToParams: ($element) => { return { id: $element.val() } }
     })
   };
@@ -156,18 +156,18 @@ export default function createEditableForm() {
     }
   };
 
-  const createDynamicFieldsForAnswerOptions = (fieldId) => {
-    const autoButtons = createAutoButtonsByMinItemsForAnswerOptions(fieldId);
-    const autoSelectOptions = createAutoMaxChoicesByNumberOfAnswerOptions(fieldId);
+  const createDynamicFieldsForresponseOptions = (fieldId) => {
+    const autoButtons = createAutoButtonsByMinItemsForresponseOptions(fieldId);
+    const autoSelectOptions = createAutoMaxChoicesByNumberOfresponseOptions(fieldId);
 
     return createDynamicFields({
-      placeholderId: "questionnaire-question-answer-option-id",
-      wrapperSelector: `#${fieldId} ${answerOptionsWrapperSelector}`,
-      containerSelector: ".questionnaire-question-answer-options-list",
-      fieldSelector: answerOptionFieldSelector,
-      addFieldButtonSelector: ".add-answer-option",
-      fieldTemplateSelector: ".decidim-answer-option-template",
-      removeFieldButtonSelector: answerOptionRemoveFieldButtonSelector,
+      placeholderId: "questionnaire-question-response-option-id",
+      wrapperSelector: `#${fieldId} ${responseOptionsWrapperSelector}`,
+      containerSelector: ".questionnaire-question-response-options-list",
+      fieldSelector: responseOptionFieldSelector,
+      addFieldButtonSelector: ".add-response-option",
+      fieldTemplateSelector: ".decidim-response-option-template",
+      removeFieldButtonSelector: responseOptionRemoveFieldButtonSelector,
       onAddField: () => {
         autoButtons.run();
         autoSelectOptions.run();
@@ -179,7 +179,7 @@ export default function createEditableForm() {
     });
   };
 
-  const dynamicFieldsForAnswerOptions = {};
+  const dynamicFieldsForresponseOptions = {};
 
   const createDynamicFieldsForMatrixRows = (fieldId) => {
     return createDynamicFields({
@@ -252,7 +252,7 @@ export default function createEditableForm() {
 
     const isMultiple = isMultipleChoiceOption(selectedQuestionType) || isSelectLocation(selectedQuestionType);
 
-    let conditionTypes = ["answered", "not_answered"];
+    let conditionTypes = ["responded", "not_responded"];
 
     if (isMultiple) {
       conditionTypes.push("equal");
@@ -288,7 +288,7 @@ export default function createEditableForm() {
   const onDisplayConditionTypeChange = ($field) => {
     const value = $field.find(displayConditionTypeSelector).val();
     const $valueWrapper = $field.find(displayConditionValueWrapperSelector);
-    const $answerOptionWrapper = $field.find(displayconditionAnswerOptionWrapperSelector);
+    const $responseOptionWrapper = $field.find(displayconditionresponseOptionWrapperSelector);
 
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
@@ -303,9 +303,9 @@ export default function createEditableForm() {
     }
 
     if (isMultiple && (value === "not_equal" || value === "equal")) {
-      $answerOptionWrapper.show();
+      $responseOptionWrapper.show();
     } else {
-      $answerOptionWrapper.hide();
+      $responseOptionWrapper.hide();
     }
   };
 
@@ -353,11 +353,11 @@ export default function createEditableForm() {
     createFieldDependentInputs({
       controllerField: $fieldQuestionTypeSelect,
       wrapperSelector: fieldSelector,
-      dependentFieldsSelector: answerOptionsWrapperSelector,
+      dependentFieldsSelector: responseOptionsWrapperSelector,
       dependentInputSelector: `
-        ${answerOptionFieldSelector} input,
-        ${answerOptionFieldSelector} textarea,
-        ${answerOptionFieldSelector} select
+        ${responseOptionFieldSelector} input,
+        ${responseOptionFieldSelector} textarea,
+        ${responseOptionFieldSelector} select
       `,
       enablingCondition: ($field) => {
         return isMultipleChoiceOption($field.val()) || isSelectLocation($field.val());
@@ -434,12 +434,12 @@ export default function createEditableForm() {
       }
     })
 
-    dynamicFieldsForAnswerOptions[fieldId] = createDynamicFieldsForAnswerOptions(fieldId);
+    dynamicFieldsForresponseOptions[fieldId] = createDynamicFieldsForresponseOptions(fieldId);
     dynamicFieldsForMatrixRows[fieldId] = createDynamicFieldsForMatrixRows(fieldId);
     dynamicFieldsForDisplayConditions[fieldId] = createDynamicFieldsForDisplayConditions(fieldId);
     dynamicFieldsForMapOptions[fieldId] = createDynamicFieldsForMapOptions(fieldId);
 
-    const dynamicFieldsAnswerOptions = dynamicFieldsForAnswerOptions[fieldId];
+    const dynamicFieldsresponseOptions = dynamicFieldsForresponseOptions[fieldId];
     const dynamicFieldsMatrixRows = dynamicFieldsForMatrixRows[fieldId];
     const dynamicFieldsMapOptions = dynamicFieldsForMapOptions[fieldId];
 
@@ -448,11 +448,11 @@ export default function createEditableForm() {
       const questionType = $fieldQuestionTypeSelect.val();
 
       if (isMultipleChoiceOption($fieldQuestionTypeSelect.val()) || isSelectLocation($fieldQuestionTypeSelect.val())) {
-        const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(answerOptionFieldSelector).length;
+        const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(responseOptionFieldSelector).length;
 
         if (nOptions === 0) {
-          dynamicFieldsAnswerOptions._addField();
-          dynamicFieldsAnswerOptions._addField();
+          dynamicFieldsresponseOptions._addField();
+          dynamicFieldsresponseOptions._addField();
         }
       }
 
@@ -494,7 +494,7 @@ export default function createEditableForm() {
 
           button[0].classList.add("default-position-active");
 
-          window.Decidim.currentDialogs["answer-option-map-selector"].open();
+          window.Decidim.currentDialogs["response-option-map-selector"].open();
           mapCtrl.map.invalidateSize();
 
           const latitude = button.closest(".questionnaire-question-default-map-position").find(".default-position-latitude label input").val();
@@ -539,7 +539,7 @@ export default function createEditableForm() {
 
           button[0].classList.add("set-bounds-active");
 
-          window.Decidim.currentDialogs["answer-option-map-selector"].open();
+          window.Decidim.currentDialogs["response-option-map-selector"].open();
           mapCtrl.map.invalidateSize();
 
           const textAreaVal = event.target.parentNode.querySelector("textarea").value;
@@ -579,7 +579,7 @@ export default function createEditableForm() {
 
           btn.classList.add("location-selector");
 
-          window.Decidim.currentDialogs["answer-option-map-selector"].open();
+          window.Decidim.currentDialogs["response-option-map-selector"].open();
           mapCtrl.map.invalidateSize();
 
           const textAreaVal = event.target.parentNode.querySelector("label > textarea").value;
@@ -607,7 +607,7 @@ export default function createEditableForm() {
         $currentField.find(responseOptionFreeTextSelector).removeClass("hidden");
       }
 
-      const $options = $target.find(answerOptionFieldSelector);
+      const $options = $target.find(responseOptionFieldSelector);
 
       $options.each((_idx, opt) => {
         const $opt = $(opt);
@@ -677,8 +677,8 @@ export default function createEditableForm() {
       autoLabelByPosition.run();
       autoButtonsByPosition.run();
 
-      $field.find(answerOptionRemoveFieldButtonSelector).each((idx, el) => {
-        dynamicFieldsForAnswerOptions[$field.attr("id")]._removeField(el);
+      $field.find(responseOptionRemoveFieldButtonSelector).each((idx, el) => {
+        dynamicFieldsForresponseOptions[$field.attr("id")]._removeField(el);
       });
 
       $field.find(mapOptionRemoveFieldButtonSelector).each((idx, el) => {

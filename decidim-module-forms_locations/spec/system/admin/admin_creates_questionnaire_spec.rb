@@ -31,7 +31,8 @@ describe "CreateSurvey" do
         it "allows creation of survey" do
           within ".table-list" do
             within ".table-list__actions" do
-              click_on "Manage questions"
+              find("button[data-controller='dropdown']").click
+              click_on "Questions"
             end
           end
 
@@ -51,7 +52,8 @@ describe "CreateSurvey" do
         it "allows creation of survey" do
           within ".table-list" do
             within ".table-list__actions" do
-              click_on "Manage questions"
+              find("button[data-controller='dropdown']").click
+              click_on "Questions"
             end
           end
 
@@ -70,22 +72,23 @@ describe "CreateSurvey" do
     end
 
     context "when question type select_locations" do
-      context "when question added with 2 answer options" do
+      context "when question added with 2 response options" do
         it "allows creation of survey" do
           within ".table-list" do
             within ".table-list__actions" do
-              click_on "Manage questions"
+              find("button[data-controller='dropdown']").click
+              click_on "Questions"
             end
           end
 
           find(".question--collapse", match: :first).click
           select("Select locations", from: "Type").select_option
           scroll_to(:bottom)
-          expect(page).to have_content("Add answer option")
-          expect(page).to have_content("Answer option")
-          answer_options = all(".questionnaire-question-answer-option")
+          expect(page).to have_content("Add response option")
+          expect(page).to have_content("Response option")
+          response_options = all(".questionnaire-question-response-option")
 
-          answer_options.each do |option|
+          response_options.each do |option|
             within(option) do
               fill_in find("input", match: :first)["name"], with: "Lauttasaari"
               fill_in "Geojson", match: :first, with: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
@@ -96,28 +99,29 @@ describe "CreateSurvey" do
           click_on "Save"
 
           expect(page).to have_content("Survey questions successfully saved.")
-          expect(Decidim::Forms::Question.first.answer_options.count).to eq(2)
-          expect(Decidim::Forms::Question.first.answer_options.first.geojson).to eq(
+          expect(Decidim::Forms::Question.first.response_options.count).to eq(2)
+          expect(Decidim::Forms::Question.first.response_options.first.geojson).to eq(
             '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
           )
         end
       end
 
-      context "when question added with 3 answer options" do
+      context "when question added with 3 response options" do
         it "allows creation of survey" do
           within ".table-list" do
             within ".table-list__actions" do
-              click_on "Manage questions"
+              find("button[data-controller='dropdown']").click
+              click_on "Questions"
             end
           end
 
           find(".question--collapse", match: :first).click
           select("Select locations", from: "Type").select_option
-          expect(page).to have_content("Answer option")
-          click_on "Add answer option"
-          answer_options = all(".questionnaire-question-answer-option")
+          expect(page).to have_content("Response option")
+          click_on "Add response option"
+          response_options = all(".questionnaire-question-response-option")
 
-          answer_options.each do |option|
+          response_options.each do |option|
             within(option) do
               fill_in find("input", match: :first)["name"], with: "Lauttasaari"
               fill_in "Geojson", match: :first, with: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
@@ -127,8 +131,8 @@ describe "CreateSurvey" do
           click_on "Save"
 
           expect(page).to have_content("Survey questions successfully saved.")
-          expect(Decidim::Forms::Question.first.answer_options.count).to eq(3)
-          expect(Decidim::Forms::Question.first.answer_options.first.geojson).to eq(
+          expect(Decidim::Forms::Question.first.response_options.count).to eq(3)
+          expect(Decidim::Forms::Question.first.response_options.first.geojson).to eq(
             '{"type":"Feature","geometry":{"type":"Point","coordinates":[12,5]}}'
           )
         end
@@ -149,7 +153,8 @@ describe "CreateSurvey" do
       it "doesn't allow picking 'Map locations' or 'Select locations'" do
         within ".table-list" do
           within ".table-list__actions" do
-            click_on "Manage questions"
+            find("button[data-controller='dropdown']").click
+            click_on "Questions"
           end
         end
 

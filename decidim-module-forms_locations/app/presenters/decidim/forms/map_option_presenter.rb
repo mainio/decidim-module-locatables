@@ -5,7 +5,7 @@ module Decidim
     #
     # Decorator for map_options
     #
-    class AnswerOptionPresenter < SimpleDelegator
+    class ResponseOptionPresenter < SimpleDelegator
       include Decidim::TranslationsHelper
 
       def translated_label

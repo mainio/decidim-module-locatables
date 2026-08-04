@@ -2,7 +2,7 @@
 
 module Decidim
   module FormsLocations
-    module AnswerChoiceFormExtensions
+    module ResponseChoiceFormExtensions
       extend ActiveSupport::Concern
 
       included do

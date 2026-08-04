@@ -32,7 +32,7 @@ module Decidim
 
         validates :question_type, inclusion: { in: const_get(:TYPES) }
 
-        scope :with_choices, -> { where.not(question_type: %w(short_answer long_answer map_locations map_display tag_locations)) }
+        scope :with_choices, -> { where.not(question_type: %w(short_response long_response map_locations map_display tag_locations)) }
 
         def mandatory_body?
           mandatory? && !multiple_choice? && !has_attachments? && !map_type?

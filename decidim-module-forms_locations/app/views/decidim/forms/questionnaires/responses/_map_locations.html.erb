@@ -1,0 +1,11 @@
+<%= cell(
+  "decidim/locations/locations",
+  @response,
+  form: response_form,
+  coords: [response.question.default_latitude, response.question.default_longitude],
+  map_configuration: response.question.map_configuration,
+  zoom: response.question.default_zoom
+)
+%>
+
+<%= append_stylesheet_pack_tag "decidim_forms_locations" %>

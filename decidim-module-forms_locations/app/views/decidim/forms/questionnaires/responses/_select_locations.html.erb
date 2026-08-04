@@ -1,0 +1,29 @@
+<div class="survey-map__container">
+  <%= cell(
+    "decidim/locations/map",
+    response.question.response_options,
+    select_location: true
+  ) %>
+</div>
+
+<div class="js-response-options-collection">
+  <% response.question.response_options.each_with_index do |response_option, idx| %>
+    <% choice = response.selected_choices.find { |choice| choice.response_option_id == response_option.id } %>
+
+    <div id="response-option-<%= response_option.id %>" class="collection-input">
+      <%= label_tag do %>
+        <%= check_box_tag "questionnaire[responses][#{response_idx}][choices][#{idx}][body]",
+          response_option.body,
+          choice.present?, disabled: disabled,
+          style: "display: none;" %>
+
+        <%= hidden_field_tag "questionnaire[responses][#{response_idx}][choices][#{idx}][geojson]",
+          response_option.geojson, disabled: true %>
+        <%= hidden_field_tag "questionnaire[responses][#{response_idx}][choices][#{idx}][response_option_id]",
+          response_option.id, disabled: true %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<%= append_stylesheet_pack_tag "decidim_forms_locations" %>

@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   module Forms
-    describe AnswerQuestionnaire do
+    describe ResponseQuestionnaire do
       def tokenize(id)
         "fake-hash-for-#{id}"
       end
@@ -69,7 +69,7 @@ module Decidim
           it "adds single" do
             command.call
 
-            expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
+            expect(Decidim::Forms::Response.first.locations.count).to eq(1)
           end
 
           it "gives no errors" do
@@ -106,7 +106,7 @@ module Decidim
           it "adds both locations" do
             command.call
 
-            expect(Decidim::Forms::Answer.first.locations.count).to eq(
+            expect(Decidim::Forms::Response.first.locations.count).to eq(
               2
             )
           end
@@ -119,8 +119,8 @@ module Decidim
 
       context "when question type is select_locations" do
         let(:question_type) { "select_locations" }
-        let(:answer_options) { create_list(:answer_option, 2, question:) }
-        let(:answer_option_ids) { answer_options.pluck(:id).map(&:to_s) }
+        let(:response_options) { create_list(:response_option, 2, question:) }
+        let(:response_option_ids) { response_options.pluck(:id).map(&:to_s) }
 
         let(:choices) do
           [
@@ -129,7 +129,7 @@ module Decidim
               geojson: '{"type":"Feature",
                         "geometry":{"type":"Point",
                         "coordinates":[27.12270204225946, 15.644531250000002]}}',
-              answer_option_id: answer_option_ids[0]
+              response_option_id: response_option_ids[0]
             }
           ]
         end
@@ -149,7 +149,7 @@ module Decidim
           it "adds single choice" do
             command.call
 
-            expect(Decidim::Forms::Answer.first.choices.count).to eq(1)
+            expect(Decidim::Forms::Response.first.choices.count).to eq(1)
           end
 
           it "gives no errors" do
@@ -165,14 +165,14 @@ module Decidim
                 geojson: '{"type":"Feature",
                           "geometry":{"type":"Point",
                           "coordinates":[27.12270204225946, 15.644531250000002]}}',
-                answer_option_id: answer_option_ids[0]
+                response_option_id: response_option_ids[0]
               },
               {
                 body: "Example body 2",
                 geojson: '{"type":"Feature",
                           "geometry":{"type":"Point",
                           "coordinates":[22.12345, 12.54321]}}',
-                answer_option_id: answer_option_ids[1]
+                response_option_id: response_option_ids[1]
               }
             ]
           end
@@ -180,7 +180,7 @@ module Decidim
           it "adds both locations" do
             command.call
 
-            expect(Decidim::Forms::Answer.first.choices.count).to eq(2)
+            expect(Decidim::Forms::Response.first.choices.count).to eq(2)
           end
 
           it "gives no errors" do

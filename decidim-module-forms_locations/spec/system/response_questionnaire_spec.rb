@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "AnswerSurvey" do
+describe "RespondSurvey" do
   let(:manifest_name) { "surveys" }
   let!(:organization) { create(:organization) }
   let!(:participatory_space) { create(:participatory_process, :published, organization:) }
@@ -10,7 +10,7 @@ describe "AnswerSurvey" do
   let(:user) { create(:user, :confirmed, organization:) }
 
   let(:questionnaire) { create(:questionnaire) }
-  let!(:survey) { create(:survey, :published, :allow_answers, questionnaire:, component:) }
+  let!(:survey) { create(:survey, :published, :allow_responses, questionnaire:, component:) }
   let!(:question) { create(:questionnaire_question, mandatory:, questionnaire:, question_type:) }
 
   let(:revgeo) do
@@ -77,7 +77,7 @@ describe "AnswerSurvey" do
       component.update!(
         step_settings: {
           component.participatory_space.active_step.id => {
-            allow_answers: true,
+            allow_responses: true,
             allow_unregistered: true
           }
         },
@@ -89,7 +89,7 @@ describe "AnswerSurvey" do
       visit main_component_path(component)
     end
 
-    context "when answering question" do
+    context "when responding question" do
       context "when configurated for multiple locations" do
         it "allows submitting form with single location" do
           Decidim::Forms::Question.first.update(map_configuration: "multiple")
@@ -99,10 +99,10 @@ describe "AnswerSurvey" do
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
           click_on "Submit"
-          expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
+          expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Survey successfully answered")
-          expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
+          expect(page).to have_content("Form successfully responded.")
+          expect(Decidim::Forms::Response.first.locations.count).to eq(1)
         end
 
         it "allows submitting form with multiple locations when map is configured for multiple locations" do
@@ -115,10 +115,10 @@ describe "AnswerSurvey" do
           check "questionnaire_tos_agreement"
 
           click_on "Submit"
-          expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
+          expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Survey successfully answered")
-          expect(Decidim::Forms::Answer.first.locations.count).to eq(2)
+          expect(page).to have_content("Form successfully responded.")
+          expect(Decidim::Forms::Response.first.locations.count).to eq(2)
         end
       end
 
@@ -131,10 +131,10 @@ describe "AnswerSurvey" do
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
           click_on "Submit"
-          expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
+          expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Survey successfully answered")
-          expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
+          expect(page).to have_content("Form successfully responded.")
+          expect(Decidim::Forms::Response.first.locations.count).to eq(1)
         end
 
         it "only allows submitting single location" do
@@ -147,10 +147,10 @@ describe "AnswerSurvey" do
           expect(page).to have_css(".leaflet-marker-icon", count: 1)
           check "questionnaire_tos_agreement"
           click_on "Submit"
-          expect(page).to have_content("This action cannot be undone and you will not be able to edit your answers. Are you sure?")
+          expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Survey successfully answered")
-          expect(Decidim::Forms::Answer.first.locations.count).to eq(1)
+          expect(page).to have_content("Form successfully responded.")
+          expect(Decidim::Forms::Response.first.locations.count).to eq(1)
         end
       end
     end
@@ -158,23 +158,23 @@ describe "AnswerSurvey" do
 
   context "when question type select_locations" do
     let(:question_type) { "select_locations" }
-    let!(:answer_options) { create_list(:answer_option, 2, question:) }
-    let!(:answer_option_ids) { answer_options.pluck(:id).map(&:to_s) }
+    let!(:response_options) { create_list(:response_option, 2, question:) }
+    let!(:response_option_ids) { response_options.pluck(:id).map(&:to_s) }
     let(:mandatory) { true }
 
     before do
-      Decidim::Forms::Question.first.answer_options.first.update(
+      Decidim::Forms::Question.first.response_options.first.update(
         geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12645,5.12345]}}',
         tooltip_direction: "top"
       )
-      Decidim::Forms::Question.first.answer_options.second.update(
+      Decidim::Forms::Question.first.response_options.second.update(
         geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12346,5.12346]}}',
         tooltip_direction: "bottom"
       )
       component.update!(
         step_settings: {
           component.participatory_space.active_step.id => {
-            allow_answers: true,
+            allow_responses: true,
             allow_unregistered: true
           }
         },
@@ -197,10 +197,10 @@ describe "AnswerSurvey" do
 
     context "when markers are close" do
       before do
-        Decidim::Forms::Question.first.answer_options.first.update(
+        Decidim::Forms::Question.first.response_options.first.update(
           geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.123456789,5.12346]}}'
         )
-        Decidim::Forms::Question.first.answer_options.second.update(
+        Decidim::Forms::Question.first.response_options.second.update(
           geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.123456788,5.12346]}}'
         )
       end
@@ -227,15 +227,15 @@ describe "AnswerSurvey" do
     context "when marker is clicked" do
       it "changes color to green if selected" do
         expect(page).to have_css("[data-decidim-map]")
-        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
+        find("div.leaflet-tooltip", text: response_options[0].body[:en], match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
       end
 
       it "changes the color back to blue if unselected" do
         expect(page).to have_css("[data-decidim-map]")
-        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
+        find("div.leaflet-tooltip", text: response_options[0].body[:en], match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
-        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
+        find("div.leaflet-tooltip", text: response_options[0].body[:en], match: :first).click
         expect(page).to have_no_css('img[style*="hue-rotate(275deg)"]')
       end
     end
@@ -243,12 +243,12 @@ describe "AnswerSurvey" do
     context "when mandatory question" do
       it "submits form when option picked" do
         expect(page).to have_css("[data-decidim-map]")
-        find("div.leaflet-tooltip", text: answer_options[0].body[:en], match: :first).click
+        find("div.leaflet-tooltip", text: response_options[0].body[:en], match: :first).click
         expect(page).to have_css('img[style*="hue-rotate(275deg)"]')
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("Survey successfully answered")
+        expect(page).to have_content("Form successfully responded.")
       end
 
       it "gives an error if no option picked" do
@@ -256,7 +256,7 @@ describe "AnswerSurvey" do
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("There was a problem answering the survey.")
+        expect(page).to have_content("There was a problem responding the survey.")
       end
     end
 
@@ -268,7 +268,7 @@ describe "AnswerSurvey" do
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("Survey successfully answered")
+        expect(page).to have_content("Form successfully responded.")
       end
     end
   end

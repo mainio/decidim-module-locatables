@@ -15,11 +15,11 @@ edit_link(
 
 <%
 extra_admin_link(
-  resource_locator(@proposal).show(anchor: "proposal-answer"),
+  resource_locator(@proposal).show(anchor: "proposal-response"),
   :create,
-  :proposal_answer,
+  :proposal_response,
   { proposal: @proposal },
-  { name: t("answer", scope: "decidim.proposals.proposals.show"), icon: "question-answer-line" }
+  { name: t("response", scope: "decidim.proposals.proposals.show"), icon: "question-response-line" }
 )
 %>
 
@@ -35,7 +35,7 @@ extra_admin_link(
   <section class="layout-main__section layout-main__heading">
     <%= render partial: "voting_rules" %>
 
-    <%= cell("decidim/announcement", proposal_reason_callout_announcement, callout_class: proposal_reason_callout_class) if @proposal.answered? && @proposal.published_state? %>
+    <%= cell("decidim/announcement", proposal_reason_callout_announcement, callout_class: proposal_reason_callout_class) if @proposal.responded? && @proposal.published_state? %>
 
     <%= emendation_announcement_for @proposal %>
 
@@ -70,7 +70,7 @@ extra_admin_link(
     <% end %>
   </section>
 
-  <% if proposal_has_costs? && current_settings.answers_with_costs? %>
+  <% if proposal_has_costs? && current_settings.responses_with_costs? %>
     <section class="layout-main__section">
       <%= cell("decidim/proposals/cost_report", @proposal) %>
     </section>

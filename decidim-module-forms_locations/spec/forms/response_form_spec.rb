@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   module Forms
-    describe AnswerForm do
+    describe ResponseForm do
       subject do
         described_class.from_params(params)
       end
@@ -92,7 +92,7 @@ module Decidim
                   '{"type":"Feature",
                   "geometry":{"type":"Point",
                   "coordinates":[27.12270204225946, 15.644531250000002]}}',
-                "answer_option_id" => "123"
+                "response_option_id" => "123"
               }
             },
             "question_id" => question.id

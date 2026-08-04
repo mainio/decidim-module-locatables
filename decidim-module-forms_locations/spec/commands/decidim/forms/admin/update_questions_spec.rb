@@ -117,10 +117,10 @@ module Decidim
                   },
                   "position" => "0",
                   "question_type" => "select_locations",
-                  "answer_options" => {
+                  "response_options" => {
                     "0" => {
                       "body" => {
-                        "en" => "First answer",
+                        "en" => "First response",
                         "ca" => "Primera resposta",
                         "es" => "Primera respuesta"
                       },
@@ -129,7 +129,7 @@ module Decidim
                     },
                     "1" => {
                       "body" => {
-                        "en" => "Second answer",
+                        "en" => "Second response",
                         "ca" => "Segona resposta",
                         "es" => "Segunda respuesta"
                       },
@@ -170,11 +170,11 @@ module Decidim
               expect(questionnaire.questions.length).to eq(1)
 
               expect(questionnaire.questions.first.question_type).to eq("select_locations")
-              expect(questionnaire.questions.first.answer_options.count).to eq(2)
-              expect(questionnaire.questions.first.answer_options.first.geojson).to eq(
+              expect(questionnaire.questions.first.response_options.count).to eq(2)
+              expect(questionnaire.questions.first.response_options.first.geojson).to eq(
                 '{"type":"Feature", "geometry":{"type":"Point", "coordinates":[27.67890, 15.09876]}}'
               )
-              expect(questionnaire.questions.first.answer_options.second.geojson).to eq(
+              expect(questionnaire.questions.first.response_options.second.geojson).to eq(
                 '{"type":"Feature", "geometry":{"type":"Point", "coordinates":[22.12345, 12.54321]}}'
               )
             end
@@ -206,10 +206,10 @@ module Decidim
                     "body" => question.body,
                     "position" => 0,
                     "question_type" => "select_locations",
-                    "answer_options" => {
+                    "response_options" => {
                       "0" => {
                         "body" => {
-                          "en" => "First answer",
+                          "en" => "First response",
                           "ca" => "Primera resposta",
                           "es" => "Primera respuesta"
                         },
@@ -219,7 +219,7 @@ module Decidim
                       },
                       "1" => {
                         "body" => {
-                          "en" => "Second answer",
+                          "en" => "Second response",
                           "ca" => "Segona resposta",
                           "es" => "Segunda respuesta"
                         },

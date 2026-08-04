@@ -25,7 +25,7 @@ en:
             set_bounds: Set bounds
             single: Single
             select_from_map: Select from map
-          answer_option:
+          response_option:
             geojson: Geojson
             geojson_help: Insert GeoJSON to add option or press "Define" to
                           define GeoJSON.
@@ -53,7 +53,7 @@ en:
         map_locations: Map
         select_locations: Select locations
         tag_locations: Tag locations
-      user_answers_serializer:
+      user_responses_serializer:
         address: Address
         coordinates: Coordinates
         label: Label

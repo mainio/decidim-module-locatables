@@ -25,7 +25,7 @@ fi:
             set_bounds: Aseta rajat
             single: Yksittäinen
             select_from_map: Valitse kartalta
-          answer_option:
+          response_option:
             geojson: Geojson
             geojson_help: Lisää GeoJSON lisätäksesi vaihtoehto tai paina
                           "Määritä" -painiketta määrittääksesi GeoJSON.
@@ -53,7 +53,7 @@ fi:
         map_locations: Kartta
         select_locations: Valitse paikat
         tag_locations: Merkitse paikat
-      user_answers_serializer:
+      user_responses_serializer:
         address: Osoite
         coordinates: Koordinaatit
         label: Merkki

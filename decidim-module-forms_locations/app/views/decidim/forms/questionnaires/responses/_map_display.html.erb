@@ -1,15 +1,15 @@
 <div class="survey-map__container">
   <%= cell(
     "decidim/locations/map",
-    Array(answer.question),
+    Array(response.question),
     map_display: true,
     type: "display"
   ) %>
 </div>
 
-<% if answer.question.allow_comments %>
+<% if response.question.allow_comments %>
   <div>
-    <%= answer_form.text_area :body, label: false, id: field_id, rows: 10, disabled:, maxlength:, class: "w-full", required: false %>
+    <%= response_form.text_area :body, label: false, id: field_id, rows: 10, disabled:, maxlength:, class: "w-full", required: false %>
   </div>
 <% end %>
 

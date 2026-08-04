@@ -17,7 +17,7 @@ module Decidim
               Decidim::Surveys::Survey
                 .where(component: component_instance.id)
                 .first.questionnaire
-                .answers
+                .responses
                 .flat_map(&:locations)
             end
 
@@ -111,12 +111,12 @@ module Decidim
           # NOTE: Keep these before the form extensions! Otherwise the question
           #       type validator on the Admin::QuestionForm is incorrectly
           #       defined.
-          Decidim::Forms::Answer.include(Decidim::Locations::Locatable)
+          Decidim::Forms::Response.include(Decidim::Locations::Locatable)
           Decidim::Forms::Questionnaire.include(Decidim::Locations::Locatable)
           Decidim::Forms::Question.include(Decidim::FormsLocations::QuestionExtensions)
 
           # Commands
-          Decidim::Forms::AnswerQuestionnaire.include(Decidim::FormsLocations::AnswerQuestionnaireExtensions)
+          Decidim::Forms::ResponseQuestionnaire.include(Decidim::FormsLocations::ResponseQuestionnaireExtensions)
           Decidim::Forms::Admin::UpdateQuestions.include(Decidim::FormsLocations::Admin::UpdateQuestionsExtensions)
 
           # Controllers
@@ -127,11 +127,11 @@ module Decidim
           Decidim::Forms::QuestionnaireForm.include(Decidim::Locations::LocatableForm)
           Decidim::Forms::Admin::QuestionnaireForm.include(Decidim::Locations::LocatableForm)
           Decidim::Forms::Admin::QuestionnaireForm.include(Decidim::FormsLocations::Admin::QuestionnaireFormExtensions)
-          Decidim::Forms::AnswerForm.include(Decidim::Locations::LocatableForm)
-          Decidim::Forms::AnswerForm.include(Decidim::FormsLocations::AnswerFormExtensions)
+          Decidim::Forms::ResponseForm.include(Decidim::Locations::LocatableForm)
+          Decidim::Forms::ResponseForm.include(Decidim::FormsLocations::ResponseFormExtensions)
           Decidim::Forms::Admin::QuestionForm.include(Decidim::FormsLocations::Admin::QuestionFormExtensions)
-          Decidim::Forms::Admin::AnswerOptionForm.include(Decidim::FormsLocations::Admin::AnswerOptionFormExtensions)
-          Decidim::Forms::AnswerChoiceForm.include(Decidim::FormsLocations::AnswerChoiceFormExtensions)
+          Decidim::Forms::Admin::ResponseOptionForm.include(Decidim::FormsLocations::Admin::ResponseOptionFormExtensions)
+          Decidim::Forms::ResponseChoiceForm.include(Decidim::FormsLocations::ResponseChoiceFormExtensions)
 
           # Helpers
           Decidim::Forms::Admin::ApplicationHelper.include(Decidim::FormsLocations::Admin::ApplicationHelperExtensions)

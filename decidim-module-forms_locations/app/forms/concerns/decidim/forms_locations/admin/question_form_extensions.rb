@@ -15,7 +15,7 @@ module Decidim
           attribute :allow_comments, Decidim::Form::Boolean, default: true
           attribute :map_options, Array[Decidim::Forms::Admin::MapOptionForm]
 
-          validate :answer_option_location, if: :select_locations?
+          validate :response_option_location, if: :select_locations?
 
           validates :map_options, presence: true, if: :tag_locations?
 
@@ -31,9 +31,9 @@ module Decidim
             question_type == "tag_locations"
           end
 
-          def answer_option_location
-            answer_options.each do |answer_option|
-              errors.add(:answer_options, :missing) if answer_option.geojson.blank?
+          def response_option_location
+            response_options.each do |response_option|
+              errors.add(:response_options, :missing) if response_option.geojson.blank?
             end
           end
         end
