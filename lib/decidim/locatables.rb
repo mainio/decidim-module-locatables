@@ -5,4 +5,3 @@ require "decidim/forms_locations"
 require "decidim/meetings_locations"
 require "decidim/proposals_locations"
 require "decidim/locations"
-

@@ -101,7 +101,7 @@ describe "RespondSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Form successfully responded.")
+          expect(page).to have_content("Survey successfully responded.")
           expect(Decidim::Forms::Response.first.locations.count).to eq(1)
         end
 
@@ -117,7 +117,7 @@ describe "RespondSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Form successfully responded.")
+          expect(page).to have_content("Survey successfully responded.")
           expect(Decidim::Forms::Response.first.locations.count).to eq(2)
         end
       end
@@ -133,7 +133,7 @@ describe "RespondSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Form successfully responded.")
+          expect(page).to have_content("Survey successfully responded.")
           expect(Decidim::Forms::Response.first.locations.count).to eq(1)
         end
 
@@ -149,7 +149,7 @@ describe "RespondSurvey" do
           click_on "Submit"
           expect(page).to have_content("This action cannot be undone and you will not be able to edit your responses. Are you sure?")
           click_on "OK"
-          expect(page).to have_content("Form successfully responded.")
+          expect(page).to have_content("Survey successfully responded.")
           expect(Decidim::Forms::Response.first.locations.count).to eq(1)
         end
       end
@@ -248,7 +248,7 @@ describe "RespondSurvey" do
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("Form successfully responded.")
+        expect(page).to have_content("Survey successfully responded.")
       end
 
       it "gives an error if no option picked" do
@@ -257,6 +257,8 @@ describe "RespondSurvey" do
         click_on "Submit"
         click_on "OK"
         expect(page).to have_content("There was a problem responding the survey.")
+        # Clear expected 422 from browser logs before after-hook checks
+        page.driver.browser.logs.get(:browser)
       end
     end
 
@@ -268,7 +270,7 @@ describe "RespondSurvey" do
         find_by_id("questionnaire_tos_agreement").click
         click_on "Submit"
         click_on "OK"
-        expect(page).to have_content("Form successfully responded.")
+        expect(page).to have_content("Survey successfully responded.")
       end
     end
   end

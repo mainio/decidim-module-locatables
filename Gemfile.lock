@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mainio/decidim-module-locations.git
-  revision: b735dd9121bea050ca1725df245acc1e45bd9087
+  revision: ab373daa8664ca10f1bdfd21a7dfb1b1c2bfae77
   specs:
     decidim-locations (0.31.0)
       decidim-core (~> 0.31.0)
