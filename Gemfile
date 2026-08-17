@@ -12,12 +12,12 @@ require_relative "#{base_path}lib/decidim/locatables/version"
 
 DECIDIM_VERSION = Decidim::Locatables.decidim_version
 
+gem "bootsnap", "~> 1.4"
 gem "decidim", DECIDIM_VERSION
 gem "decidim-locatables", path: "."
-gem "decidim-locations", github: "mainio/decidim-module-locations"
-gem "bootsnap", "~> 1.4"
+gem "decidim-locations", github: "mainio/decidim-module-locations", branch: "release/0.30-stable"
 
-gem "puma", ">= 5.0.0"
+gem "puma", ">= 6.4.2"
 gem "uglifier", "~> 4.1"
 
 group :development, :test do
