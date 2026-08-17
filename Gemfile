@@ -22,7 +22,7 @@ gem "bootsnap", "~> 1.4"
 # Without this downgrade Activesupport will give error for missing Logger
 gem "concurrent-ruby", "1.3.4"
 
-gem "puma", ">= 5.0.0"
+gem "puma", ">= 6.4.2"
 gem "uglifier", "~> 4.1"
 
 gem "nokogiri", "1.16.8"
