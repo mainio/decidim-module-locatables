@@ -52,7 +52,7 @@ module Decidim
               end
 
               create_attachments if process_attachments?
-              document_cleanup!
+              attachment_cleanup!
             end
 
             @form = @main_form
