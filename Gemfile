@@ -18,7 +18,7 @@ gem "decidim-locations", github: "mainio/decidim-module-locations", branch: "rel
 
 gem "bootsnap", "~> 1.4"
 
-gem "puma", ">= 5.0.0"
+gem "puma", ">= 6.4.2"
 gem "uglifier", "~> 4.1"
 
 group :development, :test do
