@@ -23,3 +23,32 @@
   </div>
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var toggleVisibility = function(toggle) {
+      var checkbox = toggle.querySelector("input[type='checkbox']");
+      var target = document.querySelector(toggle.getAttribute("data-controls-visibility"));
+      if (!target) {
+        return;
+      }
+
+      if (checkbox.checked) {
+        target.classList.remove("hidden");
+      } else {
+        target.classList.add("hidden");
+      }
+    };
+
+    for (var toggle of document.querySelectorAll("[data-controls-visibility]")) {
+      var checkbox = toggle.querySelector("input[type='checkbox']");
+      if (!checkbox) {
+        continue;
+      }
+
+      checkbox.addEventListener("change", function() {
+        toggleVisibility(toggle);
+      });
+      toggleVisibility(toggle);
+    }
+  });
+</script>
