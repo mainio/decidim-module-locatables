@@ -9,6 +9,7 @@ module Decidim
         base.class_eval do
           question_types = remove_const(:QUESTION_TYPES)
           question_types += %w(map_locations) unless question_types.include?("map_locations")
+          question_types += %w(select_location) unless question_types.include?("select_location")
           question_types += %w(select_locations) unless question_types.include?("select_locations")
           question_types += %w(map_display) unless question_types.include?("map_display")
           question_types += %w(tag_locations) unless question_types.include?("tag_locations")
@@ -51,7 +52,7 @@ module Decidim
         end
 
         def select_locations?
-          question_type == "select_locations"
+          %w(select_locations select_location).include?(question_type)
         end
 
         def map_display?

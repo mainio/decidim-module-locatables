@@ -24,7 +24,7 @@ module Decidim
           end
 
           def select_locations?
-            question_type == "select_locations"
+            %w(select_locations select_location).include?(question_type)
           end
 
           def tag_locations?

@@ -51,6 +51,7 @@ en:
       question_types:
         map_display: Map display
         map_locations: Map
+        select_location: Select location
         select_locations: Select locations
         tag_locations: Tag locations
       user_responses_serializer:

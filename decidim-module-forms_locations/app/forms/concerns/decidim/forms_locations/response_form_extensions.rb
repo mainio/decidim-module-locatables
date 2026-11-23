@@ -18,6 +18,7 @@ module Decidim
 
         validate :select_location_choices, if: -> { question.mandatory && question.select_locations? }
         validate :location_applied, if: :mandatory_location?
+        validate :single_choice, if: -> { question.select_locations? && !question.max_choices }
 
         delegate :mandatory_body?, :mandatory_choices?, :mandatory_location?, :matrix?, to: :question
 
@@ -39,6 +40,10 @@ module Decidim
 
         def location_applied
           errors.add(:base, :location_missing) if latitude.blank? || longitude.blank?
+        end
+
+        def single_choice
+          errors.add(:choices, :too_many, count: 1) if selected_choices.size > 1
         end
       end
     end

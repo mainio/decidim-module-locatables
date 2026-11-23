@@ -84,7 +84,7 @@ export default function createEditableForm() {
   const MULTIPLE_CHOICE_VALUES = ["single_option", "multiple_option", "sorting", "matrix_single", "matrix_multiple"];
   const MATRIX_VALUES = ["matrix_single", "matrix_multiple"];
   const MAP_LOCATION = ["map_locations"];
-  const SELECT_LOCATION = ["select_locations"];
+  const SELECT_LOCATIONS = ["select_location", "select_locations"];
   const MAP_DISPLAY = ["map_display"];
   const TAG_LOCATION = ["tag_locations"];
 
@@ -151,7 +151,7 @@ export default function createEditableForm() {
       $target.find(".question--collapse").attr("data-controls", toggleAttr);
     }
     if ($("[data-decidim-map]").length === 0) {
-      $target.find("option[value='select_locations'], option[value='map_locations'], option[value='map_display'], option[value='tag_locations']").prop("disabled", true);
+      $target.find("option[value='select_location']", "option[value='select_locations'], option[value='map_locations'], option[value='map_display'], option[value='tag_locations']").prop("disabled", true);
     }
   };
 
@@ -228,8 +228,8 @@ export default function createEditableForm() {
     return MAP_LOCATION.includes(value);
   }
 
-  const isSelectLocation = (value) => {
-    return SELECT_LOCATION.includes(value);
+  const isSelectLocations = (value) => {
+    return SELECT_LOCATIONS.includes(value);
   }
 
   const isMapDisplay = (value) => {
@@ -249,7 +249,8 @@ export default function createEditableForm() {
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
 
-    const isMultiple = isMultipleChoiceOption(selectedQuestionType) || isSelectLocation(selectedQuestionType);
+    const isMultiple = isMultipleChoiceOption(selectedQuestionType) ||
+                       isSelectLocations(selectedQuestionType);
 
     let conditionTypes = ["responded", "not_responded"];
 
@@ -292,7 +293,8 @@ export default function createEditableForm() {
     const $questionSelector = $field.find(displayConditionQuestionSelector);
     const selectedQuestionType = getSelectedQuestionType($questionSelector[0]);
 
-    const isMultiple = isMultipleChoiceOption(selectedQuestionType) || isSelectLocation(selectedQuestionType);
+    const isMultiple = isMultipleChoiceOption(selectedQuestionType) ||
+                       isSelectLocations(selectedQuestionType);
 
     if (value === "match") {
       $valueWrapper.show();
@@ -359,7 +361,8 @@ export default function createEditableForm() {
         ${responseOptionFieldSelector} select
       `,
       enablingCondition: ($field) => {
-        return isMultipleChoiceOption($field.val()) || isSelectLocation($field.val());
+        return isMultipleChoiceOption($field.val()) ||
+               isSelectLocations($field.val());
       }
     });
 
@@ -409,7 +412,9 @@ export default function createEditableForm() {
       dependentFieldsSelector: maxChoicesWrapperSelector,
       dependentInputSelector: "select",
       enablingCondition: ($field) => {
-        return $field.val() === "multiple_option" || $field.val() === "matrix_multiple";
+        return $field.val() === "multiple_option" ||
+          $field.val() === "matrix_multiple" ||
+          $field.val() === "select_locations";
       }
     });
 
@@ -446,7 +451,7 @@ export default function createEditableForm() {
       const $currentField = $fieldQuestionTypeSelect.parents(fieldSelector);
       const questionType = $fieldQuestionTypeSelect.val();
 
-      if (isMultipleChoiceOption($fieldQuestionTypeSelect.val()) || isSelectLocation($fieldQuestionTypeSelect.val())) {
+      if (isMultipleChoiceOption($fieldQuestionTypeSelect.val()) || isSelectLocations($fieldQuestionTypeSelect.val())) {
         const nOptions = $fieldQuestionTypeSelect.parents(fieldSelector).find(responseOptionFieldSelector).length;
 
         if (nOptions === 0) {
@@ -549,7 +554,7 @@ export default function createEditableForm() {
         })
       }
 
-      if (isSelectLocation($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
+      if (isSelectLocations($fieldQuestionTypeSelect.val()) && $("[data-decidim-map]").length > 0) {
         $target.off("click", ".location-option-define").on("click", ".location-option-define", function (event) {
           const btn = event.currentTarget;
           const mapCtrl = $(document.querySelector("[data-decidim-map]")).data("map-controller");
@@ -614,7 +619,7 @@ export default function createEditableForm() {
         if (isMultipleChoiceOption(questionType)) {
           $opt.find(".multiple-field").show();
           $opt.find(".location-field").hide();
-        } else if (isSelectLocation(questionType)) {
+        } else if (isSelectLocations(questionType)) {
           $opt.find(".multiple-field").hide();
           $opt.find(".location-field").show();
         } else {

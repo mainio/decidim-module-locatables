@@ -51,6 +51,7 @@ fi:
       question_types:
         map_display: Esityskartta
         map_locations: Kartta
+        select_location: Valitse paikka
         select_locations: Valitse paikat
         tag_locations: Merkitse paikat
       user_responses_serializer:
