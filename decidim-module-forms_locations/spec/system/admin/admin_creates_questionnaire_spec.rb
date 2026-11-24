@@ -160,8 +160,11 @@ describe "CreateSurvey" do
 
         find(".question--collapse", match: :first).click
         select_element = find("#questions_questions_#{question.id}_question_type")
+        expect(select_element).to have_css("option[value='select_location'][disabled]")
         expect(select_element).to have_css("option[value='select_locations'][disabled]")
         expect(select_element).to have_css("option[value='map_locations'][disabled]")
+        expect(select_element).to have_css("option[value='map_display'][disabled]")
+        expect(select_element).to have_css("option[value='tag_locations'][disabled]")
       end
     end
   end

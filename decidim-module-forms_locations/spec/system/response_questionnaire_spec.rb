@@ -274,6 +274,56 @@ describe "RespondSurvey" do
       end
     end
   end
+
+  context "when question type select_location" do
+    let(:question_type) { "select_location" }
+    let!(:response_options) { create_list(:response_option, 2, question:) }
+    let!(:response_option_ids) { response_options.pluck(:id).map(&:to_s) }
+    let(:mandatory) { true }
+
+    before do
+      Decidim::Forms::Question.first.response_options.first.update(
+        geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12645,5.12345]}}',
+        tooltip_direction: "top"
+      )
+      Decidim::Forms::Question.first.response_options.second.update(
+        geojson: '{"type":"Feature","geometry":{"type":"Point","coordinates":[12.12346,5.12346]}}',
+        tooltip_direction: "bottom"
+      )
+      component.update!(
+        step_settings: {
+          component.participatory_space.active_step.id => {
+            allow_responses: true,
+            allow_unregistered: true
+          }
+        },
+        settings: { starts_at: 1.week.ago, ends_at: 1.day.from_now }
+      )
+
+      switch_to_host(organization.host)
+      login_as user, scope: :user
+      visit_component
+
+      click_on decidim_sanitize_admin(translated_attribute(survey.title))
+    end
+
+    after do
+      expect_no_js_errors
+
+      # Reset the routes back to original
+      Rails.application.reload_routes!
+    end
+
+    context "when other marker is clicked while other already selected" do
+      it "deselects the first marker" do
+        expect(page).to have_css("[data-decidim-map]")
+        find("div.leaflet-tooltip", text: response_options[0].body[:en], match: :first).click
+        expect(page).to have_css('img[style*="hue-rotate(275deg)"]', count: 1)
+        find("div.leaflet-tooltip", text: response_options[1].body[:en], match: :first).click
+        expect(page).to have_css('img[style*="hue-rotate(275deg)"]', count: 1)
+      end
+    end
+  end
 end
 
 def zoom_out_max

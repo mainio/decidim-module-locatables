@@ -151,7 +151,7 @@ export default function createEditableForm() {
       $target.find(".question--collapse").attr("data-controls", toggleAttr);
     }
     if ($("[data-decidim-map]").length === 0) {
-      $target.find("option[value='select_location']", "option[value='select_locations'], option[value='map_locations'], option[value='map_display'], option[value='tag_locations']").prop("disabled", true);
+      $target.find("option[value='select_location'], option[value='select_locations'], option[value='map_locations'], option[value='map_display'], option[value='tag_locations']").prop("disabled", true);
     }
   };
 

@@ -18,7 +18,7 @@ module Decidim
 
         validate :select_location_choices, if: -> { question.mandatory && question.select_locations? }
         validate :location_applied, if: :mandatory_location?
-        validate :single_choice, if: -> { question.select_locations? && !question.max_choices }
+        validate :single_choice, if: -> { question.question_type == "select_location" }
 
         delegate :mandatory_body?, :mandatory_choices?, :mandatory_location?, :matrix?, to: :question
 
